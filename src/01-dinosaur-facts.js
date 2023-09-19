@@ -23,27 +23,11 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
-  
-    // LET var dino represent empty arr
-    let dino = {};
-    // LET lenInM equal 0
-    let lenInM = 0;
-    // IF the length of dinosaurs is empty RETURN empty dino arr
-    if (dinosaurs.length === 0) return dino; 
-      
-    for (let i = 0; i < dinosaurs.length; i++) {
-  
-      if (dinosaurs[i].lengthInMeters > lenInM) {
-  
-        lenInM = dinosaurs[i].lengthInMeters;
-  
-        saur = dinosaurs[i].name;
-  
-        lenInFeet = lenInM * 3.281;
-      }
-    }
-    dino[saur] = lenInFeet;
-    return dino;
+  if (dinosaurs.length === 0) return {};
+  const dinos = [...dinosaurs];
+  dinos.sort((a, b) => b.lengthInMeters - a.lengthInMeters);
+  const tallest = dinos[0];
+  return {[tallest.name]: tallest.lengthInMeters * 3.281};
 }
 
 /**
@@ -74,10 +58,10 @@ function getDinosaurDescription(dinosaurs, id) {
       } else {
         mya = dinosaurs[i].mya[1];
       }
-      return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${mya} million years ago.` 
+      return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${mya} million years ago.`
     }
   }
-  return "A dinosaur with an ID of 'incorrect-id' cannot be found." 
+  return "A dinosaur with an ID of 'incorrect-id' cannot be found."
 }
 
 /**
@@ -109,7 +93,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   let dinoArr = [];
 
   for (let i = 0; i < dinosaurs.length; i++) {
-    if (((mya === dinosaurs[i].mya[0])) || (dinosaurs[i].mya - mya === 1) || ((mya >= dinosaurs[i].mya[1]) && ( mya <= dinosaurs[i].mya[0]))) {
+    if (((mya === dinosaurs[i].mya[0])) || (dinosaurs[i].mya - mya === 1) || ((mya >= dinosaurs[i].mya[1]) && (mya <= dinosaurs[i].mya[0]))) {
       if (dinosaurs[i][key] !== undefined) {
         dinoArr.push(dinosaurs[i][key]);
       } else {
