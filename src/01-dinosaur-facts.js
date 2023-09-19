@@ -23,26 +23,16 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
-  let obj = {};
-  let length = 0;
+  let longestDino = dinosaurs[0];
+  let lengthInFeet = longestDino.lengthInMeters * 3.281;
 
-  if (dinosaurs.length === 0) return obj;  // will return an empty object if dinosaurs is empty
+  if (dinosaurs.length === 0) return {};
 
   for (let dino of dinosaurs) {
-    if (dino.lengthInMeters > length) {
-      length = dino.lengthInMeters;  // the highest lengthInMeters will become length
-
-      dinoName = dino.name;  // dino will be the name of the dinosaur wiith the hightest kength in meters
-
-      lengthInFeet = length * 3.281;
-    }
-  }
-
-  obj = {
-    [dinoName]: (lengthInFeet)
+    if (dino.lengthInMeters > longestDino.lengthInMeters) longestDino = dino;
   }
   
-  return obj
+  return { [longestDino.name]: lengthInFeet };
 }
 
 /**
@@ -68,12 +58,9 @@ function getLongestDinosaur(dinosaurs) {
 function getDinosaurDescription(dinosaurs, id) {
   for (let dino of dinosaurs) {
     if (id === dino.dinosaurId) {
-      if (dino.mya.length === 1) {
-        mya = dino.mya[0];
-      } else {
-        mya = dino.mya[1];
-      }
-
+      if (dino.mya.length === 1) mya = dino.mya[0];
+      if (dino.mya.length !== 1) mya = dino.mya[1];
+      
       return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${mya} million years ago.`;
     }
   }
