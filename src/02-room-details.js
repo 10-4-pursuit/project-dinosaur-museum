@@ -37,6 +37,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   }
 
   if (id[0] === undefined) return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+
   if (id[0] !== undefined) return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
 }
 
@@ -73,6 +74,7 @@ function getConnectedRoomNamesById(rooms, id) {
   let undef = connected.findIndex(connect => connect === undefined);
 
   if (undef === -1) return connected.map(conRom => conRom.name);
+
   if (undef !== -1) return `Room with ID of '${room.connectsTo[undef]}' could not be found.`
 }
 
