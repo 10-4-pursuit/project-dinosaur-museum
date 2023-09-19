@@ -138,7 +138,21 @@ calculateTicketPrice(exampleTicketData, ticketInfo);
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  
+  const invalidTicket = purchases.find(purchase => (purchase.ticketType !== `general` && purchase.ticketType !== `membership`));
+  const invalidEntrant = purchases.find(purchase => (![`child`, `adult`, `senior`].includes(purchase.entrantType)));
+  const invalidExtra = purchases.find(purchase => (![`movie`, `education`, `terrace`].includes(purchase.extras)));
+  if (invalidTicket) {
+    return  `Ticket type '${invalidTicket.ticketType}' cannot be found.`;
+  }
+  if (invalidEntrant) {
+    return  `Entrant type '${invalidEntrant.entrantType}' cannot be found.`;
+  }
+  if (invalidExtra) {
+    return  `Extra type '${invalidExtra.extras}' cannot be found.`;
+  }
+}
 
 // Do not change anything below this line.
 module.exports = {
