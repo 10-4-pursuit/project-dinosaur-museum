@@ -24,13 +24,14 @@ const exampleDinosaurData = require("../data/dinosaurs");
  */
 function getLongestDinosaur(dinosaurs) {
   let longestDino = dinosaurs[0];
-  let lengthInFeet = longestDino.lengthInMeters * 3.281;
 
   if (dinosaurs.length === 0) return {};
 
   for (let dino of dinosaurs) {
     if (dino.lengthInMeters > longestDino.lengthInMeters) longestDino = dino;
   }
+
+  let lengthInFeet = longestDino.lengthInMeters * 3.281;
   
   return { [longestDino.name]: lengthInFeet };
 }
