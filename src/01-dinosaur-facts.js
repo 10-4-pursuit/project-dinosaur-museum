@@ -22,7 +22,25 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+// i create the variable output to store the array. if my object, dinosaur length is strictly equal to 0 then the output is my variable. i'm declaring another variable that will store the highestdino and then creating a for function that will iterate through the dinosaur array. then another variable asking dino to be dinosaurs starting at index i. i'm asking that if the dinosaur at lenghth in  Meters key is greater than the highest dino at that key then the highest din
+function getLongestDinosaur(dinosaurs) {
+
+const output = {}
+if(dinosaurs.length === 0) {
+  return output
+}
+let highestDino = dinosaurs[0];
+for(let i = 0; i < dinosaurs.length; i++){
+  let dino = dinosaurs[i];
+  if(dino.lengthInMeters > highestDino.lengthInMeters) {
+    highestDino = dino;
+  }
+} 
+output[highestDino.name] = highestDino.lengthInMeters * 3.281
+
+return output 
+}
+
 
 /**
  * getDinosaurDescription()
@@ -37,6 +55,7 @@ function getLongestDinosaur(dinosaurs) {}
  * @param {string} id - The unique identifier for the dinosaur.
  * @returns {string} A detailed description of the dinosaur.
  *
+ * 
  * EXAMPLE:
  *  getDinosaurDescription(dinosaurs, "U9vuZmgKwUr");
  *  //> "Xenoceratops (ZEE-no-SEH-ruh-tops)\nXenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago."
@@ -44,7 +63,22 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+// first i iterate through each of the items in teh array with the for function and my if statement is asking that if dinosaursId in each of the dinosoaur entries starting at i is strictly equal to id then i'm returning the string dinosaur name, pronunciation, info adn period, mya sentence on line 75.  however there is another function that is asking that if dinososaurs starting from i at mya 0 index exists then that same return applies or ELSE if my at the same place but index 1 exists then that index data is used instead of 0.  this will camture the 1st or 2nd mya (depending on entry).  If none of those conditions are not met then teh return in 78 is applied because that will refer back to our original if statement having to do with ID (mya will not come into play)
+function getDinosaurDescription(dinosaurs, id) {
+  for (i = 0; i < dinosaurs.length; i++){
+    if (dinosaurs[i].dinosaurId === id) {
+      if (dinosaurs[i].mya.length === 1) {
+        mya = dinosaurs[i].mya[0]
+      } else {
+        mya = dinosaurs[i].mya[1]
+      }
+
+    return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${mya} million years ago.` 
+    }
+  }
+  return `A dinosaur with an ID of 'incorrect-id' cannot be found.`
+  }
+
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +105,25 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+// declaring an empty array called newArray and iterating through the dinosaurs array and calling it dino. i'm comparing current dino.myat index 0 to my and at index 1. if a key is given i'm pushing dinokey into the new array  or else pushing dino dinosaur id in to the new array and then returning the output of my new array
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let newArray = [];
+  for (let dino of dinosaurs) {
+    if (dino.mya[0] >= mya && dino.mya[1] <= mya && dino.mya.length === 2) {
+      if (key && dino[key]) {
+      newArray.push(dino[key]);
+      } else {
+        newArray.push(dino.dinosaurId);
+      }
+    }
+    if (dino.mya[0] === mya || dino.mya[1] - 1 === mya) {
+      if (key) {
+        newArray.push(dino.dinosaurId);
+      }
+    }
+  }
+  return newArray;
+}
 
 module.exports = {
   getLongestDinosaur,
