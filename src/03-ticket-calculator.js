@@ -54,7 +54,28 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice( ticketData, ticketInfo ) {
+  let newTicketPrice = 0; // Create a variable to store ticketprice later
+
+  if ( !ticketData[ ticketInfo.ticketType ] ) { // checks if [ticketInfo.ticketType] is INSIDE ticketData, ! is the not operator that checks
+    return `Ticket type '${ ticketInfo.ticketType }' cannot be found.`; // return this error message if THERE ARE NO "MATCHES" from ticketType and ticketData
+  }
+
+  if ( !ticketData[ ticketInfo.ticketType ].priceInCents[ ticketInfo.entrantType ] ) { // ticketData[ticketInfo.ticketType] gets value associated with the [ticketInfo.ticketType] key in ticketData .priceInCents accesses the priceInCents in ticketInfo.ticketType and then checks if [ticketInfo.entrantType] exists in priceInCents
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`; // the bang operator is checking if [ticketInfo.ticketType][ticketInfo.entrantType] does not exist in ticketData if it is true then return this error message
+  }
+
+  newTicketPrice = ticketData[ ticketInfo.ticketType ].priceInCents[ ticketInfo.entrantType ] // assign ticketPrice to value gotten from ticketData based on [ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]
+  // .priceInCents uses [ticketInfo.entrantType] as a key to access the entrant type inside priceInCents to account for entrant.priceInCents
+  for ( const extra of ticketInfo.extras ) { // for of loop to get access to extra      // ticketData[ticketInfo.ticketType].priceInCents uses the KEY [ticketInfo.ticketType] to access ticketDatas.priceInCents 
+    if ( !ticketData.extras[ extra ] ) { // checks if extra "gotten from ticketInfo" exists inside ticketData/extras
+      return `Extra type '${ extra }' cannot be found.`; // if not found return the error message and the bang operator dodes the same thing as the previous if statements
+    }
+    newTicketPrice += ticketData.extras[ extra ].priceInCents[ ticketInfo.entrantType ]; // go into ticketDats extras object and see if extra from ticketinfo.extras exists, then go into priceInCents if an extra value exists use
+  }                                                                               //[ticketInfo.entrantType] as keys to access it in priceInCents. += adds up the total cost from extras and ticketData
+  return newTicketPrice; // return final ticket price
+}
+
 
 /**
  * purchaseTickets()
@@ -109,7 +130,52 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets( ticketData, purchases ) {
+	let receipt = `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------`;
+	let totalReceiptPrice = 0;
+
+	// Iterate over the entire `purchases` array.
+	for ( let purchase of purchases ) {
+		// Use `calculateTicketPrice` to calculate each ticket price.
+		let purchasePrice = calculateTicketPrice( ticketData, purchase );
+
+		if ( typeof purchasePrice === 'string' ) {
+			return purchasePrice;
+		} else {
+			// Add the ticket prices from the `purchases`.
+			totalReceiptPrice += purchasePrice;
+			let entrant =
+				purchase.entrantType[ 0 ].toUpperCase() +
+				purchase.entrantType.slice( 1 ).toLowerCase();
+			let ticketType = ticketData[ purchase.ticketType ].description;
+			let priceInDollars = ( purchasePrice / 100 ).toFixed( 2 );
+			let ticketExtras = ''; // "(Movie Access, Terrace Access)"
+
+			// ["movie", "terrace"]
+			for ( let b = 0; b < purchase.extras.length; b++ ) {
+				if ( b === 0 ) {
+					ticketExtras += ' (';
+				}
+
+				if ( b === purchase.extras.length - 1 ) {
+					ticketExtras +=
+						ticketData.extras[ purchase.extras[ b ] ].description + ')';
+				} else {
+					ticketExtras +=
+						ticketData.extras[ purchase.extras[ b ] ].description + ', ';
+				}
+			}
+
+			receipt += `\n${ entrant } ${ ticketType }: $${ priceInDollars }${ ticketExtras }`;
+		}
+	}
+	// Transform the total into dollar amount.
+	totalReceiptPrice = ( totalReceiptPrice / 100 ).toFixed( 2 );
+	// Final receipt translated into string.
+	receipt += `\n-------------------------------------------\nTOTAL: $${ totalReceiptPrice }`;
+
+	return receipt;
+}
 
 // Do not change anything below this line.
 module.exports = {

@@ -22,7 +22,23 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  let result = {};
+  let lengthyDino = 0;
+
+  if (dinosaurs.length === 0) {
+  return {};
+  }
+  
+  for(const dinosaur of dinosaurs) { 
+  if (dinosaur.lengthInMeters > lengthyDino ) {
+  lengthyDino = dinosaur.lengthInMeters; 
+  dinoName = dinosaur.name
+  }
+  }     
+  result[dinoName]= lengthyDino * 3.281;
+  return  result; 
+  }
 
 /**
  * getDinosaurDescription()
@@ -44,7 +60,17 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  for(let dinosaur of dinosaurs){
+    if(dinosaur.dinosaurId === id){
+   let exsistance = Math.min(...dinosaur.mya)
+   return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${exsistance} million years ago.`
+   } 
+   }
+   return `A dinosaur with an ID of '${id}' cannot be found.`
+ }
+
+
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +97,25 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let targetKey = key // this variable was created to stand as a representation of an undefined key. 
+  let foundDino = [];// this empty array was created to return the values in the array being pushed to return the result after the function is invoked. 
+  
+  
+  
+    for(let dinosaur of dinosaurs) { //this loop was created with a variable to loop through the given array of dinosaurs. 
+    if(!dinosaur[targetKey]) { targetKey = "dinosaurId" } //This if statemnts checks to see if the dinosaurs array contains any properties that are inside targetKey and if undefined then targetkey is assigned the value of dinosaurdId.
+  
+     if(dinosaur.mya.length === 1 && (dinosaur.mya[0] === mya) || (dinosaur.mya[0] - 1 === mya)) {
+    foundDino.push(dinosaur[targetKey]) //if the length is equal to 1 && the dinosaur has one value push the first value of the array OR if the first value in the array is off by one give me the one closest to the value inside the array. 
+    }
+    else if (mya <= dinosaur.mya[0] && mya >= dinosaur.mya[1]) { // This is the last if statements that checks if whether or not the array at index or 1 is less than or more than the array given and pushes the one being asked for into the target key to return the key needed.
+     foundDino.push(dinosaur[targetKey]);
+    }
+    }
+    return foundDino // returns the entire array. 
+  }
+  
 
 module.exports = {
   getLongestDinosaur,
