@@ -27,16 +27,16 @@ function getLongestDinosaur(dinosaurs) {
 
   let dino = dinosaurs[0];
 
-  if(!dinosaurs.length) {
+  if (!dinosaurs.length) {
     return {};
   }
 
-  for(let i = 1; i < dinosaurs.length; i++) {
+  for (let i = 1; i < dinosaurs.length; i++) {
     let longDino = dinosaurs[i];
-    if(dino.lengthInMeters < longDino.lengthInMeters) {
+    if (dino.lengthInMeters < longDino.lengthInMeters) {
       dino = longDino;
     }
-  } 
+  }
   let lengthInFeet = dino.lengthInMeters * 3.281;
   lengthiestDino[dino.name] = lengthInFeet;
   return lengthiestDino;
@@ -104,15 +104,16 @@ function getDinosaurDescription(dinosaurs, id) {
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let dinoArr = [];
 
-  let targetKey = key || "dinosaurId"
+  let targetKey = key || "dinosaurId";
 
-  for(let dino of dinosaurs) {
+  for (let dino of dinosaurs) {
     if (!dino[targetKey]) {
       targetKey = "dinosaurId";
     }
 
     if (
-      dino.mya.length === 1 && (mya === dino.mya[0] || mya === dino.mya[0] - 1)
+      dino.mya.length === 1 &&
+      (mya === dino.mya[0] || mya === dino.mya[0] - 1)
     ) {
       dinoArr.push(dino[targetKey]);
     } else if (mya <= dino.mya[0] && mya >= dino.mya[1]) {
@@ -120,21 +121,6 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
     }
   }
   return dinoArr;
-  //   if(!dino[targetKey]) {
-  //     targetKey = "dinosaurId";
-  //   }
-
-  //   if (dino.mya.length === 2) {
-  //     if (dino.mya[0] >= mya && dino.mya <= mya) {
-  //       if(dino[key]); {
-  //         newArr.push(dino[key]);
-  //       } else {
-  //         newArr.push(dino.dinosaurId)
-  //       }
-  //       newArr.push()
-  //     }
-  //   }
-  // }
 }
 
 module.exports = {
