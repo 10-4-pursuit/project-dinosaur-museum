@@ -62,21 +62,17 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-  for (let dino of dinosaurs) {
-    // Checks if the given 'id' matches any in the 'dinosaurs' array.
-    if (id === dino.dinosaurId) {
-      // Determines the 'mya' value based on the length of the 'dino.mya' array.
-      if (dino.mya.length === 1) mya = dino.mya[0];  
-                                                    
-      if (dino.mya.length !== 1) mya = dino.mya[1];
-      
-      // Returns the formatted description.
-      return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${mya} million years ago.`;
-    }
-  }
-  
-  // Handles edge case if given 'id' doesn't match any in the 'dinosaurs' array.
-  return `A dinosaur with an ID of 'incorrect-id' cannot be found.`;
+  // Finds if the 'id' matches any in the 'dinosaurs' array.
+  let dinos = dinosaurs.find(dino => dino.dinosaurId === id)
+
+  // Handles the case where 'id' doesn't match.
+  if (!dinos) return `A dinosaur with an ID of '${id}' cannot be found.`;
+
+  // Value for 'mya' is based on 'dino.mya' length.
+  let mya = dinos.mya.length === 1 ? dinos.mya[0] : dinos.mya[1];
+
+  // Returns the specific dinosaur description.
+  return `${dinos.name} (${dinos.pronunciation})\n${dinos.info} It lived in the ${dinos.period} period, over ${mya} million years ago.`;
 }
 
 /**
@@ -105,6 +101,7 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
+  // Initialize an array to store dinosaurs that are alive.
   let arr = [];
 
   for (let dino of dinosaurs) {
@@ -118,7 +115,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
     }
   }
 
-  // Returns the array of matching values.
+  // Returns the array of dinosaurs that are alive.
   return arr;
 }
 
