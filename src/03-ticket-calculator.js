@@ -155,13 +155,22 @@ function purchaseTickets(ticketData, purchases) {
   }
   let sum = 0;
   const validTicket = purchases.map(purchase => {
+    let addOn = "";
     let price = (ticketData[purchase.ticketType].priceInCents[purchase.entrantType]/100);
+
+    if (purchase.extras.length) {
+      addOn = ` (${purchase.extras.map(purchaseEx => {
+        price += ticketData.extras[purchaseEx].priceInCents[purchase.entrantType]/100;
+        let capAddOn = purchaseEx[0].toUpperCase() + purchaseEx.slice(1);
+        return `${capAddOn} Access`
+      }).join(", ")})`;
+    }
+    
     sum += price;
     let entType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
     let tickType = purchase.ticketType[0].toUpperCase() + purchase.ticketType.slice(1);
-    return `${entType} ${tickType} Admission: $${price.toFixed(2)}`
+    return `${entType} ${tickType} Admission: $${price.toFixed(2)}${addOn}`
   }).join("\n");
-  console.log(validTicket);
   return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${validTicket}\n-------------------------------------------\nTOTAL: $${sum.toFixed(2)}`
 }
 
