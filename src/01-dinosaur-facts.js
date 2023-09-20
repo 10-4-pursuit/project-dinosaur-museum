@@ -22,7 +22,55 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  if (dinosaurs.length === 0) {
+    return {}; // Return an empty object if there are no dinosaurs
+  }
+
+  let longestDinosaur = {
+    name: dinosaurs[0].name,
+    heightInFeet: dinosaurs[0].lengthInMeters * 3.281, // Convert meters to feet
+  };
+
+  for (const dinosaur of dinosaurs) {
+    const heightInFeet = dinosaur.lengthInMeters * 3.281; // Convert meters to feet
+    if (heightInFeet > longestDinosaur.heightInFeet) {
+      longestDinosaur = {
+        name: dinosaur.name,
+        heightInFeet: heightInFeet,
+      };
+    }
+  }
+
+  return longestDinosaur;
+}
+
+// Combined test cases
+describe("getLongestDinosaur()", () => {
+  test("should return an object where the key is the tallest dinosaur name and the value is the length in feet", () => {
+    const actual = getLongestDinosaur(exampleDinosaurData);
+    expect(actual).toEqual({ name: "Brachiosaurus", heightInFeet: 98.43 });
+  });
+
+  test("should return the first dinosaur if there are multiples with the same length", () => {
+    const dinosaursWithSameLength = [
+      { name: "Dino1", lengthInMeters: 30 },
+      { name: "Dino2", lengthInMeters: 30 },
+    ];
+    const actual = getLongestDinosaur(dinosaursWithSameLength);
+    expect(actual).toEqual({ name: "Dino1", heightInFeet: 98.43 });
+  });
+
+  test("should return an empty object if there are no dinosaurs", () => {
+    const emptyData = [];
+    const actual = getLongestDinosaur(emptyData);
+    expect(actual).toEqual({});
+  });
+});
+
+
+
+
 
 /**
  * getDinosaurDescription()
