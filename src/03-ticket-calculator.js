@@ -132,7 +132,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     return ticketData.general.priceInCents.senior;
   }
 
- return ticketPrice
+ return ticketPrice;
 }
  
 
@@ -191,7 +191,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     //> "Ticket type 'discount' cannot be found."
  */
 function purchaseTickets(ticketData, purchases) {
-  
+
 }
 
 // Do not change anything below this line.
