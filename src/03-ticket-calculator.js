@@ -142,7 +142,8 @@ function purchaseTickets(ticketData, purchases) {
   
   const invalidTicket = purchases.find(purchase => (purchase.ticketType !== `general` && purchase.ticketType !== `membership`));
   const invalidEntrant = purchases.find(purchase => (![`child`, `adult`, `senior`].includes(purchase.entrantType)));
-  const invalidExtra = purchases.find(purchase => (![`movie`, `education`, `terrace`].includes(purchase.extras)));
+  const invalidExtra = purchases.find(purchase => ((purchase.extras.find(purchaseEx => ![`movie`, `education`, `terrace`].includes(purchaseEx)))));
+  
   if (invalidTicket) {
     return  `Ticket type '${invalidTicket.ticketType}' cannot be found.`;
   }
@@ -152,6 +153,16 @@ function purchaseTickets(ticketData, purchases) {
   if (invalidExtra) {
     return  `Extra type '${invalidExtra.extras}' cannot be found.`;
   }
+  let sum = 0;
+  const validTicket = purchases.map(purchase => {
+    let price = (ticketData[purchase.ticketType].priceInCents[purchase.entrantType]/100);
+    sum += price;
+    let entType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+    let tickType = purchase.ticketType[0].toUpperCase() + purchase.ticketType.slice(1);
+    return `${entType} ${tickType} Admission: $${price.toFixed(2)}`
+  }).join("\n");
+  console.log(validTicket);
+  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${validTicket}\n-------------------------------------------\nTOTAL: $${sum.toFixed(2)}`
 }
 
 // Do not change anything below this line.
