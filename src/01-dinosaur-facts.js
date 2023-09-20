@@ -94,6 +94,28 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let livingDinos = [];
+
+  for (let dino of dinosaurs){
+    if (dino.mya.length === 2){
+      if (dino.mya[0] >= mya && dino.mya[1] <= mya){
+        if (dino[key]){
+          livingDinos.push(dino[key]);
+        } else {
+          livingDinos.push(dino.dinosaurId);
+        }
+      }
+    } else if (dino.mya.length === 1){
+        if (dino.mya[0] === mya || dino.mya[0] - 1 === mya){
+          if (dino[key]){
+            livingDinos.push(dino[key]);
+          } else {
+            livingDinos.push(dino.dinosaurId);
+          }
+        }
+      }
+  }
+  return livingDinos;
 }
 
 module.exports = {
