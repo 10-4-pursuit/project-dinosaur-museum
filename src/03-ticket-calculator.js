@@ -139,39 +139,28 @@ calculateTicketPrice(exampleTicketData, ticketInfo);
     //> "Ticket type 'discount' cannot be found."
  */
 function purchaseTickets(ticketData, purchases) {
-  
-  const invalidTicket = purchases.find(purchase => (purchase.ticketType !== `general` && purchase.ticketType !== `membership`));
-  const invalidEntrant = purchases.find(purchase => (![`child`, `adult`, `senior`].includes(purchase.entrantType)));
-  const invalidExtra = purchases.find(purchase => ((purchase.extras.find(purchaseEx => ![`movie`, `education`, `terrace`].includes(purchaseEx)))));
-  
-  if (invalidTicket) {
-    return  `Ticket type '${invalidTicket.ticketType}' cannot be found.`;
-  }
-  if (invalidEntrant) {
-    return  `Entrant type '${invalidEntrant.entrantType}' cannot be found.`;
-  }
-  if (invalidExtra) {
-    return  `Extra type '${invalidExtra.extras}' cannot be found.`;
-  }
   let sum = 0;
-  const validTicket = purchases.map(purchase => {
-    let addOn = "";
-    let price = (ticketData[purchase.ticketType].priceInCents[purchase.entrantType]/100);
-
-    if (purchase.extras.length) {
-      addOn = ` (${purchase.extras.map(purchaseEx => {
-        price += ticketData.extras[purchaseEx].priceInCents[purchase.entrantType]/100;
-        let capAddOn = purchaseEx[0].toUpperCase() + purchaseEx.slice(1);
-        return `${capAddOn} Access`
-      }).join(", ")})`;
-    }
-    
-    sum += price;
+  let lines = [
+    `Thank you for visiting the Dinosaur Museum!`,
+    `-------------------------------------------`,
+  ];
+  for (const purchase of purchases) {
+    let ticketPrice = calculateTicketPrice(ticketData, purchase);
+    if (typeof ticketPrice === "string") {
+      return ticketPrice;
+    } 
+    sum += ticketPrice;
     let entType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
-    let tickType = purchase.ticketType[0].toUpperCase() + purchase.ticketType.slice(1);
-    return `${entType} ${tickType} Admission: $${price.toFixed(2)}${addOn}`
-  }).join("\n");
-  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${validTicket}\n-------------------------------------------\nTOTAL: $${sum.toFixed(2)}`
+    let purchaseEntry = `${entType} ${ticketData[purchase.ticketType].description}: $${(ticketPrice/100).toFixed(2)}`
+    if (purchase.extras.length) {
+      purchaseEntry += ` (${purchase.extras.map(purchaseEx => ticketData.extras[purchaseEx].description).join(", ")})`; 
+    }
+    lines.push(purchaseEntry);
+  }
+  lines.push(`-------------------------------------------`);
+  lines.push(`TOTAL: $${(sum/100).toFixed(2)}`);
+
+  return lines.join(`\n`);
 }
 
 // Do not change anything below this line.
