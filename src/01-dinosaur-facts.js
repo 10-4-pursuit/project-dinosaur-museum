@@ -31,7 +31,7 @@ function getLongestDinosaur(dinosaurs) {
       height = dino.lengthInMeters;
       longestDino = {
         [dino.name]: dino.lengthInMeters * 3.281
-      };
+      }
     }
   }
   return longestDino ? longestDino : {};

@@ -61,12 +61,13 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]){
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
   }
+
   let priceOfTickets = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
 
   for (let extra of ticketInfo.extras){
     if (!ticketData.extras[extra]){
       return `Extra type '${extra}' cannot be found.`;
-  }
+    }
   priceOfTickets += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
   }
   return priceOfTickets;
@@ -140,6 +141,7 @@ function purchaseTickets(ticketData, purchases) {
   if (invalidExtra) {
     return `Extra type '${invalidExtra.extras}' cannot be found.`;
   }
+
   let sum = 0;
   const validTicket = purchases.map(purchase => {
     let extraStrings = "";
@@ -158,7 +160,7 @@ function purchaseTickets(ticketData, purchases) {
     let tickType = purchase.ticketType[0].toUpperCase() + purchase.ticketType.slice(1);
     return `${entType} ${tickType} Admission: $${price.toFixed(2)}${extraStrings}`
   }).join("\n");
-  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${validTicket}\n-------------------------------------------\nTOTAL: $${sum.toFixed(2)}`
+  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${validTicket}\n-------------------------------------------\nTOTAL: $${sum.toFixed(2)}`;
 }
 
 
