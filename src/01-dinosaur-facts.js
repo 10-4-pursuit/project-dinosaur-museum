@@ -119,25 +119,29 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   return arr;
 }
 
-// STRETCH GOALS //
+                                   // STRETCH GOALS //
 // syllablesInDinosaurName returns how many syllables are inside a dinosaurs name
 function syllablesInDinosaurName(dinosaurs, name) {
-  let syllables = 0
+  let dino = dinosaurs.find(dino => dino.name === name);
 
-  for (let dino of dinosaurs){
-    if (name === dino.name) {
-      let syllables = dino.pronunciation.split("");
-    }
+  if (dino){
+    let count = dino.pronunciation.split("-").length
 
-    console.log(syllables)
+    return `${name} has ${count} syllables in its name.`
   }
+
+  return `${name} not found in the dinosaur list.`
 }
 
-console.log(syllablesInDinosaurName(exampleDinosaurData, "Dracorex"))
+console.log(syllablesInDinosaurName(exampleDinosaurData, "Dracorex"));
+console.log(syllablesInDinosaurName(exampleDinosaurData, "Elasmosaurus"));
+console.log(syllablesInDinosaurName(exampleDinosaurData, "Allosaurus"));
+console.log(syllablesInDinosaurName(exampleDinosaurData, "T Rex"));
+
 
 // dinoMeaning takes the dinosaurs name as an argument and returns the meaning of the dinosuar's names
 function dinoMeaning(dinosaurs, name) {
-
+  
 }
 
 // dinoPeriod takes the dinosaurs id and returns the dinosaurs name and period in an object
