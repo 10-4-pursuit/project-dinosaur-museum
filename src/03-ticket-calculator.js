@@ -181,28 +181,36 @@ function purchaseTickets(ticketData, purchases) {
 
   for (const purchase of purchases) {
  
+    // Initializes `ticketPrice` with the `calculateTicketPrice` function, using purchase as a parameter.
     let ticketPrice = calculateTicketPrice(ticketData, purchase);
         
+    // Checks if `ticketPrice` is an error or not, based off the return from 'calculateTicketPrice'.
     if(typeof ticketPrice === "string") return ticketPrice;
 
+    // Adds the prices from the `calculateTicketPrice` function to the total.
     total += ticketPrice;
 
+    // Capitalizes the first letter of `entrantType`.
     let entrantType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)
 
+    // Formats info to match desired description for receipt.
     let purchaseEntry = `${entrantType} ${ticketData[purchase.ticketType].description}: $${(ticketPrice/100).toFixed(2)}`
 
-
+    // Adds 'extras' description based on if the 'extras' array has any values.
     if (purchase.extras.length) {
       purchaseEntry += ` (${purchase.extras.map(purchaseEx => ticketData.extras[purchaseEx].description).join(", ")})`;
     }
 
+    // Adds the info from `purchaseEntry` to the `lines` array.
     lines.push(purchaseEntry);
   }
 
   lines.push("-------------------------------------------");
 
+  // Formats and adds `total` to the `lines` array.
   lines.push(`TOTAL: $${(total/100).toFixed(2)}`)
 
+  // Returns the `lines` array. joins the array with a new line at every
   return lines.join(`\n`);
 }
 
