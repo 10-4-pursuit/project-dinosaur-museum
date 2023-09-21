@@ -119,9 +119,37 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   return arr;
 }
 
+// STRETCH GOALS //
+// syllablesInDinosaurName returns how many syllables are inside a dinosaurs name
+function syllablesInDinosaurName(dinosaurs, name) {
+  let syllables = 0
+
+  for (let dino of dinosaurs){
+    if (name === dino.name) {
+      let syllables = dino.pronunciation.split("");
+    }
+
+    console.log(syllables)
+  }
+}
+
+console.log(syllablesInDinosaurName(exampleDinosaurData, "Dracorex"))
+
+// dinoMeaning takes the dinosaurs name as an argument and returns the meaning of the dinosuar's names
+function dinoMeaning(dinosaurs, name) {
+
+}
+
+// dinoPeriod takes the dinosaurs id and returns the dinosaurs name and period in an object
+function dinoPeriod(dinosaurs, id) {
+
+}
 
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,
+  syllablesInDinosaurName,
+  dinoMeaning,
+  dinoPeriod,
 };
