@@ -27,22 +27,21 @@ function getLongestDinosaur(dinosaurs) {
     return {}; // Return an empty object if there are no dinosaurs
   }
 
-  let longestDinosaur = {
-    name: dinosaurs[0].name,
-    heightInFeet: dinosaurs[0].lengthInMeters * 3.281, // Convert meters to feet
-  };
+  let maxLength = -Infinity;
+  let longestDinosaurs = [];
 
   for (const dinosaur of dinosaurs) {
     const heightInFeet = dinosaur.lengthInMeters * 3.281; // Convert meters to feet
-    if (heightInFeet > longestDinosaur.heightInFeet) {
-      longestDinosaur = {
-        name: dinosaur.name,
-        heightInFeet: heightInFeet,
-      };
+
+    if (heightInFeet > maxLength) {
+      maxLength = heightInFeet;
+      longestDinosaurs = [{ name: dinosaur.name, heightInFeet }];
+    } else if (heightInFeet === maxLength) {
+      longestDinosaurs.push({ name: dinosaur.name, heightInFeet });
     }
   }
 
-  return longestDinosaur;
+  return longestDinosaurs.length === 1 ? longestDinosaurs[0] : longestDinosaurs;
 }
 
 // Combined test cases
@@ -58,7 +57,10 @@ describe("getLongestDinosaur()", () => {
       { name: "Dino2", lengthInMeters: 30 },
     ];
     const actual = getLongestDinosaur(dinosaursWithSameLength);
-    expect(actual).toEqual({ name: "Dino1", heightInFeet: 98.43 });
+    expect(actual).toEqual([
+      { name: "Dino1", heightInFeet: 98.43 },
+      { name: "Dino2", heightInFeet: 98.43 },
+    ]);
   });
 
   test("should return an empty object if there are no dinosaurs", () => {
@@ -67,9 +69,6 @@ describe("getLongestDinosaur()", () => {
     expect(actual).toEqual({});
   });
 });
-
-
-
 
 
 /**
@@ -108,22 +107,16 @@ function getDinosaurDescription(dinosaurs, id) {
   } = dinosaur;
 
   // Convert mya to a number and round it to one decimal place for consistent formatting
-  const formattedMya = parseFloat(mya).toFixed(1);
+  const formattedMya = Array.isArray(mya) ? mya[0] : mya[1]
 
-  return `${name} (${pronunciation})\n${info}\nIt lived in the ${period} period, over ${formattedMya} million years ago.`;
-
-  
-  
+  return `${name} (${pronunciation})\n${info} It lived in the ${period} period, over ${formattedMya} million years ago.`;
 }
-
-
-
 
 
 /**
  * getDinosaursAliveMya()
  * ---------------------
- * Returns an array of dinosaurs who were alive at the given `mya` (i.e. "millions of years ago") value. If a `key` is provided, returns the value of that key for each dinosaur alive at that time. Otherwise, returns the ID.
+ * Returns an array of dinosaurs who were alive at the given `mya` (i.e., "millions of years ago") value. If a `key` is provided, returns the value of that key for each dinosaur alive at that time. Otherwise, returns the ID.
  *
  * If the dinosaur only has a single value for `mya`, allows for the `mya` value to be equal to the given value or one less. For example, if a dinosaur has a `mya` value of `[29]`, the dinosaur's information will be returned if `29` is entered or `28` is entered.
  *
@@ -145,7 +138,26 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  // Create a function to check if a dinosaur is alive at the given `mya`
+  function isAlive(dinosaur, mya) {
+    if (Array.isArray(dinosaur.mya)) {
+      return dinosaur.mya.includes(mya) || dinosaur.mya.includes(mya - 1);
+    } else {
+      return dinosaur.mya === mya || dinosaur.mya === mya - 1;
+    }
+  }
+
+  const aliveDinosaurs = dinosaurs.filter((dinosaur) => isAlive(dinosaur, mya));
+
+  if (key) {
+    return aliveDinosaurs.map((dinosaur) => dinosaur[key] || dinosaur.dinosaurId);
+  } else {
+    return aliveDinosaurs.map((dinosaur) => dinosaur.dinosaurId);
+  }
+}
+
+
 
 module.exports = {
   getLongestDinosaur,
