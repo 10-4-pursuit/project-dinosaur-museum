@@ -23,10 +23,15 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
+
   if (dinosaurs.length === 0) return {};
+
   const dinos = [...dinosaurs];
+
   dinos.sort((a, b) => b.lengthInMeters - a.lengthInMeters);
+
   const tallest = dinos[0];
+
   return {[tallest.name]: tallest.lengthInMeters * 3.281};
 }
 
@@ -51,17 +56,14 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-  for (let i = 0; i < dinosaurs.length; i++) {
-    if (id === dinosaurs[i].dinosaurId) {
-      if (dinosaurs[i].mya.length === 1) {
-        mya = dinosaurs[i].mya[0];
-      } else {
-        mya = dinosaurs[i].mya[1];
-      }
-      return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${mya} million years ago.`
-    }
-  }
-  return "A dinosaur with an ID of 'incorrect-id' cannot be found."
+
+  let dino = dinosaurs.find(saurs => saurs.dinosaurId === id);
+
+  if (!dino) return `A dinosaur with an ID of '${id}' cannot be found.`; 
+
+  let mya = dino.mya.length === 1 ? dino.mya[0] : dino.mya[1];
+
+  return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${mya} million years ago.`;
 }
 
 /**
@@ -104,8 +106,42 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   return dinoArr;
 }
 
+//STRETCH GOAL//
+/** getDinosaursByPeriodAndDiet
+ * Returns an array of dinosaur names along based on their diets.
+ * 
+ * Should separate dinosaurs in `Carnivorous`, `Herbivorous` and `Omnivorous` arrays.
+ * 
+ * @param {Object[]} dinosaurs - An array of dinosaur objects. See the `data/dinosaurs.js` file for an example of the input.
+ * @param {string} diet - The unique diet for the dinosaur.
+ * @returns {string[]} An array of dinosaur objects based off of their specified diets. 
+ * 
+ * EXAMPLE:
+ * 
+ * ***************"Dinosaur List"***************
+ * 
+ * ==============="Late Jurassic"===============
+ * 
+ * ----------------"Carnivorous"----------------
+ * //> ["Tyrannosaurus"]
+ * ----------------"Herbivorous"----------------
+ * //> ["Dracorex"]
+ * ----------------"Omnivorous"-----------------
+ * //> ["Khaan"]
+ */
+function getDinosaursByPeriodAndDiet(dinosaurs, diet) {
+  let dinoDiet = dinosaurs.filter((dinosaur) => dinosaur.diet === "carnivorous");
+
+  return dinoDiet.map(saur => [saur.name, saur.diet])
+   
+}
+console.log(getDinosaursByPeriodAndDiet(exampleDinosaurData, "carnivorous"));
+console.log(getDinosaursByPeriodAndDiet(exampleDinosaurData, "herbivorous"));
+console.log(getDinosaursByPeriodAndDiet(exampleDinosaurData, "omnivorous"));
+
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,
+  getDinosaursByPeriodAndDiet,
 };
