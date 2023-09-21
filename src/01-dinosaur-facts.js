@@ -122,14 +122,19 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
                                    // STRETCH GOALS //
 // syllablesInDinosaurName returns how many syllables are inside a dinosaurs name
 function syllablesInDinosaurName(dinosaurs, name) {
+  // Checks for a dinosaur name that matches the given 'name'.
   let dino = dinosaurs.find(dino => dino.name === name);
 
+  // Checks if 'dino' has a value.
   if (dino){
+    // Initializes count variable that contains a number that represents the length of the array that the 'split' method produces. 
     let count = dino.pronunciation.split("-").length
 
+    // Formatted return
     return `${name} has ${count} syllables in its name.`
   }
 
+  // Handles edge case where 'name' isn't in the dinosaur list.
   return `${name} not found in the dinosaur list.`
 }
 
