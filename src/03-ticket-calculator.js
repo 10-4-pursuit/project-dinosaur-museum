@@ -5,6 +5,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all tickets.
 */
+const tickets = require("../data/tickets");
 const exampleTicketData = require("../data/tickets");
 // Do not change the line above.
 
@@ -54,7 +55,27 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+
+if (!ticketData[ticketInfo.ticketType]) {
+  return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+}
+
+if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]) {
+  return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
+}
+let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType] 
+
+for (let i = 0; i < ticketInfo.extras.length; i++) {
+  extrasToAdd = ticketInfo.extras[i]
+   if (!ticketData.extras[extrasToAdd]) {
+   return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
+   }
+   ticketPrice += ticketData.extras[extrasToAdd].priceInCents[ticketInfo.entrantType];
+}
+return ticketPrice;
+
+}
 
 /**
  * purchaseTickets()
@@ -95,8 +116,8 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
         extras: ["education", "movie", "terrace"],
       },
     ];
-    purchaseTickets(tickets, purchases);
-    //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n-------------------------------------------\nTOTAL: $175.00"
+    purchaseTickets(tickets, purchases);-------------------------------------------\
+    //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nnTOTAL: $175.00"
 
  * EXAMPLE:
     const purchases = [
@@ -109,7 +130,31 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+let purchaseTotal = 0
+let receipt = ""
+
+for(let i = 0; i < purchases.length; i++){
+
+  ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+  if(typeof ticketPrice === "string"){
+    return ticketPrice;
+  }else { 
+    purchaseTotal += ticketPrice
+    entrantCaps = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
+    ticketTypeCaps =  purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+    extraFormatted = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
+    if(purchases[i].extras.length === 0){
+      receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)}\n`
+    }else{
+      receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)} (${extraFormatted})\n`
+    }
+  }
+ 
+}
+return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}
+-------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
+}
 
 // Do not change anything below this line.
 module.exports = {

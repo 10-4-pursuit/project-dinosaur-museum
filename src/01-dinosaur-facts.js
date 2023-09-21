@@ -22,7 +22,25 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  let longestDino = {}
+  let hieght = 0 
+
+  if (dinosaurs.length === 0) {
+    return {}
+  }
+
+  for (const dino of dinosaurs) {
+    if (hieght < dino.lengthInMeters) {
+      hieght = dino.lengthInMeters
+      longestDino.tallest = {
+        [dino.name]: dino.lengthInMeters * 3.281
+      }
+    }
+  }
+return longestDino.tallest;
+ 
+}
 
 /**
  * getDinosaurDescription()
@@ -44,8 +62,18 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
 
+
+  for (const dino of dinosaurs) {
+    if(dino.dinosaurId === id){
+
+      const mya = dino.mya.length === 1 ? dino.mya: dino.mya[1]
+      return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya.length === 1 ? dino.mya: dino.mya[1]} million years ago.`
+  }
+  }
+  return `A dinosaur with an ID of '${id}' cannot be found.`
+}
 /**
  * getDinosaursAliveMya()
  * ---------------------
@@ -55,7 +83,7 @@ function getDinosaurDescription(dinosaurs, id) {}
  *
  * @param {Object[]} dinosaurs - An array of dinosaur objects. See the `data/dinosaurs.js` file for an example of the input.
  * @param {number} mya - "Millions of years ago."
- * @param {string} key - An optional parameter. If included, for dinosaurs that lived during the `mya` value given, will return the value of the supplied key. Otherwise, returns the ID.
+ * @param {string} key - An return the value of the supplied key. Otherwise, returns the ID.
  * @returns {*[]} An array of values, which depend on the key given. The array should only include data of dinosaurs who lived during the given time period.
  *
  * EXAMPLE:
@@ -71,8 +99,32 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+const newArr = []
 
+for (const dino of dinosaurs) {
+  if (dino.mya.length === 2) {
+    if (dino.mya[0] >= mya && dino.mya[1] <= mya) {
+      if(dino[key]){
+        newArr.push(dino[key])
+      }else {
+        newArr.push(dino.dinosaurId)
+      }
+    }
+  }else if (dino.mya.length === 1){
+    if(dino.mya[0] === mya || dino.mya[0] - 1 === mya){
+     if(dino[key]){
+      newArr.push(dino[key])
+     }else {
+      newArr.push(dino.dinosaurId)
+     }
+    }
+  }
+
+}
+
+return newArr
+}
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
