@@ -138,6 +138,7 @@ let receipt = ""
 for(let i = 0; i < purchases.length; i++){
 // called the function calculateTicketPrice from the previous problem and set it = ticketPrice
   ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+  // created an if statement to illustrate control flow of whether or not the return value for the calculateTicketPrice function yeilded a "string" datatype or "Number" data type
   if(typeof ticketPrice === "string"){
     return ticketPrice
   } else {
