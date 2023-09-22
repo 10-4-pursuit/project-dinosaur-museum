@@ -134,14 +134,16 @@ function purchaseTickets(ticketData, purchases) {
   //created purchaseTotal variable and set it = 0.
   let receipt = ""
   //created receipt variable and set it = ""
-  
-
   for (let i = 0; i < purchases.length; i++){
+    // for loop to start looping through purchases array
     let ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+    //set ticketPrice from previous problem to = calculateTicketPrice
     if(typeof ticketPrice === "string"){
+      // if statement to set our condition to return ticketPrice if it was equal to a string or number data type
       return ticketPrice
     } else{
       purchaseTotal += ticketPrice
+      // created variable to be able to store our entrant type, uppercase the first letter and slice for the rest of the word.
       entrantCaps = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
       ticketTypeCaps = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
       extrasFormatted = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
