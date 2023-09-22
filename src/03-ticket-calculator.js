@@ -146,16 +146,21 @@ function purchaseTickets(ticketData, purchases) {
       // created variable to be able to store our entrant type, uppercase the first letter and slice for the rest of the word.
       entrantCaps = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
       ticketTypeCaps = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+      // created variable to be able to store our ticket type, uppercase the first letter and slice for the rest of the word.
       extrasFormatted = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
+      // created variable to be able to store our extras type, uppercase the first letter and slice for the rest of the word and join method to connect the string values in the array into a string.
       if(purchases[i].extras.length === 0){
         receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)}\n`
+        // if statement to create a receipt that includes  no extras and the price
       } else {
         receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)} (${extrasFormatted})\n`
+        // receipt that will add extras to the total ticket price on the receipt
         
       }
     }
   }
   return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
+  // returns above message on receipt with the total price
 }
 
 // Do not change anything below this line.
