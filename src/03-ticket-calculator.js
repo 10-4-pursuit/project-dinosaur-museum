@@ -68,29 +68,28 @@ const ticketInfo = {
  * @returns {string} A full receipt with each individual ticket bought and the total.
  */
 function purchaseTickets(ticketData, purchases) {
-  const receipt = [];
-  let totalCost = 0;
-
-  purchases.forEach((ticketInfo) => {
-    const ticketPrice = calculateTicketPrice(ticketData, ticketInfo);
-    if (typeof ticketPrice === "string") {
-      receipt.push(`Ticket type '${ticketInfo.ticketType}' cannot be found.`);
+  let purchaseTotal = 0
+  let receipt = ""
+  for(let i = 0; i < purchases.length; i++){
+    
+    ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+    if(typeof ticketPrice === "string"){
+      return ticketPrice
     } else {
-      totalCost += ticketPrice;
-      receipt.push(`${ticketInfo.entrantType} ${ticketInfo.ticketType}: $${(ticketPrice / 100).toFixed(2)}`);
+      purchaseTotal += ticketPrice
+      capitalizedEntrantType = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
+      capitalizedTicketType = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+      formattedExtras = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
+      if(purchases[i].extras.length === 0){
+        receipt += `${capitalizedEntrantType} ${capitalizedTicketType} Admission: $${(ticketPrice/100).toFixed(2)}\n`
+      } else {
+        receipt += `${capitalizedEntrantType} ${capitalizedTicketType} Admission: $${(ticketPrice/100).toFixed(2)} (${formattedExtras})\n`
+      }
     }
-  });
-
-  if (receipt.length === 0) {
-    return "No tickets purchased.";
+   
   }
-
-  receipt.unshift("Thank you for visiting the Dinosaur Museum!");
-  receipt.push(`TOTAL: $${(totalCost / 100).toFixed(2)}`);
-
-  return receipt.join("\n-------------------------------------------\n");
-}
-
+  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
+  }
 // Example usage:
 const purchases = [
   {
