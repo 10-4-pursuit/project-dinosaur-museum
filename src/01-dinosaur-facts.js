@@ -31,19 +31,49 @@ function getLongestDinosaur(dinosaurs) {
   let longestDinosaur = {
     [dinosaurs[0].name]: dinosaurs[0].lengthInMeters * 3.281,
   };
+  let longestLength = dinosaurs[0].lengthInMeters * 3.281;
 
-for (let i = 1; i < dinosaurs.length; i++) {
-  const currentDinosaur = dinosaurs[i];
-  if (currentDinosaur.lengthInMeters === dinosaurs[0].lengthInMeters){
-    longestDinosaur[currentDinosaur.name] = currentDinosaur.lengthInMeters * 3.281;
-  } else if (currentDinosaur.lengthInMeters > dinosaurs[0].lengthInMeters){
-    longestDinosaur = {
-      [currentDinosaur.name]: currentDinosaur.lengthInMeters * 3.281,
-    };
+  for (let i = 0; i < dinosaurs.length; i++) {
+    const currentDinosaur = dinosaurs[i];
+    const currentLength = currentDinosaur.lengthInMeters * 3.281;
+
+    if (currentLength >= longestLength) {
+      if (currentLength === longestLength) {
+        // If the current dinosaur has the same length as the longest, add it to the result
+        longestDinosaur[currentDinosaur.name] = currentLength;
+      } else {
+        // If the current dinosaur is taller, reset the result to just that dinosaur
+        longestDinosaur = {
+          [currentDinosaur.name]: currentLength,
+        };
+        longestLength = currentLength;
+      }
+    }
   }
+
+  return longestDinosaur;
 }
-  return longestDinosaur
-}
+// const result = dinosaurs.filter((dino, index, arr) => dino.lengthInMeters === arr[0].lengthInMeters)[0];
+
+//   return result
+// }
+
+// function getLongestDinosaur(dinosaurs) {
+//   if (dinosaurs.length === 0) {
+//     return {};
+//   }
+
+//   const longestLength = dinosaurs[0].lengthInMeters;
+
+//   const result = dinosaurs
+//     .filter((dino) => dino.lengthInMeters === longestLength)
+//     .map((dino) => ({
+//       [dino.name]: dino.lengthInMeters * 3.281,
+//     }))[0];
+
+//   return result || {};
+// }
+// }
 
 // /**
 //  * getDinosaurDescription()

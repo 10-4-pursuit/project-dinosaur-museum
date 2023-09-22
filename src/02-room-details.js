@@ -69,8 +69,8 @@ function getConnectedRoomNamesById(rooms, id) {
   
   let connected = room.connectsTo.map((connects) => rooms.find(room => room.roomId === connects));
   let Undef = connected.findIndex((connect) => connect === undefined);
-  if (Undef === -1) return connected.map(connectedroom => connectedRoom.name);
-  if (undef !== -1) return `Room with ID of '${room.connectsTo[undef]}' could not be found.`;
+  if (Undef === -1) return connected.map(connectedroom => connectedroom.name);
+  if (Undef !== -1) return `Room with ID of '${room.connectsTo[Undef]}' could not be found.`;
 }
 
 module.exports = {
