@@ -143,9 +143,11 @@ for(let i = 0; i < purchases.length; i++){
     return ticketPrice
   } else {
     purchaseTotal += ticketPrice
-    // created a variable to contain the formatted version of the "entrant type" which is the value for the key value pair entrantType in the purchase object in the purchases array of objects
+    // created a variable to contain the formatted version of the entrant type which is the value for the key value pair entrantType in the purchase object in the purchases array of objects
     capitalizedEntrantType = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
+    // created a variable to contain the formatted version of the ticketType which is the value for the key value pair ticketType in the purchase object in the purchases array of objects. Capitalized the first letter of the ticketType and used slice method to ad the rest of the word
     capitalizedTicketType = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+    // created a variable to contain the formatted version of each extra in the Extras array in the purchase object which is the value for the key value pair for the extras key in the purchase object in the purchases array of objects. Capitalized the first letter of each extra in the extras array and used slice method to ad the rest of the word. Then used join to join the string values in the array into a string.
     formattedExtras = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
     if(purchases[i].extras.length === 0){
       receipt += `${capitalizedEntrantType} ${capitalizedTicketType} Admission: $${(ticketPrice/100).toFixed(2)}\n`
