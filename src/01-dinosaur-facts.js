@@ -36,6 +36,7 @@ function getLongestDinosaur(dinosaurs) {
         dinoName = dinosaurs[i].name
       }
   }
+   // If the array is empty, will return an empty object.
   if(!dinosaurs.length){
     return {}
   }
