@@ -28,19 +28,23 @@ function getLongestDinosaur(dinosaurs) {
   // created variables for longestDinosaur and height to empty object and 0 
   if(dinosaurs.length === 0){
     return {}
-    //created if statement to address edge case, return empty object if length is 0
+    //created if statement to address edge case, return empty object if dinosaurs dont exist.
   }
 
   for(let dino of dinosaurs){
+    // for loop to loop through all the dinosaurs
     if (height < dino.lengthInMeters){
       height = dino.lengthInMeters;
+      // if statement so the height constantly takes the tallest dinosaur's height as it loops
       longestDinosaur.tallest = {
         [dino.name]: dino.lengthInMeters * 3.281
+        // our previous variable longestDinosaur will take the tallest dinosaur's name and height and convert it to feet
       }
     };
   }
   
   return longestDinosaur.tallest 
+  //returns the tallest dinosaur's name and height
 
 }
 
