@@ -143,6 +143,7 @@ for(let i = 0; i < purchases.length; i++){
     return ticketPrice
   } else {
     purchaseTotal += ticketPrice
+    // created a variable to contain the formatted version of the "entrant type" which is the value for the key value pair entrantType in the purchase object in the purchases array of objects
     capitalizedEntrantType = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
     capitalizedTicketType = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
     formattedExtras = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
