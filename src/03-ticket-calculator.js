@@ -134,8 +134,9 @@ function purchaseTickets(ticketData, purchases) {
 let purchaseTotal = 0
 // created a variable called receipt and set it equal = ""
 let receipt = ""
+// this loops through the Purchases array of objects 
 for(let i = 0; i < purchases.length; i++){
-  
+// called the function calculateTicketPrice from the previous problem and set it = ticketPrice
   ticketPrice = calculateTicketPrice(ticketData, purchases[i])
   if(typeof ticketPrice === "string"){
     return ticketPrice
