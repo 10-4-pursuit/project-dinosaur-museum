@@ -70,11 +70,14 @@ function getLongestDinosaur(dinosaurs) {
  */
 function getDinosaurDescription(dinosaurs, id) {
   for (let dino of dinosaurs) {
+    //for loop to loop through dinosaurs array
     if(dino.dinosaurId === id) {
+      //if dino ID matches with the dinosaur, then it will return info about it when it lived
       return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya.length === 1 ? dino.mya: dino.mya[1]} million years ago.`
     }
   }
   return `A dinosaur with an ID of '${id}' cannot be found.`
+  
 }
 
 /**
