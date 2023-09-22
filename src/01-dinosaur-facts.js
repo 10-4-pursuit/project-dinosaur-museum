@@ -23,52 +23,23 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
+  let longestDino = {}
+  let height = 0;
   if (dinosaurs.length === 0) {
-    return {}; // Return an empty object if there are no dinosaurs
+    return {}
   }
+  for (let dino of dinosaurs) {
+    if (height < dino.lengthInMeters) {
+      height = dino.lengthInMeters;
+      longestDino.tallest = {
+        [dino.name]: dino.lengthInMeters * 3.281
+      }
 
-  let maxLength = -Infinity;
-  let longestDinosaurs = [];
+    };
 
-  for (const dinosaur of dinosaurs) {
-    const heightInFeet = dinosaur.lengthInMeters * 3.281; // Convert meters to feet
-
-    if (heightInFeet > maxLength) {
-      maxLength = heightInFeet;
-      longestDinosaurs = [{ name: dinosaur.name, heightInFeet }];
-    } else if (heightInFeet === maxLength) {
-      longestDinosaurs.push({ name: dinosaur.name, heightInFeet });
-    }
   }
-
-  return longestDinosaurs.length === 1 ? longestDinosaurs[0] : longestDinosaurs;
+  return longestDino.tallest
 }
-
-// Combined test cases
-describe("getLongestDinosaur()", () => {
-  test("should return an object where the key is the tallest dinosaur name and the value is the length in feet", () => {
-    const actual = getLongestDinosaur(exampleDinosaurData);
-    expect(actual).toEqual({ name: "Brachiosaurus", heightInFeet: 98.43 });
-  });
-
-  test("should return the first dinosaur if there are multiples with the same length", () => {
-    const dinosaursWithSameLength = [
-      { name: "Dino1", lengthInMeters: 30 },
-      { name: "Dino2", lengthInMeters: 30 },
-    ];
-    const actual = getLongestDinosaur(dinosaursWithSameLength);
-    expect(actual).toEqual([
-      { name: "Dino1", heightInFeet: 98.43 },
-      { name: "Dino2", heightInFeet: 98.43 },
-    ]);
-  });
-
-  test("should return an empty object if there are no dinosaurs", () => {
-    const emptyData = [];
-    const actual = getLongestDinosaur(emptyData);
-    expect(actual).toEqual({});
-  });
-});
 
 
 /**
@@ -92,24 +63,16 @@ describe("getLongestDinosaur()", () => {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-  const dinosaur = dinosaurs.find((dino) => dino.dinosaurId === id);
+  for (let dino of dinosaurs) {
+    if (dino.dinosaurId === id) {
 
-  if (!dinosaur) {
-    return `A dinosaur with an ID of '${id}' cannot be found.`;
+const mya = dino.mya.length === 1 ? dino.mya: dino.mya[1]
+      return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${mya} million years ago.`
+    }
+
   }
+  return `A dinosaur with an ID of '${id}' cannot be found.`
 
-  const {
-    name,
-    pronunciation,
-    info,
-    period,
-    mya,
-  } = dinosaur;
-
-  // Convert mya to a number and round it to one decimal place for consistent formatting
-  const formattedMya = Array.isArray(mya) ? mya[0] : mya[1]
-
-  return `${name} (${pronunciation})\n${info} It lived in the ${period} period, over ${formattedMya} million years ago.`;
 }
 
 
@@ -139,22 +102,31 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  // Create a function to check if a dinosaur is alive at the given `mya`
-  function isAlive(dinosaur, mya) {
-    if (Array.isArray(dinosaur.mya)) {
-      return dinosaur.mya.includes(mya) || dinosaur.mya.includes(mya - 1);
-    } else {
-      return dinosaur.mya === mya || dinosaur.mya === mya - 1;
+  let newArray = []
+  for (let dino of dinosaurs) {
+    if (dino.mya.length === 2) {
+      if (dino.mya[0] >= mya && dino.mya[1] <= mya) {
+        if (dino[key]) {
+          newArray.push(dino[key])
+        }
+        else {
+          newArray.push(dino.dinosaurId)
+        }
+
+      }
+    } else if (dino.mya.length === 1) {
+      if (dino.mya[0] === mya || dino.mya[0]  - 1 === mya  ) {
+        if (dino[key]) {
+          newArray.push(dino[key])
+        }
+        else {
+          newArray.push(dino.dinosaurId)
+        }
+
+      }
     }
   }
-
-  const aliveDinosaurs = dinosaurs.filter((dinosaur) => isAlive(dinosaur, mya));
-
-  if (key) {
-    return aliveDinosaurs.map((dinosaur) => dinosaur[key] || dinosaur.dinosaurId);
-  } else {
-    return aliveDinosaurs.map((dinosaur) => dinosaur.dinosaurId);
-  }
+  return newArray
 }
 
 
