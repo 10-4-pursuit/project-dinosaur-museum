@@ -30,6 +30,7 @@ function getLongestDinosaur(dinosaurs) {
   // Loop through the array of dinosaur objects to find the longest dinosaur.
   for(let i = 0; i < dinosaurs.length; i++){
     const longestDino = dinosaurs[i].lengthInMeters 
+    // If the current dinosaur is longer than the previous maximum, will update the maximum and the dinosaur name.
       if(longestDino > max) {
         max = longestDino
         dinoName = dinosaurs[i].name
