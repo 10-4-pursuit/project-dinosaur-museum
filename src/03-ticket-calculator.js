@@ -128,7 +128,33 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function purchaseTickets(ticketData, purchases) {
+  
+  let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+
+  
+  let totalPrice = 0;
+
+  
+  for (const purchase of purchases) {
+    
+    const ticketPrice = calculateTicketPrice(ticketData, purchase);
+
+   
+    if (typeof ticketPrice === "string") {
+      return ticketPrice; 
+    }
+  }
+    
+}
+
+
+
+
 
 // Do not change anything below this line.
 module.exports = {
