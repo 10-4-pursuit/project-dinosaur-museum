@@ -25,8 +25,10 @@ const exampleDinosaurData = require("../data/dinosaurs");
 function getLongestDinosaur(dinosaurs) {
   let longestDinosaur = {};
   let height = 0;
+  // created variables for longestDinosaur and height to empty object and 0 
   if(dinosaurs.length === 0){
     return {}
+    //created if statement to address edge case, return empty object if length is 0
   }
 
   for(let dino of dinosaurs){
