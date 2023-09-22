@@ -40,6 +40,7 @@ function getLongestDinosaur(dinosaurs) {
   if(!dinosaurs.length){
     return {}
   }
+  // Calculates the length of the longest dinosaur in feet and returns it in an object.
   const longestDinoResult = {[dinoName]: max*3.281}
   console.log(dinoName, max)
   return longestDinoResult
