@@ -5,6 +5,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all tickets.
 */
+const tickets = require("../data/tickets");
 const exampleTicketData = require("../data/tickets");
 // Do not change the line above.
 
@@ -54,7 +55,25 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  if (!ticketData[ticketInfo.ticketType]) {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+
+  const priceInCents = ticketData[ticketInfo.ticketType].priceInCents;
+  if (!priceInCents[ticketInfo.entrantType]) {
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  }
+
+  let total = priceInCents[ticketInfo.entrantType];
+  for (const extra of ticketInfo.extras) {
+    if (!ticketData.extras[extra]) {
+      return `Extra type '${extra}' cannot be found.`;
+    }
+    total += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
+  }
+    return total;
+}
 
 /**
  * purchaseTickets()
@@ -109,7 +128,35 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+    function purchaseTickets(ticketData, purchases) {
+      let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+      let totalPrice = 0;
+    
+      for (const purchase of purchases) {
+        const ticketPrice = calculateTicketPrice(ticketData, purchase);
+    
+        if (typeof ticketPrice === "string") {
+          return ticketPrice;
+        }
+    
+        const entrantType = purchase.entrantType.charAt(0).toUpperCase() + purchase.entrantType.slice(1);
+        const totalPriceFormatted = (ticketPrice / 100).toFixed(2);
+    
+        let line = `${entrantType} ${ticketData[purchase.ticketType].description}: $${totalPriceFormatted}`;
+    
+        if (purchase.extras.length > 0) {
+          const extras = purchase.extras.map(extra => ticketData.extras[extra].description).join(", ");
+          line += ` (${extras})`;
+        }
+    
+        receipt += `${line}\n`;
+        totalPrice += ticketPrice;
+      }
+    
+      receipt += `-------------------------------------------\nTOTAL: $${(totalPrice / 100).toFixed(2)}`;
+      return receipt;
+    }
+    
 
 // Do not change anything below this line.
 module.exports = {
