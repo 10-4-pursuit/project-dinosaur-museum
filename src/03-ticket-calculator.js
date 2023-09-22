@@ -128,33 +128,35 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function purchaseTickets(ticketData, purchases) {
-  
-  let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
-
-  
-  let totalPrice = 0;
-
-  
-  for (const purchase of purchases) {
+    function purchaseTickets(ticketData, purchases) {
+      let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+      let totalPrice = 0;
     
-    const ticketPrice = calculateTicketPrice(ticketData, purchase);
-
-   
-    if (typeof ticketPrice === "string") {
-      return ticketPrice; 
+      for (const purchase of purchases) {
+        const ticketPrice = calculateTicketPrice(ticketData, purchase);
+    
+        if (typeof ticketPrice === "string") {
+          return ticketPrice;
+        }
+    
+        const entrantType = purchase.entrantType.charAt(0).toUpperCase() + purchase.entrantType.slice(1);
+        const totalPriceFormatted = (ticketPrice / 100).toFixed(2);
+    
+        let line = `${entrantType} ${ticketData[purchase.ticketType].description}: $${totalPriceFormatted}`;
+    
+        if (purchase.extras.length > 0) {
+          const extras = purchase.extras.map(extra => ticketData.extras[extra].description).join(", ");
+          line += ` (${extras})`;
+        }
+    
+        receipt += `${line}\n`;
+        totalPrice += ticketPrice;
+      }
+    
+      receipt += `-------------------------------------------\nTOTAL: $${(totalPrice / 100).toFixed(2)}`;
+      return receipt;
     }
-  }
     
-}
-
-
-
-
 
 // Do not change anything below this line.
 module.exports = {
