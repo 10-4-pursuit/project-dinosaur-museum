@@ -22,7 +22,25 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  let longestDino = {}
+  let height = 0;
+  if (dinosaurs.length === 0) {
+    return {}
+  }
+  for (let dino of dinosaurs) {
+    if (height < dino.lengthInMeters) {
+      height = dino.lengthInMeters;
+      longestDino.tallest = {
+        [dino.name]: dino.lengthInMeters * 3.281
+      }
+
+    };
+
+  }
+  return longestDino.tallest
+}
+
 
 /**
  * getDinosaurDescription()
@@ -44,12 +62,24 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  for (let dino of dinosaurs) {
+    if (dino.dinosaurId === id) {
+
+const mya = dino.mya.length === 1 ? dino.mya: dino.mya[1]
+      return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${mya} million years ago.`
+    }
+
+  }
+  return `A dinosaur with an ID of '${id}' cannot be found.`
+
+}
+
 
 /**
  * getDinosaursAliveMya()
  * ---------------------
- * Returns an array of dinosaurs who were alive at the given `mya` (i.e. "millions of years ago") value. If a `key` is provided, returns the value of that key for each dinosaur alive at that time. Otherwise, returns the ID.
+ * Returns an array of dinosaurs who were alive at the given `mya` (i.e., "millions of years ago") value. If a `key` is provided, returns the value of that key for each dinosaur alive at that time. Otherwise, returns the ID.
  *
  * If the dinosaur only has a single value for `mya`, allows for the `mya` value to be equal to the given value or one less. For example, if a dinosaur has a `mya` value of `[29]`, the dinosaur's information will be returned if `29` is entered or `28` is entered.
  *
@@ -71,7 +101,35 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let newArray = []
+  for (let dino of dinosaurs) {
+    if (dino.mya.length === 2) {
+      if (dino.mya[0] >= mya && dino.mya[1] <= mya) {
+        if (dino[key]) {
+          newArray.push(dino[key])
+        }
+        else {
+          newArray.push(dino.dinosaurId)
+        }
+
+      }
+    } else if (dino.mya.length === 1) {
+      if (dino.mya[0] === mya || dino.mya[0]  - 1 === mya  ) {
+        if (dino[key]) {
+          newArray.push(dino[key])
+        }
+        else {
+          newArray.push(dino.dinosaurId)
+        }
+
+      }
+    }
+  }
+  return newArray
+}
+
+
 
 module.exports = {
   getLongestDinosaur,
