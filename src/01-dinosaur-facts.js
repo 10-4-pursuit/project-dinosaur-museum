@@ -92,29 +92,20 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  let dinoArr = [];
 
-  for (let i = 0; i < dinosaurs.length; i++) {
-    if (((mya === dinosaurs[i].mya[0])) || (dinosaurs[i].mya - mya === 1) || ((mya >= dinosaurs[i].mya[1]) && (mya <= dinosaurs[i].mya[0]))) {
-      if (dinosaurs[i][key] !== undefined) {
-        dinoArr.push(dinosaurs[i][key]);
-      } else {
-        dinoArr.push(dinosaurs[i].dinosaurId);
-      }
-    }
-  }
-  return dinoArr;
+  let dinosaur = dinosaurs.filter(dinos => (mya === dinos.mya[0] ||  dinos.mya - mya === 1 || (mya >= dinos.mya[1]) && (mya <= dinos.mya[0])));
+
+  return dinosaur.map(dino => (dino[key] !== undefined ? dino[key] : dino.dinosaurId));
 }
 
 //STRETCH GOAL//
 /** getDinosaursByPeriodAndDiet
- * Returns an array of dinosaur names along based on their diets.
+ * Returns an array of dinosaur names ordered by their period and diet.
  * 
- * Should separate dinosaurs in `Carnivorous`, `Herbivorous` and `Omnivorous` arrays.
+ * Should separate dinosaurs into `Carnivorous`, `Herbivorous` and `Omnivorous` arrays along with period they lived in.
  * 
  * @param {Object[]} dinosaurs - An array of dinosaur objects. See the `data/dinosaurs.js` file for an example of the input.
- * @param {string} diet - The unique diet for the dinosaur.
- * @returns {string[]} An array of dinosaur objects based off of their specified diets. 
+ * @returns {string[]} An array of dinosaur names ordered by their period and diet. 
  * 
  * EXAMPLE:
  * 
@@ -129,15 +120,24 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
  * ----------------"Omnivorous"-----------------
  * //> ["Khaan"]
  */
-function getDinosaursByPeriodAndDiet(dinosaurs, diet) {
-  let dinoDiet = dinosaurs.filter((dinosaur) => dinosaur.diet === "carnivorous");
+function getDinosaursByPeriodAndDiet(dinosaurs) {
+ let lines = [
+  `***************"Dinosaur List"***************`,
+ ];
+ // from within dinosaur, I need period and mya
+  // In order to sort chronologically I need a way for period to tie to mya
+  // Periods = "Early Jurassic", "Late Jurassic", "Early Cretaceous", "Late Cretaceous"
+  // MYA = 205 mya - 66 mya 
 
-  return dinoDiet.map(saur => [saur.name, saur.diet])
-   
+  //Which dinosaurs to grab
+  //loop through the dinosaurs
+  //create an {} using period as a key
+  //in this object have a max and min with myas
+  //by the end you should have a way to put out the eras chronologically how each period happens
+  //should make it easier to sort through the periods 3
+ dinosaurs.filter(dinosaur => dinosaur.period)
 }
-console.log(getDinosaursByPeriodAndDiet(exampleDinosaurData, "carnivorous"));
-console.log(getDinosaursByPeriodAndDiet(exampleDinosaurData, "herbivorous"));
-console.log(getDinosaursByPeriodAndDiet(exampleDinosaurData, "omnivorous"));
+console.log(getDinosaursByPeriodAndDiet(exampleDinosaurData));
 
 module.exports = {
   getLongestDinosaur,
