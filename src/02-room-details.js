@@ -44,20 +44,23 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
  * @param {string} id - A unique room identifier.
  * @returns {string|string[]} An array of room names, or an error message.
  */
-function getConnectedRoomNamesById(rooms, id) {
-  // Find the room with the given ID
-  const room = rooms.find((room) => room.roomId === id);
-
-  if (room) {
-    // If the room is found, return the names of connected rooms
-    return room.connects.map((roomId) => {
-      const connectedRoom = rooms.find((r) => r.roomId === roomId);
-      return connectedRoom ? connectedRoom.name : "Room not found";
-    });
-  } else {
-    // If the room is not found, return an error message
-    return `Room with ID of '${id}' could not be found.`;
+function getConnectedRoomNamesById(rooms, id) { 
+  const room = rooms.find(r => id === r.roomId)
+  if(!room){
+    return `Room with ID of '${id}' could not be found.`
+  } 
+  console.log(room.connectsTo)
+ const newArr = room.connectsTo.map(connectsToId => {
+  const r = rooms.find(r => connectsToId === r.roomId)
+  if(!r){
+    return 
   }
+  return r.name
+  })
+  if(newArr.includes(undefined)){
+    return "Room with ID of 'incorrect-id' could not be found."
+  }
+  return newArr
 }
 
 module.exports = {
