@@ -131,7 +131,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
           dinoArr.push(dino.dinosaurId)
         }
       }
-      //Sets the range between the two mya values 
+      //Sets the range between the two mya values of when dinosaurs were alive.
     } else if (mya <= myaValues[0] && mya >= myaValues[1]) {
       if (dino[key]) {
         dinoArr.push(dino[key]);
