@@ -66,6 +66,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   }
     // Initializing the ticket price with the base price.
     ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+    // Iterating through the extras and adding their prices to the ticket.
     for(i = 0; i < ticketInfo.extras.length; i++){;
     addedExtras = ticketInfo.extras[i];
     if(!ticketData.extras[addedExtras]){
