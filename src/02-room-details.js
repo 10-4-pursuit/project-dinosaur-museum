@@ -28,7 +28,7 @@ const exampleRoomData = require("../data/rooms");
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   // Finding the dinosaur by its name in the `dinosaurs` array.
   const dinosaur = dinosaurs.find(dino => dino.name === dinosaurName)
-
+   // If the dinosaur does not exist, return an error message.
   if(!dinosaur){
     return `Dinosaur with name '${dinosaurName}' cannot be found.`
   }
