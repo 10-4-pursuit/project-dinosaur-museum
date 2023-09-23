@@ -71,7 +71,7 @@ function getDinosaurDescription(dinosaurs, id) {
   // Loop through the array of dinosaurs to find a dinosaur with a matching ID.
   for(let dino of dinosaurs) {
     if(dino.dinosaurId === id) {
-
+// Format the description using the dinosaur's properties.
 const mya = dino.mya.length === 1 ? dino.mya: dino.mya[1]
       return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${mya} million years ago.`
     }
