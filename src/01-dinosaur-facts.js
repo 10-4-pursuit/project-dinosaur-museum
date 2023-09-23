@@ -118,6 +118,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
       }
       else {
         newArray.push(dino.dinosaurId)
+        // if not then push dinosaur id into new array
       }
     }
   }
