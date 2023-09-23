@@ -75,7 +75,7 @@ function getConnectedRoomNamesById(rooms, id) {
     const findRoomById = rooms.find(room => id === room.roomId);
   
     if (!findRoomById) {
-      return `Room with ID of '${id}' could not be found`
+      return `Room with ID of '${id}' could not be found.`
     }
   
     for (const conIds of findRoomById.connectsTo) {
