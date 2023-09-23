@@ -5,6 +5,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all tickets.
 */
+const tickets = require("../data/tickets");
 const exampleTicketData = require("../data/tickets");
 // Do not change the line above.
 
@@ -54,7 +55,36 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+// Check if the specified ticket type exists in the ticket data.
+if (!ticketData[ticketInfo.ticketType]) {
+  return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+}
+// Check if the specified entrant type exists in the ticket data.
+if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]) {
+  return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
+}
+
+// Initialize ticket price with the base price for the specified ticket type and entrant type.
+let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType] 
+
+// Iterate through the list of extras and add their prices to the ticket price
+for (let i = 0; i < ticketInfo.extras.length; i++) {
+  extrasToAdd = ticketInfo.extras[i]
+
+   // Check if the specified extra type exists in the ticket data.
+   if (!ticketData.extras[extrasToAdd]) {
+   return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
+   }
+
+   // Add the price of the extra for the specified entrant type.
+   ticketPrice += ticketData.extras[extrasToAdd].priceInCents[ticketInfo.entrantType];
+}
+
+// Return the total ticket price.
+return ticketPrice;
+
+}
 
 /**
  * purchaseTickets()
@@ -95,8 +125,8 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
         extras: ["education", "movie", "terrace"],
       },
     ];
-    purchaseTickets(tickets, purchases);
-    //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n-------------------------------------------\nTOTAL: $175.00"
+    purchaseTickets(tickets, purchases);-------------------------------------------\
+    //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nnTOTAL: $175.00"
 
  * EXAMPLE:
     const purchases = [
@@ -109,7 +139,42 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+let purchaseTotal = 0 // Initialize the total purchase price.
+let receipt = "" // Initialize the receipt string.
+
+for(let i = 0; i < purchases.length; i++){
+
+// Calculate the price for the current ticket purchase.
+  ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+
+  // Check if the ticketPrice is a string (indicating an error).
+  if(typeof ticketPrice === "string"){
+    return ticketPrice;  // If error, return the error message.
+  }else { 
+
+    // If no error, update the total purchase price.
+    purchaseTotal += ticketPrice
+
+     // Capitalize the entrant type and ticket type for formatting.
+    entrantCaps = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
+    ticketTypeCaps =  purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+    extraFormatted = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
+
+     // Format the extras to have uppercase first letters and add ' Access'.
+    if(purchases[i].extras.length === 0){
+      receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)}\n`
+    }else{
+      receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)} (${extraFormatted})\n`
+    }
+  }
+ 
+}
+console.log(receipt);
+// Construct the final receipt with total purchase price.
+return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
+}
+
 
 // Do not change anything below this line.
 module.exports = {
