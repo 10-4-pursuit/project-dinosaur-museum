@@ -70,10 +70,12 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
 function getConnectedRoomNamesById(rooms, id) { 
   // created a room variable whcih returns the room object within the rooms array of object that meets the condition of containing the roomId that matches the Id that they are giving us
   const room = rooms.find(r => id === r.roomId)
+  // created an If statement to check to see if the room object containing the specific room Id value give to us exists. If it doesnt return an error message
   if(!room){
     return `Room with ID of '${id}' could not be found.`
   } 
   console.log(room.connectsTo)
+  // created a new variable that uses the map method to map over the array of rooms assigned to the key connectsTo within the room object that has the matching Id we are looking for with a new aray of values where each value is the room name mapped over the roomId in the connectsToId array
  const newArr = room.connectsTo.map(connectsToId => {
   const r = rooms.find(r => connectsToId === r.roomId)
   if(!r){
