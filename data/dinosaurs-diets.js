@@ -1,5 +1,5 @@
 const dinosaurs = [
-    { 
+  { 
     name: 'Allosaurus', 
     diet: 'arnivorous' 
     },
