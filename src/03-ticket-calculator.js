@@ -170,10 +170,9 @@ for(let i = 0; i < purchases.length; i++){
   }
  
 }
-
+console.log(receipt);
 // Construct the final receipt with total purchase price.
-return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}
--------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
+return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
 }
 
 
