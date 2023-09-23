@@ -58,22 +58,24 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   
   if (!ticketData[ticketInfo.ticketType]){
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
-  }
+  }//if statement to see if ticket type can be found in ticketdata
   
   if(!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]){
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
-  }
+  } //if statement to see if entrant type could be found in ticketdata
   let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]
-  
+  //for loop to loop through the array for the extras 
   for (let i = 0; i < ticketInfo.extras.length; i++){
     extrasToAdd = ticketInfo.extras[i]
     if(!ticketData.extras[extrasToAdd]){
+      //if statement to see if the extras can be found in ticketInfo
       return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
     }
     ticketPrice += ticketData.extras[extrasToAdd].priceInCents[ticketInfo.entrantType]
   }
 
 return ticketPrice
+//will return the new ticketPrice 
 }
 
 /**
