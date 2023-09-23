@@ -34,14 +34,14 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
    return `Dinosaur with name '${dinosaurName}' cannot be found.`;
  }
  
- 
+ // Find the room that contains the dinosaur with the found dinosaurId
  const findRoom = rooms.find(room => room.dinosaurs.includes(findDino.dinosaurId));
  
- 
+ // If a room is found, returns the name of the room
  if (findRoom) {
    return `${findRoom.name}`;
  } else {
-   
+   // If no room is found, returns an error message
    return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
  }
 }
