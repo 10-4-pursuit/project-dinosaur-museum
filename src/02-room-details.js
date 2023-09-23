@@ -32,6 +32,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   if(!dinosaur){
     return `Dinosaur with name '${dinosaurName}' cannot be found.`
   }
+   // Finding the room that contains the dinosaur using its ID.
     const room = rooms.find(rm => rm.dinosaurs.includes(dinosaur.dinosaurId))
   if(room) {
     return room.name
