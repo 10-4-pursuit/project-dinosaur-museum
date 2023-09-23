@@ -47,6 +47,10 @@ function getLongestDinosaur(dinosaurs) {
         longestDinoInFeet = allDinosLengthInFeet;
         }
     })
+
+    if (longestDino !== null && longestDino.lengthInMeters !== null && dinosaurs.filter(dinosaur => dinosaur.lengthInMeters === longestDino.lengthInMeters).length > 1) {
+      return dinosaur[0];
+    }
   
     if (bigDino[longestDinoName] === undefined) {
       bigDino[longestDinoName] = 0
@@ -78,7 +82,16 @@ function getLongestDinosaur(dinosaurs) {
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  const dinosaur = dinosaurs.find(dinosaur => dinosaur.dinosaurId === id);
+
+  if (!dinosaur) {
+    return `A dinosaur with an ID of '${id}' cannot be found.`;
+  }
+
+  return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${dinosaur.mya} million years ago.`;
+  
+}
 
 /**
  * getDinosaursAliveMya()
@@ -105,6 +118,7 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
+
 function getDinosaursAliveMya(dinosaurs, mya, key) {}
 
 module.exports = {
