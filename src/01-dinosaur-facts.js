@@ -107,9 +107,10 @@ const mya = dino.mya.length === 1 ? dino.mya: dino.mya[1]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let newArray = []
-  // Loop through the array of dinosaurs to filter those that match the given `mya` key value.
+  // Looping through the array of dinosaurs to filter those that match the given `mya` key value.
   for(let dino of dinosaurs) {
     if(dino.mya.length === 2) {
+      // Checking if `mya` key value is within the range of this dinosaur's existence.
       if(dino.mya[0] >= mya && dino.mya[1] <= mya) {
         if(dino[key]) {
           newArray.push(dino[key])
