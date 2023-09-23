@@ -76,28 +76,27 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
  */
 // set up a new variable to store results of names of rooms that are connected to the id. in the for of loop we iterate through each element in the rooms array to ensure it is strictly equal to id and then if a match is found we store it in our newArrray. if the newarray contains the string incorrect-id  then it returns our string message.  our next if statement checks if the entire length of our newArray is empty and if it is returns our string message that includes id information.  we start a new array2 to store names fo connected rooms.  in the for of loop we iterate through rooms array again and we check if the room is iof the current room object is present in the original newarray. if a match is found the name property of the current room is added to the newArray2
 function getConnectedRoomNamesById(rooms, id) {
-  let newArray = [ ];
+  let newArray = [];
 
   for(let room of rooms) {
     if (room.roomId === id) {
       newArray = room.connectsTo.slice(0);
-      }
-      }
-  if (newArray.includes("incorrrect-id")) {
-    return `Room with ID of 'incorrect-id' could not be found.`;
+    }
+  }
+  if (newArray.includes('incorrrect-id')) {
+    return `Room with ID of 'incorrect-id' could not be found.`
     }
     if (!newArray.length) {
-      return `Room with ID of '${id}' could not be found.`;
+      return `Room with ID of '${id}' could not be found.`
   }
-
   let newArray2 = [];
-
+  
   for(let room of rooms) {
     if (newArray.includes(room.roomId)) {
       newArray2.push(room.name);
     }
   }
-  return newArray2
+  return newArray2;
 }
 
 module.exports = {
