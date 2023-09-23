@@ -72,7 +72,7 @@ function getDinosaurDescription(dinosaurs, id) {
   for (let dino of dinosaurs) {
     //for loop to loop through dinosaurs array
     if(dino.dinosaurId === id) {
-      //if dino ID matches with the dinosaur, then it will return info about it when it lived
+      //if dino ID matches with the dinosaur id given to us, then it will return info about it when it lived
       return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya.length === 1 ? dino.mya: dino.mya[1]} million years ago.`
     }
   }
@@ -124,7 +124,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   }
   else if (dino.mya.length === 1) {
     if (dino.mya[0] === mya || dino.mya[0] -1 === mya) {
-      //if statement for dinosaurs with 1 mya, their extinction date has to be 1 less than given mya
+      //if statement for dinosaurs with the time they came about === 0 or if the mya value assigned to the mya key subtracted by 1 === myq key. represents 1 mill years
       if (dino[key]) {
         newArray.push(dino[key]) 
         //add dino key into new array which is their info

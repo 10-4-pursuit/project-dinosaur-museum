@@ -64,15 +64,16 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
   } //if statement to see if entrant type could be found in ticketdata
   let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]
+  // created new variable to contain base ticket price calculated from the information in ticketType key and the entrantType key belonging to the object ticketInfo.
   //for loop to loop through the array for the extras 
   for (let i = 0; i < ticketInfo.extras.length; i++){
     extrasToAdd = ticketInfo.extras[i]
     if(!ticketData.extras[extrasToAdd]){
-      //if statement to see if the extras can be found in ticketInfo
+      //if statement to see if the extras can be found in ticketInfo can be found within ticketData object
       return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
     }
     ticketPrice += ticketData.extras[extrasToAdd].priceInCents[ticketInfo.entrantType]
-  }
+  } //ticketPrice will add up the information we get from above
 
 return ticketPrice
 //will return the new ticketPrice 
@@ -137,9 +138,9 @@ function purchaseTickets(ticketData, purchases) {
   let receipt = ""
   //created receipt variable and set it = ""
   for (let i = 0; i < purchases.length; i++){
-    // for loop to start looping through purchases array
+    // for loop to start looping through purchases array of objects
     let ticketPrice = calculateTicketPrice(ticketData, purchases[i])
-    //set ticketPrice from previous problem to = calculateTicketPrice
+    //set ticketPrice from previous problem to =  the return value from the function calculateTicketPrice. we took ticketPrice from previous problem to eliminate the need to write out extra code containing the checks and error messages we did earlier.
     if(typeof ticketPrice === "string"){
       // if statement to set our condition to return ticketPrice if it was equal to a string or number data type
       return ticketPrice
@@ -162,7 +163,7 @@ function purchaseTickets(ticketData, purchases) {
     }
   }
   return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
-  // returns above message on receipt with the total price
+  // returns above message on receipt with the total price.
 }
 
 // Do not change anything below this line.
