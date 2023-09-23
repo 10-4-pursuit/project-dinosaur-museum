@@ -136,6 +136,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   }
   
   return (newArray)
+  // returns new array with all the new information gathered
 }
 
 module.exports = {
