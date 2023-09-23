@@ -108,16 +108,19 @@ function getDinosaurDescription(dinosaurs, id) {
 // declaring an empty array called newArray and iterating through the dinosaurs array and calling it dino. i'm comparing current dino.myat index 0 to my and at index 1. if a key is given i'm pushing dinokey into the new array  or else pushing dino dinosaur id in to the new array and then returning the output of my new array
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let newArray = [];
-  for (let dino of dinosaurs) {
+  for (const dino of dinosaurs) {
     if (dino.mya[0] >= mya && dino.mya[1] <= mya && dino.mya.length === 2) {
-      if (key && dino[key]) {
-      newArray.push(dino[key]);
+      if (key) {
+      } else {
+        newArray.push(dino[key])
       } else {
         newArray.push(dino.dinosaurId);
       }
     }
-    if (dino.mya[0] === mya || dino.mya[1] - 1 === mya) {
+    if (dino.mya[0] === mya || dino.mya[0] -1 === mya) {
       if (key) {
+        newArray.push(dino[key]);
+      } else {
         newArray.push(dino.dinosaurId);
       }
     }
