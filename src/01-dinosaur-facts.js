@@ -31,7 +31,7 @@ function getLongestDinosaur(dinosaurs) {
   if (dinosaurs.length === 0) {
     return {}
   }
-// Iterate through each dinosaur in the data section of the dinosaurs.js list. .
+// Iterate through each dinosaur in the data section of the dinosaurs.js list. 
   for (const dino of dinosaurs) {
     // Check if the current dinosaur is taller than the previously recorded tallest dinosaur.
     if (hieght < dino.lengthInMeters) {
@@ -70,14 +70,17 @@ return longestDino.tallest;
  */
 function getDinosaurDescription(dinosaurs, id) {
 
-
+  // Iterate through each dinosaur in the data section of the dinosaurs.js list. 
   for (const dino of dinosaurs) {
+    // Check if the current dinosaur's ID matches the target ID.
     if(dino.dinosaurId === id){
-
+      // Extract 'mya' value based on array length.
       const mya = dino.mya.length === 1 ? dino.mya: dino.mya[1]
+      // Return the formatted description.
       return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya.length === 1 ? dino.mya: dino.mya[1]} million years ago.`
   }
   }
+  // Return an error message if the dinosaur with the provided ID is not found.
   return `A dinosaur with an ID of '${id}' cannot be found.`
 }
 /**
