@@ -112,6 +112,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
     if(dino.mya.length === 2) {
       // Checking if `mya` key value is within the range of this dinosaur's existence.
       if(dino.mya[0] >= mya && dino.mya[1] <= mya) {
+        // If a `key` is provided, push the value of that key; otherwise, push the ID.
         if(dino[key]) {
           newArray.push(dino[key])
         }
