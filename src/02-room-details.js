@@ -84,6 +84,7 @@ function getConnectedRoomNamesById(rooms, id) {
   }
   return r.name
   })
+  // created an if statement to check to see if the newAr variable we created to contain the room names that correspond to the room Ids in the array assigned to the connectsTo key within the room object that contains the room Id that matches the Id given to us contains a room Id that does not match up with an existing room name within the Rooms array of objects
   if(newArr.includes(undefined)){
     return "Room with ID of 'incorrect-id' could not be found."
   }
