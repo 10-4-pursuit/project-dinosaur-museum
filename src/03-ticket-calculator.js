@@ -154,7 +154,8 @@ function purchaseTickets(ticketData, purchases) {
      // Capitalizing the entrant type and ticket type.
     capitalizedEntrantType = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
     capitalizedTicketType = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
-    
+
+    // Formating the extras.
     formattedExtras = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
     if(purchases[i].extras.length === 0){
       receipt += `${capitalizedEntrantType} ${capitalizedTicketType} Admission: $${(ticketPrice/100).toFixed(2)}\n`
