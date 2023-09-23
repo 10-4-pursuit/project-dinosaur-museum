@@ -25,8 +25,19 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  const dinosaur = dinosaurs.find(dino => dino.name === dinosaurName)
+  // used find method to find the name of the dinosaur
+if(!dinosaur){
+  return `Dinosaur with name '${dinosaurName}' cannot be found.`
+}// if dinosaur doesnt exist then return error message
 
+  const room = rooms.find(room => room.dinosaurs.includes(dinosaur.dinosaurId))
+  // used the find method to find the room that has the dinosaur in it by its ID
+
+  return room ? room.name : `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`
+}
+//it will either return the room name else it will give us an error message back
 /**
  * getConnectedRoomNamesById()
  * ---------------------
@@ -49,7 +60,26 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+function getConnectedRoomNamesById(rooms, id) {
+  const room = rooms.find(r => id === r.roomId)
+  if (!room){
+    //if statement to see if the room with the room exists. if not then we get an error
+    return `Room with ID of '${id}' could not be found.`
+  } 
+  console.log(room.connectsTo)
+  const newArray = room.connectsTo.map(connectsToId =>{
+    // created a new variable and used the find method to find the room names that match with the room id, then we use the map method to map over the array of rooms assigned to connectsTo that has the matching room id within the room object.will get a new array of values where the room names mapped over roomId in the connectsToId array
+    const r = rooms.find(r => connectsToId === r.roomId)
+    if(!r){
+      return 
+    }
+    return r.name
+  })//if statement to see if the newArray variable contains the room names that match the room ids
+  if(newArray.includes(undefined)){
+    return "Room with ID of 'incorrect-id' could not be found."
+  }
+  return newArray
+}
 
 module.exports = {
   getRoomByDinosaurName,

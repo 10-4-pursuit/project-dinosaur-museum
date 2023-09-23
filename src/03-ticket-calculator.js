@@ -54,7 +54,30 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  
+  if (!ticketData[ticketInfo.ticketType]){
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
+  }//if statement to see if ticket type can be found in ticketdata
+  
+  if(!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]){
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
+  } //if statement to see if entrant type could be found in ticketdata
+  let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]
+  // created new variable to contain base ticket price calculated from the information in ticketType key and the entrantType key belonging to the object ticketInfo.
+  //for loop to loop through the array for the extras 
+  for (let i = 0; i < ticketInfo.extras.length; i++){
+    extrasToAdd = ticketInfo.extras[i]
+    if(!ticketData.extras[extrasToAdd]){
+      //if statement to see if the extras can be found in ticketInfo can be found within ticketData object
+      return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
+    }
+    ticketPrice += ticketData.extras[extrasToAdd].priceInCents[ticketInfo.entrantType]
+  } //ticketPrice will add up the information we get from above
+
+return ticketPrice
+//will return the new ticketPrice 
+}
 
 /**
  * purchaseTickets()
@@ -109,10 +132,44 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let purchaseTotal = 0;
+  //created purchaseTotal variable and set it = 0.
+  let receipt = ""
+  //created receipt variable and set it = ""
+  for (let i = 0; i < purchases.length; i++){
+    // for loop to start looping through purchases array of objects
+    let ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+    //set ticketPrice from previous problem to =  the return value from the function calculateTicketPrice. we took ticketPrice from previous problem to eliminate the need to write out extra code containing the checks and error messages we did earlier.
+    if(typeof ticketPrice === "string"){
+      // if statement to set our condition to return ticketPrice if it was equal to a string or number data type
+      return ticketPrice
+    } else{
+      purchaseTotal += ticketPrice
+      // created variable to be able to store our entrant type, uppercase the first letter and slice for the rest of the word.
+      entrantCaps = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
+      ticketTypeCaps = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+      // created variable to be able to store our ticket type, uppercase the first letter and slice for the rest of the word.
+      extrasFormatted = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
+      // created variable to be able to store our extras type, uppercase the first letter and slice for the rest of the word and join method to connect the string values in the array into a string.
+      if(purchases[i].extras.length === 0){
+        receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)}\n`
+        // if statement to create a receipt that includes  no extras and the price
+      } else {
+        receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)} (${extrasFormatted})\n`
+        // receipt that will add extras to the total ticket price on the receipt
+        
+      }
+    }
+  }
+  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
+  // returns above message on receipt with the total price.
+}
 
 // Do not change anything below this line.
 module.exports = {
   calculateTicketPrice,
   purchaseTickets,
 };
+
+
