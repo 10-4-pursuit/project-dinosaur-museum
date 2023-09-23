@@ -32,7 +32,7 @@ function getLongestDinosaur(dinosaurs) {
   if (!dinosaurs.length) {
     return longestDino;
   }
-  // Loop through each dinosaur in the dinosaurs array
+  // Loops through each dinosaur in the dinosaurs array
   for (const dino of dinosaurs) {
     // Convert the length of the dinosaur from meters to feet
     let heightFt = dino.lengthInMeters * 3.281;
