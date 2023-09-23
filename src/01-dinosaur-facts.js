@@ -76,6 +76,7 @@ const mya = dino.mya.length === 1 ? dino.mya: dino.mya[1]
       return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${mya} million years ago.`
     }
   }
+  // If no matching dinosaur is found, return an error message.
   return `A dinosaur with an ID of '${id}' cannot be found.`
 }
 
