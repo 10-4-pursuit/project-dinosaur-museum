@@ -60,6 +60,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   if(!ticketData[ticketInfo.ticketType]){
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`
   } 
+  // Checking if the entrant type exists in the ticket data.
   if(!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]){
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
   }
