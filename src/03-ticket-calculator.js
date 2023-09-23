@@ -64,6 +64,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   if(!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]){
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
   }
+    // Initializing the ticket price with the base price.
     ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
     for(i = 0; i < ticketInfo.extras.length; i++){;
     addedExtras = ticketInfo.extras[i];
