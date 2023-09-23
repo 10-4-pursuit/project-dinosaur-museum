@@ -85,6 +85,7 @@ function getConnectedRoomNamesById(rooms, id) {
    if(newArr.includes(undefined)) {
     return "Room with ID of 'incorrect-id' could not be found."
    }
+   // Returning the array of connected room names.
    return newArr
 }
 
