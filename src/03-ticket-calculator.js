@@ -135,6 +135,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     //> "Ticket type 'discount' cannot be found."
  */
 function purchaseTickets(ticketData, purchases) {
+  // Initializing the purchase total and the receipt string.
   let purchaseTotal = 0
 let receipt = ""
 for(let i = 0; i < purchases.length; i++){
