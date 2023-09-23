@@ -75,6 +75,7 @@ function getConnectedRoomNamesById(rooms, id) {
    // Create an array of connected room names using the room's connectors.
    const newArr = room.connectsTo.map(connectsToId => {
     const rm = rooms.find(rm => connectsToId === rm.roomId)
+    // If a connected room cannot be found, return undefined.
     if(!rm) {
       return
     }
