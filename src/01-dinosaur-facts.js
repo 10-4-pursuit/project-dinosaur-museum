@@ -78,24 +78,24 @@ function getDinosaurDescription(dinosaurs, id) {
 
   // Iterate through the dinosaurs array
   for (const dino of dinosaurs) {
-    
+    // Check if the current dinosaur id matches the input id
     if (dino.dinosaurId === id) {
-      
+      // Create the formatted dinosaur description using template literals
       dinoDesc = `${dino.name} (${dino.pronunciation})\n${dino.info}`;
 
-      
+      // Check the length of the mya (million years ago) array
       if (dino.mya.length === 1) {
-        
+        // Append the information about the dinosaur's period and age to the description
         dinoDesc += ` It lived in the ${dino.period} period, over ${dino.mya[0]} million years ago.`;
       } else if (dino.mya.length === 2) {
-        
+        // Append the information about the dinosaur's period and age to the description
         dinoDesc += ` It lived in the ${dino.period} period, over ${dino.mya[1]} million years ago.`;
       }
-      
+      // Return the completed dinosaur description
       return dinoDesc;
     }
   }
-  
+  // If no matching dinosaur id is found, return an error message
   return `A dinosaur with an ID of 'incorrect-id' cannot be found.`;
 }
 
