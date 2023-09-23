@@ -68,9 +68,10 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType] 
 // created a for loop to loop through the array set as the value for the key extrass in the ticketInfo object
   for(let i = 0; i < ticketInfo.extras.length; i++){
-    // 
     extrasToAdd = ticketInfo.extras[i]
+    // create an if statement to check to see if the array of extras set as the value for the extras key in the ticketInfo object is indeed a real extra that can be found in ticketInfo
     if(!ticketData.extras[extrasToAdd] ){
+      
       return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
     }
 
