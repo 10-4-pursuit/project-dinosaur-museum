@@ -125,21 +125,25 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-  
-  const dinoAliveByMya = [];
-  
-  
-  dinosaurs.forEach(dino => {
-    
-    if (dino.mya.includes(mya) || (dino.mya[0] - mya === 1) || (dino.mya[1] <= mya) && (dino.mya[0] >= mya)){
-      
-      key ? dinoAliveByMya.push(dino[key]) : dinoAliveByMya.push(dino.dinosaursId);
-    }
-  });
-  
-  
-  return dinoAliveByMya;
+  // Create an empty array to store the dinosaurs that are alive based on the given criteria
+const dinoAliveByMya = [];
+
+// Iterate through each dinosaur in the 'dinosaurs' array
+dinosaurs.forEach(dino => {
+  // Check if the dinosaur's 'mya' property includes the given 'mya' value
+  // or if the difference between the first element of the 'mya' property and the 'mya' value is 1
+  // or if the second element of the 'mya' property is less than or equal to the 'mya' value
+  // and the first element of the 'mya' property is greater than or equal to the 'mya' value
+  if (dino.mya.includes(mya) || (dino.mya[0] - mya === 1) || (dino.mya[1] <= mya) && (dino.mya[0] >= mya)){
+    // If the above condition is true, add the 'key' property value of the dinosaur to the 'dinoAliveByMya' array
+    // If 'key' is not provided, add the 'dinosaurId' property value of the dinosaur to the array
+    key ? dinoAliveByMya.push(dino[key]) : dinoAliveByMya.push(dino.dinosaurId);
   }
+});
+
+// Return the 'dinoAliveByMya' array containing the dinosaurs that are alive
+return dinoAliveByMya;
+}
 
 module.exports = {
   getLongestDinosaur,
