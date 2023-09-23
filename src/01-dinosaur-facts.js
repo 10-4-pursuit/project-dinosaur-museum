@@ -131,7 +131,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
       }
       else {
         newArray.push(dino.dinosaurId)
-      }
+      }//same as before, will return dinosaur id if previous if statement fails
     }
   }
   
