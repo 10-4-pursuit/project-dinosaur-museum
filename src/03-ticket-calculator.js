@@ -141,7 +141,7 @@ function purchaseTickets(ticketData, purchases) {
 
   // Iterating through each purchase.
   for(let i = 0; i < purchases.length; i++){
-  
+  // Calculating the ticket price for the current purchase.
   ticketPrice = calculateTicketPrice(ticketData, purchases[i])
   if(typeof ticketPrice === "string"){
     return ticketPrice
