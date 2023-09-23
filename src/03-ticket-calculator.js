@@ -176,13 +176,13 @@ for (const purchase of purchases) {
   receiptLines.push(purchaseEntry); 
 }
 
-// Add line to the receipt to match the expected output
+// Added line to the receipt to match the expected output
 receiptLines.push(`-------------------------------------------`); 
 
-// Add the total cost of the ticket to the receipt
+// Added the total cost of the ticket to the receipt
 receiptLines.push(`TOTAL: $${(costOfTicket / 100).toFixed(2)}`); 
 
-// Join all the receipt lines with a newline and return the resulting string
+// Joins all the receipt lines with a newline and return the resulting string
 return receiptLines.join("\n");
 }
 
