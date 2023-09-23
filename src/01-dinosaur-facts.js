@@ -118,7 +118,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
       }
       else {
         newArray.push(dino.dinosaurId)
-        // if not then push dinosaur id into new array
+        // if not then it will push dinosaur id into new array
       }
     }
   }
@@ -136,7 +136,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   }
   
   return (newArray)
-  // returns new array with all the new information gathered
+  // returns new array with all the new information gathered.
 }
 
 module.exports = {
