@@ -137,8 +137,10 @@ function calculateTicketPrice(ticketData, ticketInfo) {
 function purchaseTickets(ticketData, purchases) {
   // Initializing the purchase total and the receipt string.
   let purchaseTotal = 0
-let receipt = ""
-for(let i = 0; i < purchases.length; i++){
+  let receipt = ""
+
+  // Iterating through each purchase.
+  for(let i = 0; i < purchases.length; i++){
   
   ticketPrice = calculateTicketPrice(ticketData, purchases[i])
   if(typeof ticketPrice === "string"){
