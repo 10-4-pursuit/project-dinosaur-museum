@@ -24,14 +24,15 @@ const exampleDinosaurData = require("../data/dinosaurs");
 //  */
 
 function getLongestDinosaur(dinosaurs) {
-  //Checking that the dinosaur array should return empty if it contains no objects.
+  //Checking that the dinosaur array should return empty object if it contains no objects.
   if (dinosaurs.length === 0) {
     return {};
   }
-
+  //Preparing an empty object to take in the longestDinosaur
   let longestDinosaur = {};
+  // Setting the length at 0 in order to set a starting point to calculate the length in meters.
   let length = 0;
-
+  // The for loop setup, condition for the setup and the declaration and initialization of the variables.
   for(i = 0; i < dinosaurs.length; i++) {
     if (dinosaurs[i].lengthInMeters > length) {
 
@@ -40,9 +41,10 @@ function getLongestDinosaur(dinosaurs) {
       lengthInFeet = length * 3.281;
     }
   }
-
+  // The dynamic dino property name is added to the longestdinosaur using bracket notation and its being assinged the variable lengthInFeet.
   longestDinosaur[dino] = lengthInFeet;
 
+  // Longest dinosaur with name and in feet is returned as an object.
   return longestDinosaur;
 }
 
@@ -66,35 +68,20 @@ function getLongestDinosaur(dinosaurs) {
 //  *  getDinosaurDescription(dinosaurs, "incorrect-id");
 //  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
 //  */
-// function getDinosaurDescription(dinosaurs, id) {
-// const dinosaur = dinosaurs.find((dinosaur) => dinosaur.dinosaurId === id);
-
-// if (!dinosaur) {
-//   return `A dinosaur with an ID of '${id}' cannot be found.`;
-// }
-
-// let mya;
-// if (dinosaur.mya.length === 1) {
-//   mya = dinosaur.mya[0];
-  
-// } else {
-//   mya = dinosaur.mya[1];
-
-// }
-
 // return `${dinosaur.name} (${dinosaur.pronunciation}) \n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${mya} million years ago.`;
 
-// }
-
 function getDinosaurDescription(dinosaurs, id) {
+  //For loop setup
   for (let i = 0; i < dinosaurs.length; i++) {
+  // This checks for the equality of dinosaurId to the id
     if (dinosaurs[i].dinosaurId === id) {
+        // This checks if the mya has a length of one or two values.
       if (dinosaurs[i].mya.length === 1){
         mya = dinosaurs[i].mya[0]
       } else {
         mya = dinosaurs[i].mya[1]
       }
- 
+      // returns the following string incorporating template literals:
      return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${mya} million years ago.`
     } 
   }
@@ -127,18 +114,24 @@ function getDinosaurDescription(dinosaurs, id) {
  */
 // 
 function getDinosaursAliveMya(dinosaurs, mya, key) {  
+  //Preparing an empty array.
   const dinoArr = [];
-  
+  // dino is assigned the value of dinosaurs.
   for (const dino of dinosaurs) {
+    //checks for the dino and if it only has one value
     const myaValues = dino.mya;
     if (myaValues.length === 1) {
+      //If mya only has one value or one value minus 1.
       if (mya === myaValues[0] || mya === myaValues[0] - 1) {
+        //checks if a key is a truthy value.
         if (dino[key]) {
           dinoArr.push(dino[key]);
+          //or if it doesn't have a key.
         } else {
           dinoArr.push(dino.dinosaurId)
         }
       }
+      //Sets the range between the two mya values 
     } else if (mya <= myaValues[0] && mya >= myaValues[1]) {
       if (dino[key]) {
         dinoArr.push(dino[key]);

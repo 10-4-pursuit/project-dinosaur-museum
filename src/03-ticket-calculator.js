@@ -129,40 +129,64 @@ function calculateTicketPrice(ticketData, ticketInfo) {
  */
 function purchaseTickets(ticketData, purchases) {
   let totalPrice = 0;
-
-  const purchaseStrings = [];
+  let receipt = [
+    `Thank you for visiting the Dinosaur Museum!`,
+    `-------------------------------------------`,
+  ];
 
   for(const purchase of purchases) {
-    const {ticketType, entrantType, extras } = purchase;
-
-    if(!ticketData[ticketType]) {
-      return `Ticket type '${ticketType}' cannot be found.`;
+    let ticketPrice = calculateTicketPrice(ticketData, purchase);
+    if(typeof ticketPrice === "string"){
+      return ticketPrice;
     }
-    if (!ticketData[ticketType].priceInCents[entrantType]) {
-      return `Entrant type '${entrantType}' cannot be found for ticket type '${ticketType}'.`;
+    totalPrice += ticketPrice;
+    let entrant = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+    let entry = `${entrant} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)}`;
+    if(purchase.extras.length){
+      entry += ` (${purchase.extras.map(extra => ticketData.extras[extra].description).join(", ")})`
     }
-    const basePrice = ticketData[ticketType].priceInCents[entrantType] / 100;
+    receipt.push(entry);
+  }
+  receipt.push(`-------------------------------------------`);
+  receipt.push(`TOTAL: $${(totalPrice / 100).toFixed(2)}`)
+  return receipt.join(`\n`)
+//   let totalPrice = 0;
 
-    let extrasPrice = 0;
-    for (const extra of extras) {
-      if (!ticketData.extras[extra]) {
-        return `Extra type  '${extra}' cannot be found.`;
-      }
-      extrasPrice += ticketData.extras[extra].priceInCents[entrantType] / 100;
-    }
-    const totalPurchasePrice = basePrice + extrasPrice;
+//   const purchaseStrings = [];
 
-    const purchaseString = `${entrantType} ${ticketType} : $$(totalPurchasePrice.toFixed(2)} (${extras.join(", ")})`
+//   for(const purchase of purchases) {
+//     const {ticketType, entrantType, extras } = purchase;
 
-    purchaseStrings.push(purchaseString);
+//     if(!ticketData[ticketType]) {
+//       return `Ticket type '${ticketType}' cannot be found.`;
+//     }
+//     if (!ticketData[ticketType].priceInCents[entrantType]) {
+//       return `Entrant type '${entrantType}' cannot be found for ticket type '${ticketType}'.`;
+//     }
+//     const basePrice = ticketData[ticketType].priceInCents[entrantType] / 100;
 
-    totalPrice += totalPurchasePrice;
+//     let extrasPrice = 0;
+//     for (const extra of extras) {
+//       if (!ticketData.extras[extra]) {
+//         return `Extra type  '${extra}' cannot be found.`;
+//       }
+//       extrasPrice += ticketData.extras[extra].priceInCents[entrantType] / 100;
+//     }
+//     const totalPurchasePrice = basePrice + extrasPrice;
 
-    const purchaseSummary = `Thank you for visiting the Dinosaur Museum!\n---------------------------------\n${purchaseStrings.join("\n")}\n--------------------------\nTOTAL: $${totalPrice.toFixed(2)}`;
+//     const purchaseString = `${entrantType} ${ticketType} : $$(totalPurchasePrice.toFixed(2)} (${extras.join(", ")})`
 
-    return purchaseSummary;
+//     purchaseStrings.push(purchaseString);
+
+//     totalPrice += totalPurchasePrice;
+
+//     const purchaseSummary = `Thank you for visiting the Dinosaur Museum!\n---------------------------------\n${purchaseStrings.join("\n")}\n--------------------------\nTOTAL: $${totalPrice.toFixed(2)}`;
+
+//     return purchaseSummary;
+// }
+
 }
-}
+
 
 // Do not change anything below this line.
 module.exports = {
