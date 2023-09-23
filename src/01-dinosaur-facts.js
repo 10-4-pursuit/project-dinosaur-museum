@@ -106,7 +106,30 @@ const mya = dino.mya.length === 1 ? dino.mya: dino.mya[1]
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-
+  let newArray = []
+  // Loop through the array of dinosaurs to filter those that match the given `mya` key value.
+  for(let dino of dinosaurs) {
+    if(dino.mya.length === 2) {
+      if(dino.mya[0] >= mya && dino.mya[1] <= mya) {
+        if(dino[key]) {
+          newArray.push(dino[key])
+        }
+        else {
+          newArray.push(dino.dinosaurId)
+        }
+        }
+      } else if(dino.mya.length === 1) {
+        if(dino.mya[0] === mya || dino.mya[0] - 1 === mya) {
+          if(dino[key]) {
+            newArray.push(dino[key])
+          }
+          else {
+            newArray.push(dino.dinosaurId)
+          }
+      }
+    }
+  }
+  return newArray
 }
 
 module.exports = {
