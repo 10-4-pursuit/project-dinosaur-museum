@@ -25,7 +25,28 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  // Initialize an array to store the dinosaur IDs.
+  let id = [];
+
+  for (let dino of dinosaurs) {
+    for (let room of rooms) {
+      // If the dinosaur name matches, store its ID.
+      if (dinosaurName === dino.name) id.push(dino.dinosaurId);
+  
+      // If the room contains the dinosaur with the stored ID, return the room name.
+      if (room.dinosaurs.includes(id[0])) return room.name;
+    }
+  }
+
+  // Handles the case where no matching dinosaur is found.
+  if (id[0] === undefined) return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+
+  // Handles the case where a matching dinosaur is found but not in any rooms.
+  if (id[0] !== undefined) return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+}
+
+
 
 /**
  * getConnectedRoomNamesById()
@@ -49,7 +70,25 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+function getConnectedRoomNamesById(rooms, id) {
+  // Finds the room in the 'rooms' array that matches the given 'id'.
+  let room = rooms.find(room => room.roomId === id);
+
+  // Handles the case where no matching room is found.
+  if (!room) return `Room with ID of '${id}' could not be found.`;
+
+  // Creates an array of connected rooms by mapping 'room.connectsTo' to their corresponding room objects.
+  let connected = room.connectsTo.map(connects => rooms.find(room => room.roomId === connects));
+
+  // Finds the index of any undefined values in the 'connected' array.
+  let undef = connected.findIndex(connect => connect === undefined);
+
+  // If all connected rooms are found, returns an array of their names.
+  if (undef === -1) return connected.map(conRom => conRom.name);
+
+  // Handles the case where a connected room with an undefined ID is found.
+  if (undef !== -1) return `Room with ID of '${room.connectsTo[undef]}' could not be found.`;
+}
 
 module.exports = {
   getRoomByDinosaurName,

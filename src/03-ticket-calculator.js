@@ -54,7 +54,33 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  // Checks if ticket type is valid.
+  if (ticketInfo.ticketType !== "general" && ticketInfo.ticketType !== "membership") return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  
+  // Checks if entrant type is valid.
+  if (ticketInfo.entrantType !== "child" && ticketInfo.entrantType !== "adult" && ticketInfo.entrantType !== "senior") return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  
+  // Initialize 'ticketPrice' with the base price for the specific ticket and entrant type.
+  let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+
+  // Iterates through 'extras' and calculates prices.
+  for (let extra of ticketInfo.extras) {
+    // Checks for extra types.
+    if (ticketData.extras[extra]) {
+      // Adds the price to 'ticketPrice', if 'extra' exist.
+      ticketPrice += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
+    } else {
+      // Returns error message if 'extra' doesn't exist.
+      return `Extra type '${ticketInfo.extras}' cannot be found.`;
+    }
+  }
+
+ return ticketPrice;
+}
+ 
+ 
+
 
 /**
  * purchaseTickets()
@@ -109,7 +135,48 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let total = 0;
+  // An array hold the lines for the return receipt.
+  let lines = [
+    "Thank you for visiting the Dinosaur Museum!",
+    "-------------------------------------------",
+  ];
+
+  for (const purchase of purchases) {
+ 
+    // Initializes `ticketPrice` with the `calculateTicketPrice` function, using purchase as a parameter.
+    let ticketPrice = calculateTicketPrice(ticketData, purchase);
+        
+    // Checks if `ticketPrice` is an error or not, based off the return from 'calculateTicketPrice'.
+    if(typeof ticketPrice === "string") return ticketPrice;
+
+    // Adds the prices from the `calculateTicketPrice` function to the total.
+    total += ticketPrice;
+
+    // Capitalizes the first letter of `entrantType`.
+    let entrantType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)
+
+    // Formats info to match desired description for receipt.
+    let purchaseEntry = `${entrantType} ${ticketData[purchase.ticketType].description}: $${(ticketPrice/100).toFixed(2)}`
+
+    // Adds 'extras' description based on if the 'extras' array has any values.
+    if (purchase.extras.length) {
+      purchaseEntry += ` (${purchase.extras.map(purchaseEx => ticketData.extras[purchaseEx].description).join(", ")})`;
+    }
+
+    // Adds the info from `purchaseEntry` to the `lines` array.
+    lines.push(purchaseEntry);
+  }
+
+  lines.push("-------------------------------------------");
+
+  // Formats and adds `total` to the `lines` array.
+  lines.push(`TOTAL: $${(total/100).toFixed(2)}`)
+
+  // Returns the `lines` array. joins the array with a new line at every
+  return lines.join(`\n`);
+}
 
 // Do not change anything below this line.
 module.exports = {

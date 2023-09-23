@@ -22,7 +22,24 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  // Initialize longestDino with the first dinosaur in the array.
+  let longestDino = dinosaurs[0];
+
+  // Handles edge case of an empty dinosaur array by returning an empty object.
+  if (dinosaurs.length === 0) return {};
+
+  for (let dino of dinosaurs) {
+    // If the current dinosaur is longer, update longestDino.
+    if (dino.lengthInMeters > longestDino.lengthInMeters) longestDino = dino;
+  }
+
+  // Convert the length from meters to feet.
+  let lengthInFeet = longestDino.lengthInMeters * 3.281;
+  
+  // Creates an object with longest dinosaur's name as the key and its length in feet as the value.
+  return { [longestDino.name]: lengthInFeet };
+}
 
 /**
  * getDinosaurDescription()
@@ -44,7 +61,19 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  // Finds if the 'id' matches any in the 'dinosaurs' array.
+  let dinos = dinosaurs.find(dino => dino.dinosaurId === id)
+
+  // Handles the case where 'id' doesn't match.
+  if (!dinos) return `A dinosaur with an ID of '${id}' cannot be found.`;
+
+  // Value for 'mya' is based on 'dino.mya' length.
+  let mya = dinos.mya.length === 1 ? dinos.mya[0] : dinos.mya[1];
+
+  // Returns the specific dinosaur description.
+  return `${dinos.name} (${dinos.pronunciation})\n${dinos.info} It lived in the ${dinos.period} period, over ${mya} million years ago.`;
+}
 
 /**
  * getDinosaursAliveMya()
@@ -71,10 +100,53 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  // Initialize an array to store dinosaurs that are alive.
+  let arr = [];
+
+  for (let dino of dinosaurs) {
+    // Checks if mya is directly equal to, approximately equal to or is in between 'dino.mya' values.
+    if (((mya === dino.mya[0])) || (dino.mya - mya === 1) || (mya <= dino.mya[0] && mya >= dino.mya[1])) {
+      // If 'key' is given and exists in the dinosaur object, add its value to the array.
+      if (dino[key] !== undefined) arr.push(dino[key]);
+
+      // Handles the edge case where 'key' is incorrect by adding the 'dinosaurId' to the array.
+      if (dino[key] === undefined) arr.push(dino.dinosaurId);
+    }
+  }
+
+  // Returns the array of dinosaurs that are alive.
+  return arr;
+}
+
+                                   // STRETCH GOAL //
+// syllablesInDinosaurName returns how many syllables are inside a dinosaurs name
+function syllablesInDinosaurName(dinosaurs, name) {
+  // Checks for a dinosaur name that matches the given 'name'.
+  let dino = dinosaurs.find(dino => dino.name === name);
+
+  // Checks if 'dino' has a value.
+  if (dino){
+    // Initializes count variable that contains a number that represents the length of the array that the 'split' method produces. 
+    let count = dino.pronunciation.split("-").length
+
+    // Formatted return
+    return `${name} has ${count} syllables in its name.`
+  }
+
+  // Handles edge case where 'name' isn't in the dinosaur list.
+  return `${name} not found in the dinosaur list.`
+}
+
+console.log(syllablesInDinosaurName(exampleDinosaurData, "Dracorex"));
+console.log(syllablesInDinosaurName(exampleDinosaurData, "Elasmosaurus"));
+console.log(syllablesInDinosaurName(exampleDinosaurData, "Allosaurus"));
+console.log(syllablesInDinosaurName(exampleDinosaurData, "T Rex"));
+
 
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,
+  syllablesInDinosaurName,
 };
