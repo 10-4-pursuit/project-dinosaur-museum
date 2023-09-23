@@ -28,58 +28,23 @@ function getLongestDinosaur(dinosaurs) {
   if (dinosaurs.length === 0) {
     return {};
   }
-//Setting up a for loop to iterate through the array of objects.
-  for (let i = 0; i < dinosaurs.length; i++) {
-  // Creating a value and initializing it to contain the key of dinosaur name and dinosaur length in meters.
-  let longestDinosaur = {
-    [dinosaurs[i].name]: dinosaurs[i].lengthInMeters * 3.281,
-  };
-  //Creating a value to contain the longest length(is this the same as height??)of dinosaur in meters.
-  let longestLength = dinosaurs[0].lengthInMeters * 3.281;
- 
-  //Creating and initializing a variable with a dinosaur within the array at any particular index.
-    const currentDinosaur = dinosaurs[i];
-  //creating a variable to contain the newly created currentDinosaur-pointing to the lengthInMeters within the array and already converting the unit from meters to feet.
-    const currentLength = currentDinosaur.lengthInMeters * 3.281;
-  // If the current dinosaur has the same length as the longest, add it to the result.
-    if (currentLength >= longestLength) {
-      if (currentLength === longestLength) {
-  // If the current dinosaur is taller, reset the result to just that dinosaur.
-        longestDinosaur[currentDinosaur.name] = currentLength;
-      } else {
-        // If the current dinosaur is taller, reset the result to just that dinosaur
-        longestDinosaur = {
-          [currentDinosaur.name]: currentLength,
-        };
-        //longestLength = currentLength;
-      }
+
+  let longestDinosaur = {};
+  let length = 0;
+
+  for(i = 0; i < dinosaurs.length; i++) {
+    if (dinosaurs[i].lengthInMeters > length) {
+
+      length = dinosaurs[i].lengthInMeters;
+      dino = dinosaurs[i].name;
+      lengthInFeet = length * 3.281;
     }
-    const result = dinosaurs.filter((dino, index, arr) => dino.lengthInMeters === arr[0].lengthInMeters)[0];
   }
 
-  return currentDinosaur;
+  longestDinosaur[dino] = lengthInFeet;
+
+  return longestDinosaur;
 }
-// const result = dinosaurs.filter((dino, index, arr) => dino.lengthInMeters === arr[0].lengthInMeters)[0];
-
-//   return result
-// }
-
-// function getLongestDinosaur(dinosaurs) {
-//   if (dinosaurs.length === 0) {
-//     return {};
-//   }
-
-//   const longestLength = dinosaurs[0].lengthInMeters;
-
-//   const result = dinosaurs
-//     .filter((dino) => dino.lengthInMeters === longestLength)
-//     .map((dino) => ({
-//       [dino.name]: dino.lengthInMeters * 3.281,
-//     }))[0];
-
-//   return result || {};
-// }
-// }
 
 // /**
 //  * getDinosaurDescription()
