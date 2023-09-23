@@ -22,7 +22,24 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  if (!dinosaurs.length) {
+    return {};
+  }
+
+  let longestDino = dinosaurs[0];
+  dinosaurs.forEach(dino => {
+    if (dino.lengthInMeters > longestDino.lengthInMeters) {
+      longestDino = dino
+    }
+  })
+
+  const finalHeight = longestDino.lengthInMeters * 3.281
+  return {[longestDino.name]: finalHeight};
+}
+
+
+
 
 /**
  * getDinosaurDescription()
@@ -44,7 +61,15 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  const foundDino = dinosaurs.find(dino => dino.dinosaurId === id)
+  if (foundDino) {
+    const mya = foundDino.mya.length === 2 ? `${foundDino.mya[1]}` : `${foundDino.mya[0]}`
+    return `${foundDino.name} (${foundDino.pronunciation})\n${foundDino.info} It lived in the ${foundDino.period} period, over ${mya} million years ago.`
+  } else {
+    return `A dinosaur with an ID of '${id}' cannot be found.`
+  }
+}
 
 /**
  * getDinosaursAliveMya()
@@ -71,8 +96,58 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  const output = []
+  dinosaurs.forEach (dino => {
+    if (dino.mya.length === 1) {
+    if (dino.mya.includes(mya) || (dino.mya[0] - 1 === mya)) {
+      if (key && dino.hasOwnProperty(key)) {
+        output.push(dino[key])
+      } else {
+        output.push(dino.dinosaurId)
+      }
+    }
+  } else {
+    if (dino.mya[1] <= mya && mya <= dino.mya[0]) {
+      if (key && dino.hasOwnProperty(key)) {
+        output.push(dino[key])
+      } else {
+        output.push(dino.dinosaurId)
+      }
+    }
+  }
+  })
+  return output
+}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+function herbivorousDinosaurs(dinosaurs) {
+  const herbivores = []
+  dinosaurs.filter(dino => dino.diet === "herbivorous")
+  .forEach(dino => {
+    herbivores.push(dino.name)
+  })
+  return herbivores
+}
+
+
+function tallestToShortest(dinosaurs) {
+  const initial = dinosaurs.map(dino => dino.lengthInMeters)
+  const final = initial.sort((a, b) => b - a)
+  return final
+}
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,

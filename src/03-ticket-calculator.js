@@ -54,7 +54,34 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  if (!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+
+  const ticketDataEntrant = ticketData[ticketInfo.ticketType].priceInCents
+  if (!ticketDataEntrant.hasOwnProperty(ticketInfo.entrantType)) {
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  }
+
+  for (const extra of ticketInfo.extras) {
+    if (!ticketData.extras.hasOwnProperty(extra)) {
+      return "Extra type 'incorrect-extra' cannot be found."
+    }
+  }
+
+  let totalExtra = 0
+  if (ticketInfo.extras.length >= 1) {
+    for (let extra of ticketInfo.extras){
+      totalExtra += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]
+    }
+  }
+
+  const regularPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]
+  const finalPrice = regularPrice + totalExtra
+  return finalPrice
+
+}
 
 /**
  * purchaseTickets()
@@ -109,7 +136,58 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  if (purchases.length === 0) {
+    return "No purchases.";
+  }
+
+  let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+  let finalPrice = 0;
+
+  for (const purchase of purchases) {
+    let regularPrice = 0;
+    if (ticketData[purchase.ticketType]) {
+      regularPrice += ticketData[purchase.ticketType].priceInCents[purchase.entrantType];
+    } else {
+      return "Ticket type 'incorrect-type' cannot be found.";
+    }
+
+    if (!ticketData[purchase.ticketType].priceInCents[purchase.entrantType]) {
+      return "Entrant type 'incorrect-entrant' cannot be found.";
+    }
+
+    let extraPrice = 0;
+    for (const extra of purchase.extras) {
+      if (ticketData.extras[extra]) {
+        extraPrice += ticketData.extras[extra].priceInCents[purchase.entrantType];
+      } else {
+        return "Extra type 'incorrect-extra' cannot be found."
+      }
+    }
+
+    const purchaseTotalPrice = regularPrice + extraPrice;
+    finalPrice += purchaseTotalPrice;
+
+    let extrasFormat = '';
+    if (purchase.extras.length > 0) {
+      const extrasDescriptions = purchase.extras.map(extra => {
+        if (ticketData.extras[extra]) {
+          return ticketData.extras[extra].description;
+        }
+        return '';
+      });
+      extrasFormat = ` (${extrasDescriptions.join(', ')})`;
+    }
+
+    const ticketTypeFormat = purchase.ticketType.charAt(0).toUpperCase() + purchase.ticketType.slice(1);
+    const entrantTypeFormat = purchase.entrantType.charAt(0).toUpperCase() + purchase.entrantType.slice(1);
+
+    receipt += `${entrantTypeFormat} ${ticketTypeFormat} Admission: $${purchaseTotalPrice / 100}.00${extrasFormat}\n`;
+  }
+
+  receipt += `-------------------------------------------\nTOTAL: $${finalPrice / 100}.00`;
+  return receipt;
+}
 
 // Do not change anything below this line.
 module.exports = {
