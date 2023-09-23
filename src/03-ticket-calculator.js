@@ -73,6 +73,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     if(!ticketData.extras[addedExtras]){
       return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
     }
+     // Adding the extra's price to the ticket price.
     ticketPrice = ticketPrice + ticketData.extras[ticketInfo.extras[i]].priceInCents[ticketInfo.entrantType]
   }
     return ticketPrice
