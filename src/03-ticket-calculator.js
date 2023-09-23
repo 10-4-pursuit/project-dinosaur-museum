@@ -148,7 +148,9 @@ function purchaseTickets(ticketData, purchases) {
   if(typeof ticketPrice === "string"){
     return ticketPrice
   } else {
+     // Adding the ticket price to the purchase total.
     purchaseTotal += ticketPrice
+    
     capitalizedEntrantType = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
     capitalizedTicketType = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
     formattedExtras = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
