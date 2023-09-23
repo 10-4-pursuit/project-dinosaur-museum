@@ -140,19 +140,28 @@ return ticketPrice;
     //> "Ticket type 'discount' cannot be found."
  */
 function purchaseTickets(ticketData, purchases) {
-let purchaseTotal = 0
-let receipt = ""
+let purchaseTotal = 0 // Initialize the total purchase price.
+let receipt = "" // Initialize the receipt string.
 
 for(let i = 0; i < purchases.length; i++){
 
+// Calculate the price for the current ticket purchase.
   ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+
+  // Check if the ticketPrice is a string (indicating an error).
   if(typeof ticketPrice === "string"){
-    return ticketPrice;
+    return ticketPrice;  // If error, return the error message.
   }else { 
+
+    // If no error, update the total purchase price.
     purchaseTotal += ticketPrice
+
+     // Capitalize the entrant type and ticket type for formatting.
     entrantCaps = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
     ticketTypeCaps =  purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
     extraFormatted = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
+
+     // Format the extras to have uppercase first letters and add ' Access'.
     if(purchases[i].extras.length === 0){
       receipt += `${entrantCaps} ${ticketTypeCaps} Admission: $${(ticketPrice/100).toFixed(2)}\n`
     }else{
@@ -161,6 +170,8 @@ for(let i = 0; i < purchases.length; i++){
   }
  
 }
+
+// Construct the final receipt with total purchase price.
 return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}
 -------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
 }
