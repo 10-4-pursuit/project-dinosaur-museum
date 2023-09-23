@@ -73,10 +73,10 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-  
+  // Initialize an empty string to store the dinosaur description
   let dinoDesc = "";
 
- 
+  // Iterate through the dinosaurs array
   for (const dino of dinosaurs) {
     
     if (dino.dinosaurId === id) {
