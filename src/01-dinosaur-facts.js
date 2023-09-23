@@ -124,6 +124,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   }
   else if (dino.mya.length === 1) {
     if (dino.mya[0] === mya || dino.mya[0] -1 === mya) {
+      //if statement for dinosaurs with 1 mya, their extinction date has to be 1 less than given mya
       if (dino[key]) {
         newArray.push(dino[key]) 
       }
