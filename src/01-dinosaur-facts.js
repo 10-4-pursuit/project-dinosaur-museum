@@ -121,6 +121,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
         }
         }
       } else if(dino.mya.length === 1) {
+        // Checking if `mya` key value is equal to this dinosaur's single `mya` key value or one less.
         if(dino.mya[0] === mya || dino.mya[0] - 1 === mya) {
           if(dino[key]) {
             newArray.push(dino[key])
