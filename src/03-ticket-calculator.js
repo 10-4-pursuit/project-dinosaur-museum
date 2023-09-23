@@ -64,10 +64,11 @@ function calculateTicketPrice(ticketData, ticketInfo) {
   if(!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]){
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`
   }
-  // 
+  // created a variable ticketPrice that holds the base ticket price calculated using the value for tickeType and entranType int he ticketInfo object
   let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType] 
-
+// created a for loop to loop through the array set as the value for the key extrass in the ticketInfo object
   for(let i = 0; i < ticketInfo.extras.length; i++){
+    // 
     extrasToAdd = ticketInfo.extras[i]
     if(!ticketData.extras[extrasToAdd] ){
       return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
