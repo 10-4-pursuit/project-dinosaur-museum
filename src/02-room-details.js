@@ -75,9 +75,10 @@ function getConnectedRoomNamesById(rooms, id) {
     return `Room with ID of '${id}' could not be found.`
   } 
   console.log(room.connectsTo)
-  // created a new variable that uses the map method to map over the array of rooms assigned to the key connectsTo within the room object that has the matching Id we are looking for with a new aray of values where each value is the room name mapped over the roomId in the connectsToId array
+  // created a new variable that first uses the find method to find the room names that corrrespond to the room Ids in the array assigned to the connectsTo key within the room object that contains the matching room Id given to us and then uses the map method to map over the array of rooms assigned to the key connectsTo within the room object that has the matching Id we are looking for with a new aray of values where each value is the room name mapped over the roomId in the connectsToId array
  const newArr = room.connectsTo.map(connectsToId => {
   const r = rooms.find(r => connectsToId === r.roomId)
+  // created an if statement that checks to see if the room associated with each room Id in the array of rooms assigned to the connectsTo key within the room object that contains the room Id that matches with the Id given to us is actually a real room
   if(!r){
     return 
   }
