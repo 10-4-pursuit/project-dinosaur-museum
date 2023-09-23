@@ -76,6 +76,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
      // Adding the extra's price to the ticket price.
     ticketPrice = ticketPrice + ticketData.extras[ticketInfo.extras[i]].priceInCents[ticketInfo.entrantType]
   }
+    // Returning the total ticket price in cents.
     return ticketPrice
     }
   
