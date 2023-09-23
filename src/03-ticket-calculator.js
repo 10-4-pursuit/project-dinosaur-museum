@@ -74,7 +74,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
       
       return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
     }
-
+//  ticketPrice variable is dynamically changing and is now the cumulative sum of the extras added to the base ticket price 
     ticketPrice += ticketData.extras[extrasToAdd].priceInCents[ticketInfo.entrantType]
   }
   return ticketPrice
