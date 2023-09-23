@@ -42,7 +42,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
    return `${findRoom.name}`;
  } else {
    
-   return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms`;
+   return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
  }
 }
 
