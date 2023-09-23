@@ -28,7 +28,7 @@ function getLongestDinosaur(dinosaurs) {
   let longestDinoName = "";
   let longestDino = {};
   
-  // Check if the array of dinosaurs is empty, if so, return the empty longestDino object
+  // Checks if the array of dinosaurs is empty, if so, return the empty longestDino object
   if (!dinosaurs.length) {
     return longestDino;
   }
