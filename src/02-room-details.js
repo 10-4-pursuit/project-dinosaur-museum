@@ -29,16 +29,20 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
   let id = [];
 
   for (let dinosaur of dinosaurs) {
-    for (let room of rooms) {
-      if (dinosaurName === dinosaur.name) id.push(dinosaur.dinosaurId);
+    if (dinosaurName === dinosaur.name){
+      for (let room of rooms) {
+        if (room.dinosaurs.includes(dinosaur.dinosaurId)) {
 
-      if (room.dinosaurs.includes(id[0])) return room.name;
-
+        
+         return room.name;
     }
   }
 
-  if (id[0] === undefined) return `Dinosaur with name '${dinosaurName}' cannot be found.`;
-  if (id[0] !== undefined) return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms. `
+    return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+  }
+}
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`
+  
 }
 
 /**
