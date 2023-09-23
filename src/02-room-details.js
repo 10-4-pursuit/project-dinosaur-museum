@@ -80,8 +80,8 @@ function getConnectedRoomNamesById(rooms, id) {
       return
     }
     return rm.name
-   }
-   )
+   })
+   // If the resulting array contains undefined values, return an error message.
    if(newArr.includes(undefined)) {
     return "Room with ID of 'incorrect-id' could not be found."
    }
