@@ -22,7 +22,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-// i create the variable output to store the array. if my object, dinosaur length is strictly equal to 0 then the output is my variable. i'm declaring another variable that will store the highestdino and then creating a for function that will iterate through the dinosaur array. then another variable asking dino to be dinosaurs starting at index i. i'm asking that if the dinosaur at lenghth in  Meters key is greater than the highest dino at that key then the highest din
+// created the variable output to store the array. If my object, dinosaur length is strictly equal to 0 then the output is my variable. I'm declaring another variable that will store the highestdino and then creating a for function that will iterate through the dinosaur array. Then another variable asking dino to be dinosaurs starting at index i. I'm asking that if the dinosaur at lenghth in Meters key is greater than the highest dino at that key then the highest dino
 function getLongestDinosaur(dinosaurs) {
 
 const output = {}
@@ -63,7 +63,7 @@ return output
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-// first i iterate through each of the items in teh array with the for function and my if statement is asking that if dinosaursId in each of the dinosoaur entries starting at i is strictly equal to id then i'm returning the string dinosaur name, pronunciation, info adn period, mya sentence on line 75.  however there is another function that is asking that if dinososaurs starting from i at mya 0 index exists then that same return applies or ELSE if my at the same place but index 1 exists then that index data is used instead of 0.  this will camture the 1st or 2nd mya (depending on entry).  If none of those conditions are not met then teh return in 78 is applied because that will refer back to our original if statement having to do with ID (mya will not come into play)
+// first I iterate through each of the items in the array with the for function and my if statement is asking that if dinosaursId in each of the dinosoaur entries starting at i is strictly equal to id then I'm returning the string dinosaur name, pronunciation, info and period, mya sentence on line 75.  However there is another function that is asking that if dinososaurs starting from i at mya 0 index exists then that same return applies or ELSE if mya at the same place but index 1 exists then that index data is used instead of 0.  This will capture the 1st or 2nd mya (depending on entry).  If none of those conditions are met then the return in 79 is applied because that will refer back to our original if statement having to do with ID (mya will not come into play).
 function getDinosaurDescription(dinosaurs, id) {
   for (i = 0; i < dinosaurs.length; i++){
     if (dinosaurs[i].dinosaurId === id) {
@@ -105,7 +105,7 @@ function getDinosaurDescription(dinosaurs, id) {
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-// declaring an empty array called newArray and iterating through the dinosaurs array and calling it dino. i'm comparing current dino.myat index 0 to my and at index 1. if a key is given i'm pushing dinokey into the new array  or else pushing dino dinosaur id in to the new array and then returning the output of my new array
+// I'm declaring an empty array called newArray to store results. Start a loop that iterates through each dinosaurs object in the array dinosaurs. If the condition checks if the dino object has a property by the key then it pushes in the value into the newArray or else it pushes dino.dinosaurId into the newArray. In the next If loop we if lowest dinosaur mya is strictly equal to mya or one less than.  it then pushes in to the newArray depending on whether conditions are met. 
 function getDinosaursAliveMya(dinosaurs, mya, key) {
 
   let newArray = [];

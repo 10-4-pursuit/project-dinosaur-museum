@@ -25,7 +25,7 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-// Iterate through `dinosaurs` array, each called `dino`. check if dinosaur is in any room .find dinosaur by `dino.name`  new dino in the `newObj`. if the `newObj` is empty of a "name", Iterate through `rooms`, each called `room`. this `dinosaurName` cannot be found , if dinosaur in that room includes the dinosaur. reassign `newStr` to `room.name` , stop running after evaluates to true, return `newStr` outside for loop
+// Creates new variables to store result in an empty object and string to be called later.  For loop iterates through `dinosaurs` object in the array. If the name of the dino strictly equals the dinosaurName then it gets stored in our newObj. check if dinosaur is in any room .find dinosaur by `dino.name`  new dino in the `newObj`. if the `newObj` is empty of a "name", Iterate through `rooms`, each called `room`. this `dinosaurName` cannot be found , if dinosaur in that room includes the dinosaur. reassign `newStr` to `room.name` , stop running after evaluates to true, return `newStr` outside for loop
 
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
 
@@ -83,7 +83,7 @@ function getConnectedRoomNamesById(rooms, id) {
       newArray = room.connectsTo.slice(0);
     }
   }
-  if (newArray.includes('incorrrect-id')) {
+  if (newArray.includes('incorrect-id')) {
     return `Room with ID of 'incorrect-id' could not be found.`
     }
     if (!newArray.length) {
