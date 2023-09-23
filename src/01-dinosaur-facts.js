@@ -144,7 +144,46 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   // Return the 'dinoAliveByMya' array containing the dinosaurs that are alive
   return dinoAliveByMya;
 }
+
+/**
+ * Retrieves fun dinosaur facts based on the given dinosaurs and name.
+ *
+ * @param {array} dinosaurs - An array of dinosaurs.
+ * @param {string} name - The name of the dinosaur.
+ * @return {string} A string representing the fun fact.
+ */
+function getFunDinosaurFacts (dinosaurs, name) {
+  // Define an array of options for dinosaur facts
+  const factOptions = ["meaningOfName", "diet", "lengthInMeters"];
+
+  // Generate a random index based on the length of the factOptions array
+  const randomFact = Math.floor(Math.random() * factOptions.length);
+
+  // Find the dinosaur object in the dinosaurs array that matches the given name
+  const dinosaur = dinosaurs.find((dino) => dino.name === name);
+
+  // If no dinosaur object is found, return an error message
+  if (!dinosaur) {
+    return "No name was given or it's an invalid name";
+  }
+
+  // Use a switch statement to return a specific fact based on the randomly generated index
+  switch (randomFact) {
+    case "diet":
+      return `The ${name} is ${dinosaur.diet}.`;
+    case "lengthInMeters":
+      return `The ${name} is ${dinosaur.lengthInMeters} meter(s) long.`;
+    case "meaningOfName":
+      return `The ${name} name means ${dinosaur.meaningOfName}.`;
+    default:
+      return `The ${name} is an awesome dino!`;
+  }
+}
+
+
+
 module.exports = {
+  getFunDinosaurFacts,
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,
