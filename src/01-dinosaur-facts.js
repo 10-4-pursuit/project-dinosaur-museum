@@ -109,29 +109,39 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
+// Initialize a new array to store the requested information.
 const newArr = []
 
+// Iterate through each dinosaur in the data section of the dinosaurs.js list. 
 for (const dino of dinosaurs) {
+  // Check if the dinosaur's 'mya' array has 2 elements (start and end of period).
   if (dino.mya.length === 2) {
+     // Check if the specified period 'mya' falls within the dinosaur's existence period.
     if (dino.mya[0] >= mya && dino.mya[1] <= mya) {
+        // Check if the specified 'key' exists in the dinosaur object
       if(dino[key]){
+        // If 'key' exists, push the corresponding information to the new array.
         newArr.push(dino[key])
       }else {
         newArr.push(dino.dinosaurId)
       }
     }
   }else if (dino.mya.length === 1){
+     // If the 'mya' array has only one element, check if it matches the specified 'mya' or one less. 
     if(dino.mya[0] === mya || dino.mya[0] - 1 === mya){
+        // Check if the specified 'key' exists in the dinosaur object.
      if(dino[key]){
+        // Check if the specified 'key' exists in the dinosaur object.
       newArr.push(dino[key])
      }else {
+           // If 'key' doesn't exist, push the dinosaur's ID to the new array.
       newArr.push(dino.dinosaurId)
      }
     }
   }
 
 }
-
+ // Return the array containing the requested information about dinosaurs.
 return newArr
 }
 
