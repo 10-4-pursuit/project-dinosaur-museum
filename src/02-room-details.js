@@ -68,6 +68,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
     ]
  */
 function getConnectedRoomNamesById(rooms, id) { 
+  // created a room variable whcih returns the room object within the rooms array of object that meets the condition of containing the roomId that matches the Id that they are giving us
   const room = rooms.find(r => id === r.roomId)
   if(!room){
     return `Room with ID of '${id}' could not be found.`
