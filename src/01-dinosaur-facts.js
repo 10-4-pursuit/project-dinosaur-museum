@@ -107,9 +107,12 @@ function getDinosaurDescription(dinosaurs, id) {
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let newArray = []
+  // create new array to store our new information
   for (let dino of dinosaurs)
+  //for loop to loop through dinosaurs 
   if (dino.mya.length === 2) {
     if (dino.mya[0] >= mya && dino.mya[1] <= mya) {
+      // if statement for dinosaurs with 2 mya, if first number is > and second < than mya, push dino key in new array
       if (dino[key]) {
         newArray.push(dino[key])
       }
