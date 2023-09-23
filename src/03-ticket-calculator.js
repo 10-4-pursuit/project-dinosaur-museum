@@ -167,6 +167,7 @@ function purchaseTickets(ticketData, purchases) {
   }
  
 }
+// Generating and returning the full receipt.
 return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseTotal/100).toFixed(2)}`
 }
 
