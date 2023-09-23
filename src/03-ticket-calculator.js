@@ -69,6 +69,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     // Iterating through the extras and adding their prices to the ticket.
     for(i = 0; i < ticketInfo.extras.length; i++){;
     addedExtras = ticketInfo.extras[i];
+    // Checking if the extra type exists in the ticket data.
     if(!ticketData.extras[addedExtras]){
       return `Extra type '${ticketInfo.extras[i]}' cannot be found.`
     }
