@@ -54,7 +54,26 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  //if no ticketType value is found in ticketData return error string 
+  if (!ticketData[ticketInfo.ticketType]){
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+  if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]){
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  }
+
+  let priceOfTickets = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+
+  for (let extra of ticketInfo.extras){
+    if (!ticketData.extras[extra]){
+      return `Extra type '${extra}' cannot be found.`;
+    }
+  priceOfTickets += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
+  }
+  return priceOfTickets;
+}
+
 
 /**
  * purchaseTickets()
@@ -109,7 +128,42 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  const invalidTicket = purchases.find(purchase => (purchase.ticketType !== `general` && purchase.ticketType !== `membership`));
+  const invalidEntrant = purchases.find(purchase => (![`child`, `adult`, `senior`].includes(purchase.entrantType)));
+  const invalidExtra = purchases.find(purchase => ((purchase.extras.find(purchaseExtra => ![`movie`, `education`, `terrace`].includes(purchaseExtra)))));
+
+  if (invalidTicket) {
+    return `Ticket type '${invalidTicket.ticketType}' cannot be found.`;
+  }
+  if (invalidEntrant) {
+    return `Entrant type '${invalidEntrant.entrantType}' cannot be found.`;
+  }
+  if (invalidExtra) {
+    return `Extra type '${invalidExtra.extras}' cannot be found.`;
+  }
+
+  let sum = 0;
+  const validTicket = purchases.map(purchase => {
+    let extraStrings = "";
+    let price = (ticketData[purchase.ticketType].priceInCents[purchase.entrantType]/100);
+
+    if (purchase.extras.length){
+     extraStrings = ` (${purchase.extras.map(addedExtras => {
+      price += ticketData.extras[addedExtras].priceInCents[purchase.entrantType]/100;
+      let cappedExtra = addedExtras[0].toUpperCase() + addedExtras.slice(1);
+      return `${cappedExtra} Access`;
+     }).join(", ")})`;
+    }
+    
+    sum += price;
+    let entType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+    let tickType = purchase.ticketType[0].toUpperCase() + purchase.ticketType.slice(1);
+    return `${entType} ${tickType} Admission: $${price.toFixed(2)}${extraStrings}`
+  }).join("\n");
+  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${validTicket}\n-------------------------------------------\nTOTAL: $${sum.toFixed(2)}`;
+}
+
 
 // Do not change anything below this line.
 module.exports = {
