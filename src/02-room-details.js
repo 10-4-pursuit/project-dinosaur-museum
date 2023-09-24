@@ -62,6 +62,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
     ]
  */
 function getConnectedRoomNamesById(rooms, id) {
+  //created a variable where the roomId was found matching the id given 
   let rm = rooms.find(room => room.roomId === id);
 
   if (!rm) {
@@ -70,7 +71,7 @@ function getConnectedRoomNamesById(rooms, id) {
 
   let connection = rm.connectsTo.map(connects => rooms.find(room => room.roomId === connects));
   let findUndef = connection.findIndex(connected => connected === undefined);
-  
+
   if (findUndef === -1) {
     return connection.map((connected => connected.name));
   } else {
