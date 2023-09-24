@@ -55,22 +55,19 @@ const exampleTicketData = require("../data/tickets");
     //> "Entrant type 'kid' cannot be found."
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
-    //Setting the price at zero to begin calculations.
-  let priceForTickets = 0;
-    //Edge case for when there is no ticketData
-  if (!ticketData[ticketInfo.ticketType]) {
+  let priceForTickets = 0;  //Set the price at zero to begin calculations.
+  if (!ticketData[ticketInfo.ticketType]) { //Edge case for when there is no ticketData.
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
   }
   if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]) {
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
-  } //Using bracket notation to set the data for priceForTickets.
-  priceForTickets = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
-    //Edge case when there are no extras
+  }
+  priceForTickets = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];  //Use bracket notation to set the data for priceForTickets.
   for (let extra of ticketInfo.extras) {
-    if (!ticketData.extras[extra]) {
+    if (!ticketData.extras[extra]) {  //Edge case when there are no extras.
       return `Extra type '${extra}' cannot be found.` ;
-    }//Assigning the extras to the priceForTickets.
-    priceForTickets += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
+    }
+    priceForTickets += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]; //Add extras to the priceForTickets.
   }
   return priceForTickets
   }
@@ -136,24 +133,23 @@ function purchaseTickets(ticketData, purchases) {
 
   for(const purchase of purchases) {
     let ticketPrice = calculateTicketPrice(ticketData, purchase);
-      //Tells the program to return a string for the ticketPrice.
-      if(typeof ticketPrice === "string"){
+    
+      if(typeof ticketPrice === "string"){ //Tells the program to return a string for the ticketPrice.
       return ticketPrice;
-    }//calculates totalPrice
-      totalPrice += ticketPrice;
-      //EntrantType is written in uppercase. The .slice() is used to access the element at position 1.
-    let entrant = purchase.entrantType[0].toUpperCase
-    () + purchase.entrantType.slice(1);
-    //The entry is given a description to include the ticket price divided by 100 and the toFixed(2) to move the decimal place over 2 places.
-    let entry = `${entrant} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)}`;
+    }
+      totalPrice += ticketPrice; //calculates totalPrice.
+    let entrant = purchase.entrantType[0].toUpperCase  //Write entrantType in uppercase.
+    () + purchase.entrantType.slice(1);  //Use the .slice() to access the element at position 1.
+    
+    let entry = `${entrant} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)}`; //Entry description to include the ticket price divided by 100.
       if(purchase.extras.length){
       entry += ` (${purchase.extras.map(extra => ticketData.extras[extra].description).join(", ")})`//.join() adds all elements together into a string.
     }
       receipt.push(entry);
   }//This completes the description on the receiptshowing the total price. \n is used to create a new line.
   receipt.push(`-------------------------------------------`);
-  receipt.push(`TOTAL: $${(totalPrice / 100).toFixed(2)}`)
-  return receipt.join(`\n`)
+  receipt.push(`TOTAL: $${(totalPrice / 100).toFixed(2)}`) //Move the decimal place over 2 places w/ the toFixed(2) method.
+  return receipt.join(`\n`) //Add elements of the array into a string.
 }
 
 
