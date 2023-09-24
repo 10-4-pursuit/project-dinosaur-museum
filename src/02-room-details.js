@@ -26,27 +26,23 @@ const exampleRoomData = require("../data/rooms");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
-  //initializing an empty array.
-  let id = [];
+  let id = [];   //initializing an empty array.
 
-  for (let dinosaur of dinosaurs) {
-    //Checking if dinosaur has a name and a room.
+
+  for (let dinosaur of dinosaurs) {     //Checking if dinosaur has a name and a room.
     if (dinosaurName === dinosaur.name){
       for (let room of rooms) {
-        //These are the dinosaurs with a name, room and Id.
-        if (room.dinosaurs.includes(dinosaur.dinosaurId)) {
-
-        
-         return room.name;
+        if (room.dinosaurs.includes(dinosaur.dinosaurId)) {//These are the dinosaurs with a name, room and Id.
+           return room.name;
     }
   }
-    //Error message is dinosaur cannot be found in any room.
-    return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+    return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`; //Error message when dinosaur cannot be found in any room.
+    }
   }
-}   //Error message if dinosaur cannot be found at all.
-    return `Dinosaur with name '${dinosaurName}' cannot be found.`
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`  //Error message if dinosaur cannot be found at all.
   
-}
+} 
+
 
 /**
  * getConnectedRoomNamesById()
@@ -71,16 +67,15 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
     ]
  */
 function getConnectedRoomNamesById(rooms, id) {
-  //A snazzy way to initialize the variable room. The Higher Order Function is the .find()method using a callback function.
-  let room = rooms.find(room => room.roomId === id);
+  let room = rooms.find(room => room.roomId === id); //Initialize the variable room. The Higher Order Function is the .find()method using a callback function.
   if (!room) return `Room with ID of '${id}' could not be found.`;
   
-  //The .map() creates a new array of connect rooms.
-  let connected = room.connectsTo.map((connects) => rooms.find(room => room.roomId === connects));
-  //Rooms that are undefined returns an error message.
-  let Undef = connected.findIndex((connect) => connect === undefined);
-  if (Undef === -1) return connected.map(connectedroom => connectedroom.name);
-  if (Undef !== -1) return `Room with ID of '${room.connectsTo[Undef]}' could not be found.`;
+  let connected = room.connectsTo.map((connects) => rooms.find(room => room.roomId === connects)); //The .map() creates a new array of connect rooms.
+
+  let Undef = connected.findIndex((connect) => connect === undefined); //Rooms that are undefined returns an error message.
+
+  if (Undef === -1) return connected.map(connectedroom => connectedroom.name);//Connected rooms not found
+  if (Undef !== -1) return `Room with ID of '${room.connectsTo[Undef]}' could not be found.`;//Connections undefined.
 }
 
 module.exports = {
