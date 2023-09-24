@@ -54,8 +54,23 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
-
+function calculateTicketPrice(ticketData, ticketInfo) {
+  let priceForTickets = 0;  //Set the price at zero to begin calculations.
+  if (!ticketData[ticketInfo.ticketType]) { //Edge case for when there is no ticketData.
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+  if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]) {
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  }
+  priceForTickets = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];  //Use bracket notation to set the data for priceForTickets.
+  for (let extra of ticketInfo.extras) {
+    if (!ticketData.extras[extra]) {  //Edge case when there are no extras.
+      return `Extra type '${extra}' cannot be found.` ;
+    }
+    priceForTickets += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]; //Add extras to the priceForTickets.
+  }
+  return priceForTickets
+  }
 /**
  * purchaseTickets()
  * ---------------------
@@ -109,10 +124,85 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let totalPrice = 0;
+  let receipt = [
+    `Thank you for visiting the Dinosaur Museum!`,
+    `-------------------------------------------`,
+  ];
+
+  for(const purchase of purchases) {
+    let ticketPrice = calculateTicketPrice(ticketData, purchase);
+    
+      if(typeof ticketPrice === "string"){ //Tells the program to return a string for the ticketPrice.
+      return ticketPrice;
+    }
+      totalPrice += ticketPrice; //calculates totalPrice.
+    let entrant = purchase.entrantType[0].toUpperCase  //Write entrantType in uppercase.
+    () + purchase.entrantType.slice(1);  //Use the .slice() to access the element at position 1.
+    
+    let entry = `${entrant} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)}`; //Entry description to include the ticket price divided by 100.
+      if(purchase.extras.length){
+      entry += ` (${purchase.extras.map(extra => ticketData.extras[extra].description).join(", ")})`//.join() adds all elements together into a string.
+    }
+      receipt.push(entry);
+  }//This completes the description on the receiptshowing the total price. \n is used to create a new line.
+  receipt.push(`-------------------------------------------`);
+  receipt.push(`TOTAL: $${(totalPrice / 100).toFixed(2)}`) //Move the decimal place over 2 places w/ the toFixed(2) method.
+  return receipt.join(`\n`) //Add elements of the array into a string.
+}
+
+
+/**
+ * createInventoryData()
+ * ----------------------------
+ * Creates and manages the inventory data for the Dinosaur Museum Gift Shop.
+ * 
+ * @param {Object[]} initialInventory - An array of objects representing the initial inventory.
+ * @param {object[]} purchases - An array of objects representing items to be purchased.
+ * @returns {object[]} The updated inventory array after processing purchases.
+ * 
+ * const inventoryData = [
+    {
+     name: "Tyrannosaurus Plush Toy",
+     price:  19.99,
+     description: "Soft, huggable dinosaur plush toy for kids"
+     availability: true,
+ * },
+ * {
+ *   name: "Allosaurus T-Shirt",
+ *   price: 14.99,
+ *   description: "100% Cotton short sleeve T-Shirt"
+ *   availability: false,
+ * },
+ * {
+ *   name:  "Brachiosaurus Lunch Box",
+ *   price: 24.99,
+ *   description: "Durable, roomy, soft, insulated, Lunch Box",
+ *   availability: true,
+ *  }
+ * }];
+*/
+function createInventoryData(initialInventory, purchases){
+for (const purchase of purchases) {
+  const purchasedItem = initialInventory.find((item) => item.name === purchase.name);
+
+  if (!purchasedItem) {
+
+    purchase.availability = "This item is not available";
+
+  } else {
+    purchasedItem.availability = purchase.availability;
+  }
+}
+return initialInventory
+};
+
+
 
 // Do not change anything below this line.
 module.exports = {
   calculateTicketPrice,
   purchaseTickets,
+  createInventoryData,
 };
