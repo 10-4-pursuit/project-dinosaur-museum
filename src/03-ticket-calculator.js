@@ -160,7 +160,7 @@ function purchaseTickets(ticketData, purchases) {
  * 
  * @param {Object[]} initialInventory - An array of objects representing the initial inventory.
  * @param {object[]} purchases - An array of objects representing items to be purchased.
- * @returns {object[]} An updated inventory array after processing purchases.
+ * @returns {object[]} The updated inventory array after processing purchases.
  * 
  * const inventoryData = [
     {
@@ -171,7 +171,7 @@ function purchaseTickets(ticketData, purchases) {
  * },
  * {
  *   name: "Allosaurus T-Shirt",
- *   price: 14:99,
+ *   price: 14.99,
  *   description: "100% Cotton short sleeve T-Shirt"
  *   availability: false,
  * },
@@ -184,10 +184,8 @@ function purchaseTickets(ticketData, purchases) {
  * }];
 */
 function createInventoryData(initialInventory, purchases){
-let inventory = initialInventory;
-
 for (const purchase of purchases) {
-  const purchasedItem = inventory.find((item) => item.name === purchase.name);
+  const purchasedItem = initialInventory.find((item) => item.name === purchase.name);
 
   if (!purchasedItem) {
 
@@ -197,8 +195,10 @@ for (const purchase of purchases) {
     purchasedItem.availability = purchase.availability;
   }
 }
-return inventory
-}
+return initialInventory
+};
+
+
 
 // Do not change anything below this line.
 module.exports = {
