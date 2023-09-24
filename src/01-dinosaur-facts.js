@@ -103,17 +103,25 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
     if(dino.mya.length === 2){
       if(dino.mya[0]>= mya && dino.mya[1]<= mya){
         if(dino[key]){
-          alive.push(dino[key]){
+          alive.push(dino[key]);
           }else{
             alive.push(dino.dinosaurId)
           }
         }
-      }else if(dino.mya.length === 1){
-        
       }
+    else if(dino.mya.length === 1){
+        if(dino.mya[0]=== mya || dino.mya[0]-1 === mya){
+          if(dino[key]){
+            alive.push(dino[key]);
+            }else{
+              alive.push(dino.dinosaurId)
+            }
+          }
+        }
+        return alive;
     }
   }
-}
+ 
 
 module.exports = {
   getLongestDinosaur,
