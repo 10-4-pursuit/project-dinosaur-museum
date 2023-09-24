@@ -99,6 +99,7 @@ function getDinosaurDescription(dinosaurs, id) {
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
   let alive = [];
+
   for(let dino of dinosaurs){
     if(dino.mya.length === 2){
       if(dino.mya[0]>= mya && dino.mya[1]<= mya){
@@ -108,8 +109,7 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
             alive.push(dino.dinosaurId)
           }
         }
-      }
-    else if(dino.mya.length === 1){
+      } else if(dino.mya.length === 1){
         if(dino.mya[0]=== mya || dino.mya[0]-1 === mya){
           if(dino[key]){
             alive.push(dino[key]);
@@ -118,8 +118,8 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
             }
           }
         }
-        return alive;
     }
+    return alive;
   }
  
 
