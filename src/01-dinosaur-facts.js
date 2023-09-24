@@ -66,14 +66,14 @@ function getDinosaurDescription(dinosaurs, id) {
 // loop to go through array of dinos
   for (let i = 0; i < dinosaurs.length; i++) {
    // if dino's id is equal to parameter id then execute string
-    if (dinosaurs[i].dinosaurId === id) {
+      if (dinosaurs[i].dinosaurId === id) {
 
       if (dinosaurs[i].mya.length > 1) {
       return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${dinosaurs[i].mya[dinosaurs[i].mya.length - 1]} million years ago.`
     } 
 
 
-    if (dinosaurs[i].mya.length === 1) { 
+      if (dinosaurs[i].mya.length === 1) { 
       return `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${dinosaurs[i].mya[0]} million years ago.`
       }
     }
@@ -112,31 +112,30 @@ function getDinosaurDescription(dinosaurs, id) {
 function getDinosaursAliveMya(dinosaurs, mya, key) {
 
   //initialize an array to push ids into
-let dinos = []
+  let dinos = [];
 
-// loop through dinos
-for (let i = 0; i < dinosaurs.length; i++) {
+  for (let i = 0; i < dinosaurs.length; i++) {
+      let wasAlive = false;
+      if (dinosaurs[i].mya.length === 2) {
+          if (mya <= dinosaurs[i].mya[0] && mya >= dinosaurs[i].mya[1]) {
+              wasAlive = true;
+          }
+      } else if (dinosaurs[i].mya.length === 1) {
+          if (mya === dinosaurs[i].mya[0] || mya === dinosaurs[i].mya[0] - 1) {
+              wasAlive = true;
+          }
+      }
 
-  if (dinosaurs[i].mya.length === 1) {
-
-
+      if (wasAlive) {
+          if (key && dinosaurs[i][key]) {
+              dinos.push(dinosaurs[i][key]);
+          } else {
+              dinos.push(dinosaurs[i].dinosaurId);
+          }
+      }
   }
 
-  if (dinosaurs[i].mya === || dinosaur.mya[0])
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
+  return dinos;
 }
 
 module.exports = {
