@@ -26,17 +26,19 @@ const exampleRoomData = require("../data/rooms");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
 function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
+  //  CONST dinosaur var holds FIND dinosaur name value 
   const dinosaur = dinosaurs.find(dino => dino.name === dinosaurName);
-
+  //  IF not dinosaur RETURN error message
   if (!dinosaur) {
     return `Dinosaur with name '${dinosaurName}' cannot be found.`;
   }
+  // CONST rm var holds FIND room that includes dinosaur by ID
   const rm = rooms.find(room => room.dinosaurs.includes(dinosaur.dinosaurId));
-
+  // IF not room RETURN error message
   if (!rm) {
     return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
   }
-  
+  // RETURN room by name of dinosaur
   return rm.name;
 }
 
@@ -63,20 +65,21 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
     ]
  */
 function getConnectedRoomNamesById(rooms, id) {
+  // LET rm var holds FIND room by id
   let rm = rooms.find(room => room.roomId === id);
-
+  // IF not room return error message
   if (!rm) {
     return `Room with ID of '${id}' could not be found.`
   }
-
+  // LET connectedRms var hold MAP arr of room connections found by room ids
   let connectedRms = rm.connectsTo.map((connects) => rooms.find(room => room.roomId === connects));
-
+  // LET findUndef var hold the found index that is undefined 
   let findUndef = connectedRms.findIndex((cncts) => cncts === undefined);
-
+  // IF undefined is strictly -1 RETURN connected rooms and their names
   if (findUndef === -1) {
     return connectedRms.map((ctdRms) => ctdRms.name);
   } else {
-    
+    // ELSE RETURN error message 
     return `Room with ID of '${rm.connectsTo[findUndef]}' could not be found.`;
   }
 }

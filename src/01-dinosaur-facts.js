@@ -23,16 +23,16 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 function getLongestDinosaur(dinosaurs) {
-
+  // IF no dinosaur RETURN empty obj
   if (dinosaurs.length === 0) return {};
-
+  // Holds dinosaurs values 
   const dinos = [...dinosaurs];
-
+  // SORT dinosaurs from longest to shortest
   dinos.sort((a, b) => b.lengthInMeters - a.lengthInMeters);
-
-  const tallest = dinos[0];
-
-  return {[tallest.name]: tallest.lengthInMeters * 3.281};
+  // longest dinosaur from dinos arr
+  const longest = dinos[0];
+  // RETURN longest dinosaur's length in feet
+  return {[longest.name]: longest.lengthInMeters * 3.281};
 }
 
 /**
@@ -56,14 +56,14 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-
+  //  dino var holds FIND dinosaur by id 
   let dino = dinosaurs.find(saurs => saurs.dinosaurId === id);
-
+  //  IF not dino RETURN error message 
   if (!dino) return `A dinosaur with an ID of '${id}' cannot be found.`; 
-
-  let mya = dino.mya.length === 1 ? dino.mya[0] : dino.mya[1];
-
-  return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${mya} million years ago.`;
+  //  LET var era holds ternary IF arr conditions for mya
+  let era = dino.mya.length === 1 ? dino.mya[0] : dino.mya[1];
+  //  RETURN dinosaurs description 
+  return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${era} million years ago.`;
 }
 
 /**
@@ -92,56 +92,55 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
-
+  //  LET dinosaur var hold a FILTER of mya conditions 
   let dinosaur = dinosaurs.filter(dinos => (mya === dinos.mya[0] ||  dinos.mya - mya === 1 || (mya >= dinos.mya[1]) && (mya <= dinos.mya[0])));
-
+  //  RETURN MAP arr of key ternary conditions ≠
   return dinosaur.map(dino => (dino[key] !== undefined ? dino[key] : dino.dinosaurId));
 }
 
 //STRETCH GOAL//
-/** getDinosaursByPeriodAndDiet
- * Returns an array of dinosaur names ordered by their period and diet.
+/** getDinosaursByDiet
+ * Returns an array of dinosaur names ordered by their diet and sorts them from oldest to most recent dinosaur in the list.
  * 
- * Should separate dinosaurs into `Carnivorous`, `Herbivorous` and `Omnivorous` arrays along with period they lived in.
+ * Should separate dinosaurs into `Carnivorous`, `Herbivorous` and `Omnivorous` arrays.
  * 
  * @param {Object[]} dinosaurs - An array of dinosaur objects. See the `data/dinosaurs.js` file for an example of the input.
- * @returns {string[]} An array of dinosaur names ordered by their period and diet. 
+ * @returns {string[]} An array of dinosaur names ordered by their diet and sorted from oldest to most recent dinosaur. 
  * 
  * EXAMPLE:
  * 
  * ***************"Dinosaur List"***************
  * 
- * ==============="Late Jurassic"===============
- * 
  * ----------------"Carnivorous"----------------
- * //> ["Tyrannosaurus"]
+ * //> ["Allosaurus"] 
  * ----------------"Herbivorous"----------------
- * //> ["Dracorex"]
+ * //> ["Brachiosaurus"]
  * ----------------"Omnivorous"-----------------
  * //> ["Khaan"]
  */
-function getDinosaursByPeriodAndDiet(dinosaurs) {
- let lines = [
-  `***************"Dinosaur List"***************`,
+function getDinosaursByDiet(dinosaurs) {
+ // Variables holding filtered dinosaurs by their diet
+ const carnivorous = dinosaurs.filter(dinosaur => dinosaur.diet === "carnivorous");
+ const herbivorous = dinosaurs.filter(dinosaur => dinosaur.diet === "herbivorous");
+ const omnivorous = dinosaurs.filter(dinosaur => dinosaur.diet === "omnivorous");
+ // Var lines holds each variable above along with the mapped out and sorted by time of the dinosaur
+ const lines = [
+ `***************"Dinosaur List"***************`, 
+ `----------------"Carnivorous"----------------`,
+ `${carnivorous.sort((a, b) => b.mya[0] - a.mya[0]).map(dino => dino.name).join("\n")}`,
+ `----------------"Herbivorous"----------------`,
+ `${herbivorous.sort((a, b) => b.mya[0] - a.mya[0]).map(dino => dino.name).join("\n")}`,
+`----------------"Omnivorous"-----------------`,
+`${omnivorous.sort((a, b) => b.mya[0] - a.mya[0]).map(dino => dino.name).join("\n")}`,
  ];
- // from within dinosaur, I need period and mya
-  // In order to sort chronologically I need a way for period to tie to mya
-  // Periods = "Early Jurassic", "Late Jurassic", "Early Cretaceous", "Late Cretaceous"
-  // MYA = 205 mya - 66 mya 
-
-  //Which dinosaurs to grab
-  //loop through the dinosaurs
-  //create an {} using period as a key
-  //in this object have a max and min with myas
-  //by the end you should have a way to put out the eras chronologically how each period happens
-  //should make it easier to sort through the periods 3
- dinosaurs.filter(dinosaur => dinosaur.period)
+ // RETURN lines all joined and seperated to make list
+ return lines.join(`\n`);
 }
-console.log(getDinosaursByPeriodAndDiet(exampleDinosaurData));
+console.log(getDinosaursByDiet(exampleDinosaurData));
 
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,
-  getDinosaursByPeriodAndDiet,
+  getDinosaursByDiet,
 };
