@@ -22,7 +22,18 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  // IF no dinosaur RETURN empty obj
+  if (dinosaurs.length === 0) return {};
+  // Holds dinosaurs values 
+  const dinos = [...dinosaurs];
+  // SORT dinosaurs from longest to shortest
+  dinos.sort((a, b) => b.lengthInMeters - a.lengthInMeters);
+  // longest dinosaur from dinos arr
+  const longest = dinos[0];
+  // RETURN longest dinosaur's length in feet
+  return {[longest.name]: longest.lengthInMeters * 3.281};
+}
 
 /**
  * getDinosaurDescription()
@@ -44,7 +55,16 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  //  dino var holds FIND dinosaur by id 
+  let dino = dinosaurs.find(saurs => saurs.dinosaurId === id);
+  //  IF not dino RETURN error message 
+  if (!dino) return `A dinosaur with an ID of '${id}' cannot be found.`; 
+  //  LET var era holds ternary IF arr conditions for mya
+  let era = dino.mya.length === 1 ? dino.mya[0] : dino.mya[1];
+  //  RETURN dinosaurs description 
+  return `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${era} million years ago.`;
+}
 
 /**
  * getDinosaursAliveMya()
@@ -71,10 +91,56 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  //  LET dinosaur var hold a FILTER of mya conditions 
+  let dinosaur = dinosaurs.filter(dinos => (mya === dinos.mya[0] ||  dinos.mya - mya === 1 || (mya >= dinos.mya[1]) && (mya <= dinos.mya[0])));
+  //  RETURN MAP arr of key ternary conditions ≠
+  return dinosaur.map(dino => (dino[key] !== undefined ? dino[key] : dino.dinosaurId));
+}
+
+//STRETCH GOAL//
+/** getDinosaursByDiet
+ * Returns an array of dinosaur names ordered by their diet and sorts them from oldest to most recent dinosaur in the list.
+ * 
+ * Should separate dinosaurs into `Carnivorous`, `Herbivorous` and `Omnivorous` arrays.
+ * 
+ * @param {Object[]} dinosaurs - An array of dinosaur objects. See the `data/dinosaurs.js` file for an example of the input.
+ * @returns {string[]} An array of dinosaur names ordered by their diet and sorted from oldest to most recent dinosaur. 
+ * 
+ * EXAMPLE:
+ * 
+ * ***************"Dinosaur List"***************
+ * 
+ * ----------------"Carnivorous"----------------
+ * //> ["Allosaurus"] 
+ * ----------------"Herbivorous"----------------
+ * //> ["Brachiosaurus"]
+ * ----------------"Omnivorous"-----------------
+ * //> ["Khaan"]
+ */
+function getDinosaursByDiet(dinosaurs) {
+ // Variables holding filtered dinosaurs by their diet
+ const carnivorous = dinosaurs.filter(dinosaur => dinosaur.diet === "carnivorous");
+ const herbivorous = dinosaurs.filter(dinosaur => dinosaur.diet === "herbivorous");
+ const omnivorous = dinosaurs.filter(dinosaur => dinosaur.diet === "omnivorous");
+ // Var lines holds each variable above along with the mapped out and sorted by time of the dinosaur
+ const lines = [
+ `***************"Dinosaur List"***************`, 
+ `----------------"Carnivorous"----------------`,
+ `${carnivorous.sort((a, b) => b.mya[0] - a.mya[0]).map(dino => dino.name).join("\n")}`,
+ `----------------"Herbivorous"----------------`,
+ `${herbivorous.sort((a, b) => b.mya[0] - a.mya[0]).map(dino => dino.name).join("\n")}`,
+`----------------"Omnivorous"-----------------`,
+`${omnivorous.sort((a, b) => b.mya[0] - a.mya[0]).map(dino => dino.name).join("\n")}`,
+ ];
+ // RETURN lines all joined and seperated to make list
+ return lines.join(`\n`);
+}
+console.log(getDinosaursByDiet(exampleDinosaurData));
 
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,
+  getDinosaursByDiet,
 };

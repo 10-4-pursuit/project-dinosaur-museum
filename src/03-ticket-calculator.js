@@ -54,7 +54,31 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  // IF value of ticket is incorrect RETURN ticket error
+  if (!ticketData[ticketInfo.ticketType]) {
+    return  `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+  // IF value of entrant is incorrect RETURN entrant error
+  if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]) {
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  } 
+  // SUM var contains priceInCents values accessed by key
+  let sum = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+  for (const extra of ticketInfo.extras) {
+    // IF value of extra is incorrect RETURN extra error
+    if (!ticketData.extras[extra]) {
+      return `Extra type '${extra}' cannot be found.`
+    } 
+    // increment ticket and extra prices into SUM var 
+    sum += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
+  }
+    return sum;
+    
+  // IF value of ticket is incorrect
+    //ticketType or entrantType are incorrect
+    //Any value inside ticketInfo.extras key is incorrect
+}
 
 /**
  * purchaseTickets()
@@ -109,7 +133,41 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let sum = 0;
+  // declare LET var lines to hold receipt strings
+  let lines = [
+    `Thank you for visiting the Dinosaur Museum!`,
+    `-------------------------------------------`,
+  ];
+  for (const purchase of purchases) {
+    // LET ticketPrice var call calculateTicketPrice function from above
+    let ticketPrice = calculateTicketPrice(ticketData, purchase);
+    //  IF typeof is string 
+    if (typeof ticketPrice === "string") {
+      //  RETURN error messages from called function
+      return ticketPrice;
+    } 
+    //  incerment ticketPrice into sum 
+    sum += ticketPrice;
+    //  LET entType holds captilized entrant type added back into the rest of string
+    let entType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+    //  LET purchaseEntry holds the dollar value and description of the tickets
+    let purchaseEntry = `${entType} ${ticketData[purchase.ticketType].description}: $${(ticketPrice/100).toFixed(2)}`
+    //  IF values match in extras 
+    if (purchase.extras.length) {
+      //  increment MAP which joins and pulls description of ticket extras into purchaseEntry 
+      purchaseEntry += ` (${purchase.extras.map(purchaseEx => ticketData.extras[purchaseEx].description).join(", ")})`; 
+    }
+    // PUSH purchaseEntry into lines
+    lines.push(purchaseEntry);
+  }
+  //  PUSH line of dashes and TOTAL in dollar values into lines
+  lines.push(`-------------------------------------------`);
+  lines.push(`TOTAL: $${(sum/100).toFixed(2)}`);
+  //  RETURN joined lines in recipt form
+  return lines.join(`\n`);
+}
 
 // Do not change anything below this line.
 module.exports = {
