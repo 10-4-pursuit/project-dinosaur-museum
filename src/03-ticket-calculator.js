@@ -8,6 +8,8 @@
 const exampleTicketData = require("../data/tickets");
 // Do not change the line above.
 
+console.log(exampleTicketData)
+
 /**
  * calculateTicketPrice()
  * ---------------------
