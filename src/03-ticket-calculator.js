@@ -54,7 +54,23 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+// this function starts out with asking it to check if ticketData at ticketinfo/ticketType exists and if does not exist to return the string in 60.  The same function in 62.  Then it checks sets up a var to store the result of the objects/arrays listed then goes into a for of loop iterates through each of teh icketinfoextras to see if each extra exists in the ticketData.extras object.  If it can't be found teh function returns an error message.  if it does find it then it adds the exra info and assigns it to sum and returns it.  ultimately the last return is the total value of sum with all extras. 
+function calculateTicketPrice(ticketData, ticketInfo) {
+  if (!ticketData[ticketInfo.ticketType]) {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+  if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType]) {
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  }
+  let sum = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+  for (const extra of ticketInfo.extras){
+    if (!ticketData.extras[extra]) {
+      return `Extra type '${extra}' cannot be found.`
+    }
+    sum += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
+  }
+  return sum;
+}
 
 /**
  * purchaseTickets()
@@ -109,7 +125,29 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+// sum var is going to keep track of my total cost of ticket purchaes and lines will hold my strings that will be placed at the beginning of my receipt. the for of iterates over each purchase in the purchases array of objects. Then the calculateTicketPrice (using ticketdata and purchase as arguments to calculate) result will be stored in ticketPrice var. The if statement checks if ticketPrice is strictly equal to a string. if it si that means there was an error in calculating teh ticket price and the function wreturns the error message.  my sum line adds ticketPrice to the sum and accumulating the total cost of all ticket purchases and that amount is assigned to sum. Then the var entType stores information from purchase.entranttype at 0 index and also capitalizes the first letter and slices (returning element in the array selecting from start but not changing the original array). Also creating a new var purchaesEntry that will store entType, ticket data adn list price divided by 100 since it is in cents in data and adds decimal.  The last if statement runs the length of purchase extras and checks teh current purchase and adds to purchaseEntry and assigns teh result. my first line pushes purchase entry string to lines array and the because we close out on 144 we then push in the last pieces of the receipt requested.  The new line, total and its sum divided by 100 because data is in cents and then put add the decimal for dollars and finally ask it to return the lines array and joining it with the required new paragraph
+function purchaseTickets(ticketData, purchases) {
+  let sum = 0
+  let lines = [`Thank you for visiting the Dinosaur Museum!`,`-------------------------------------------`,
+];
+  for (const purchase of purchases) {
+    let ticketPrice = calculateTicketPrice(ticketData, purchase)
+    if (typeof ticketPrice === "string") {
+      return ticketPrice;
+    }
+    sum += ticketPrice;
+    let entType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+    let purchaseEntry = `${entType} ${ticketData[purchase.ticketType].description}: $${(ticketPrice/100).toFixed(2)}`
+    if (purchase.extras.length) {
+      purchaseEntry += ` (${purchase.extras.map(purchaseEx => ticketData.extras[purchaseEx].description).join(", ")})`;
+    }
+    lines.push(purchaseEntry)
+  }
+  lines.push(`-------------------------------------------`);
+  lines.push(`TOTAL: $${(sum/100).toFixed(2)}`);
+
+  return lines.join(`\n`);
+}
 
 // Do not change anything below this line.
 module.exports = {
