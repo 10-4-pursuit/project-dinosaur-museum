@@ -133,6 +133,20 @@ function purchaseTickets(ticketData, purchases) {
   let purchaseCost = 0
 
   let receipt = ""
+
+  for (let i = 0; i < purchases.length; i++) {
+    ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+
+    if (typeof ticketPrice === "string") {
+      return ticketPrice
+    } else {
+      purchaseCost += ticketPrice
+
+      capitalizedEntrantType = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
+
+      capitalizedTicketType = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+    }
+  }
   // for (let purchase of purchases) {
   //   let ticketsPurchased = calculateTicketPrice(ticketData, purchase)
   //   if (typeof ticketsPurchased === "string") {
