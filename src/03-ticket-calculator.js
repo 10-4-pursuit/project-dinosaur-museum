@@ -157,7 +157,7 @@ function purchaseTickets(ticketData, purchases) {
   }
 
   return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}
-  -------------------------------------------\nTOTAL:$${(purchaseCost/100).toFixed(2)}`
+  -------------------------------------------\nTOTAL: $${(purchaseCost/100).toFixed(2)}`
   
   // for (let purchase of purchases) {
   //   let ticketsPurchased = calculateTicketPrice(ticketData, purchase)
