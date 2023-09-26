@@ -145,8 +145,18 @@ function purchaseTickets(ticketData, purchases) {
       capitalizedEntrantType = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
 
       capitalizedTicketType = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+
+      formattedExtras = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Acess').join(", ")
+
+      if (purchases[i].extras.length === 0) {
+        receipt += `${capitalizedEntrantType} ${capitalizedTicketType} Admission: $${(ticketPrice/100).toFixed(2)}\n`
+      } else {
+        receipt += `${capitalizedEntrantType} ${capitalizedTicketType} Admission: $${(ticketPrice/100).toFixed(2)} (${formattedExtras})\n`
+      }
     }
   }
+
+  
   // for (let purchase of purchases) {
   //   let ticketsPurchased = calculateTicketPrice(ticketData, purchase)
   //   if (typeof ticketsPurchased === "string") {
