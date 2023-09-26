@@ -155,20 +155,9 @@ function purchaseTickets(ticketData, purchases) {
       }
     }
   }
-
+  
   return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseCost/100).toFixed(2)}`
   
-  // for (let purchase of purchases) {
-  //   let ticketsPurchased = calculateTicketPrice(ticketData, purchase)
-  //   if (typeof ticketsPurchased === "string") {
-  //     return ticketsPurchased;
-  //   }
-  // }
-  
-  // const invalidTicket = purchases.find(purchase => (purchase.ticketType !== `general` && purchase.ticketType !== `membership`));
-  // const invalidEntrant = purchases.find(purchase => (![`child`, `adult`, `senior`].includes(purchase.entrantType)));
-  // const invalidExtras = purchases.find(purchase => (purchase.extras.find(purchaseExtra => ![`movie`, `education`, ])));
-
 }
 
 // Do not change anything below this line.
