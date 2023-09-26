@@ -54,7 +54,27 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+  let priceForTickets = 0;
+
+  if (!ticketData[ticketInfo.ticketType])
+  return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+
+  if (!ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType])
+  return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+
+  priceForTickets = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+
+  for (let extra of ticketInfo.extras) {
+    if (!ticketData.extras[extra]) {
+      return `Extra type '${extra}' cannot be found.`;
+    }
+    priceForTickets += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]; 
+
+  }
+
+  return priceForTickets;
+}
 
 /**
  * purchaseTickets()
@@ -109,7 +129,36 @@ function calculateTicketPrice(ticketData, ticketInfo) {}
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+  let purchaseCost = 0
+
+  let receipt = ""
+
+  for (let i = 0; i < purchases.length; i++) {
+    ticketPrice = calculateTicketPrice(ticketData, purchases[i])
+
+    if (typeof ticketPrice === "string") {
+      return ticketPrice
+    } else {
+      purchaseCost += ticketPrice
+
+      capitalizedEntrantType = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)
+
+      capitalizedTicketType = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)
+
+      formattedExtras = purchases[i].extras.map(extra => extra[0].toUpperCase() + extra.slice(1) + ' Access').join(", ")
+
+      if (purchases[i].extras.length === 0) {
+        receipt += `${capitalizedEntrantType} ${capitalizedTicketType} Admission: $${(ticketPrice/100).toFixed(2)}\n`
+      } else {
+        receipt += `${capitalizedEntrantType} ${capitalizedTicketType} Admission: $${(ticketPrice/100).toFixed(2)} (${formattedExtras})\n`
+      }
+    }
+  }
+  
+  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}-------------------------------------------\nTOTAL: $${(purchaseCost/100).toFixed(2)}`
+  
+}
 
 // Do not change anything below this line.
 module.exports = {
