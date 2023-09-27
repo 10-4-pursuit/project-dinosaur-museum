@@ -118,7 +118,24 @@ function getDinosaurDescription(dinosaurs, id) {
  *  //> ["WHQcpcOj0G"]
  */
 
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  //If there is no array, return an empty object
+  if (!dinosaurs.length || !dinosaurs) {
+    return {};
+  } 
+    // Filter the dinosaurs to only include those that were alive at the given mya value.
+    const dinosaursAlive = dinosaurs.filter(dinosaur => {
+      const dinosaurAliveMya = dinosaur.mya;
+      return (mya === dinosaurAliveMya[0] || mya === dinosaurAliveMya[0] - 1 || (mya <= dinosaurAliveMya[0] && mya >= dinosaurAliveMya[1]));
+    });
+  
+    // Map the dinosaurs to the requested key value.
+    const dinosaurKeys = dinosaursAlive.map(dinosaur => dinosaur[key] || dinosaur.dinosaurId);
+  
+    // Return the dinosaur keys.
+    return dinosaurKeys;
+
+}
 
 module.exports = {
   getLongestDinosaur,
