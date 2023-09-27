@@ -22,7 +22,19 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  if (dinosaurs.length === 0) {
+    return {};
+  }
+  let longestDinosaur = dinosaurs[0];
+
+  for (const dinosaur of dinosaurs) {
+    if (dinosaur.lengthInMeters > longestDinosaur.lengthInMeters) {
+      longestDinosaur = dinosaur;
+    }
+  }
+  return { [longestDinosaur.name]: longestDinosaur.lengthInMeters * 3.28084 }; // Convert length to feet and return as an object.
+}
 
 /**
  * getDinosaurDescription()
@@ -44,8 +56,22 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  const dinosaur = dinosaurs.find(dino => dino.dinosaurId === id);
 
+  if (!dinosaur) {
+    return `A dinosaur with an ID of '${id}' cannot be found.`;
+  }
+
+  let periodText = dinosaur.period;
+  if (dinosaur.mya.length > 0) {
+    periodText += `, over ${dinosaur.mya.join(' and ')} million years ago`;
+  }
+
+  const description = `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info}\n${periodText}`;
+
+  return description;
+}
 /**
  * getDinosaursAliveMya()
  * ---------------------
@@ -71,8 +97,19 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
-
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  let arr = [];
+  for (let i = 0; i < dinosaurs.length; i++) {
+    if (dinosaurs[i].mya.includes(mya) || dinosaurs[i].mya - 1 === mya || dinosaurs[i].mya[0] > mya && dinosaurs[i].mya[1] < mya) {
+      if (!key) {
+        arr.push(dinosaurs[i].dinosaurId);
+      } else {
+        arr.push(dinosaurs[i][key]);
+      }
+    }
+  }
+  return arr;
+}
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
