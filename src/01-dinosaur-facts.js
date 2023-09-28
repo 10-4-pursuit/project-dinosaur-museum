@@ -34,7 +34,11 @@ function getLongestDinosaur(dinosaurs) {
   lengthOfDino.sort((a, b) => b.lengthInMeters - a.lengthInMeters)
 //here we have used the sort method on the new array of objects(lengthofDino) and are trying to get the dinosaur with the greatest value
 //at lengthInMeters which is a key
+const longestDinosaur = lengthOfDino[0];
 
+{longestDinosaur: (longestDinosaur.lengthInMeters * 3.281) }
+
+return  {[longestDinosaur.name]: (longestDinosaur.lengthInMeters * 3.281)};
 }
 // created a function that used a sort array to retrieve the longest dinosaur from the data and created a vriable for it named
 //Longest Dinosaur. Then I created an object named longestDinosaur and gave it the value of the length of the longest dinosaur 
@@ -62,7 +66,13 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
-  
+  let dinoFound = dinosaurs.find((dinosaur) => dinosaur.dinosaurId === id);
+   
+  if (dinoFound) {
+    return (`${dinoFound.name} (${dinoFound.pronunciation})\n${dinoFound.info} It lived in the ${dinoFound.period} period, over ${dinoFound.mya[dinoFound.mya.length-1]} million years ago.`);
+    
+  }
+  return "A dinosaur with an ID of '" + id + "' cannot be found.";
 }
   
 
