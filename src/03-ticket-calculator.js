@@ -56,7 +56,30 @@ console.log(exampleTicketData)
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
+
+  // Validate ticket type and entrant type.
+  if (!["general", "membership"].includes(ticketInfo.ticketType)) {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
+  if (!["child", "adult", "senior"].includes(ticketInfo.entrantType)) {
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  }
+
+  // Initialize ticket price.
+  let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+
+  // Add extra prices.
+  for (const extra of ticketInfo.extras) {
+    if (!ticketData.extras[extra]) {
+      return `Extra type '${extra}' cannot be found.`;
+    }
+    ticketPrice += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
+  }
+
+  // Return ticket price.
+  return ticketPrice;
+}
 
 /**
  * purchaseTickets()
