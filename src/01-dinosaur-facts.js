@@ -107,7 +107,18 @@ function getDinosaurDescription(dinosaurs, id) {
  */
 function getDinosaursAliveMya(dinosaurs, mya, key) {
 
+  deadOrAliveDino = dinosaurs.filter((dinosaur) => {
+    
+    if(dinosaur.mya.length === 1){
+      return dinosaur.mya[0] === mya || (dinosaur.mya[0]) - 1 === mya
+    }
+      return dinosaur.mya[0] >= mya && dinosaur.mya[1] <= mya
+  })
+  
+  return deadOrAliveDino.map((dino) => dino[key] || dino.dinosaurId)
+
 }
+ 
 
 module.exports = {
   getLongestDinosaur,
