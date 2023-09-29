@@ -76,6 +76,11 @@ function getLongestDinosaur(dinosaurs) {
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
 function getDinosaurDescription(dinosaurs, id) {
+  // STRETCH GOAL#1 Adding a Guard clause to check if the dinosaurs array is empty or null.
+  if (!dinosaurs || !dinosaurs.length) {
+    return `A dinosaur with an ID of '${id}' cannot be found.`;
+  }
+  
   //this makes a copy using the map() method and ...spread operator of the dinosaurs array so we don't mutate the original
   const dinosaursCopy = dinosaurs.map(dinosaur => ({ ...dinosaur }));
 
