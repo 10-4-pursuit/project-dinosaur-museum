@@ -58,7 +58,7 @@ console.log(exampleTicketData)
  */
 function calculateTicketPrice(ticketData, ticketInfo) {
 
-  // Validate ticket type and entrant type.
+  // Validate ticket type and entrant type
   if (!["general", "membership"].includes(ticketInfo.ticketType)) {
     return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
   }
@@ -66,10 +66,10 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
   }
 
-  // Initialize ticket price.
+  // Initialize ticket price
   let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
 
-  // Add extra prices.
+  // Add extra prices
   for (const extra of ticketInfo.extras) {
     if (!ticketData.extras[extra]) {
       return `Extra type '${extra}' cannot be found.`;
@@ -77,7 +77,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     ticketPrice += ticketData.extras[extra].priceInCents[ticketInfo.entrantType];
   }
 
-  // Return ticket price.
+  // Return ticket price
   return ticketPrice;
 }
 
@@ -134,7 +134,45 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-function purchaseTickets(ticketData, purchases) {}
+function purchaseTickets(ticketData, purchases) {
+
+  if (!["general", "membership"].includes(purchases.ticketType)) {
+    return `Ticket type '${purchases.ticketType}' cannot be found.`;
+  }
+
+  // Initializing the purchase total and the receipt string
+  let grandTotalPurchases = 0;
+  const receipt = [];
+
+// Iterating through each purchase
+purchases.forEach((purchase) => {
+  
+// Calculating the ticket price for the current purchase
+const ticketPrice = calculateTicketPrice(ticketData, purchase);
+
+// Checking if the ticketPrice is a string (indicating an error)
+if (typeof ticketPrice === "string") {
+    return ticketPrice;
+  }
+
+// Adding the ticket price to the purchase total
+  grandTotalPurchases += ticketPrice;
+
+// Capitalizing the entrant type and ticket type
+const entrantTypeCapitalized = purchase.entrantType[0].toUpperCase() +   purchase.entrantType.slice(1);
+  
+const ticketTypeCapitalized = purchase.ticketType[0].toUpperCase() + purchase.ticketType.slice(1);
+
+// Formatting the extras
+const formatExtras = purchase.extras.map((extra) => extra[0].toUpperCase() + extra.slice(1) + " Access").join(", ");
+
+// Generating the receipt line for the current purchase.
+receipt.push(`${entrantTypeCapitalized} ${ticketTypeCapitalized} Admission: $${(ticketPrice / 100).toFixed(2)} ${grandTotalPurchases}`);
+});
+
+// Generating and returning the full receipt.
+return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt.join("\n")}\n-------------------------------------------\nTOTAL: $${(grandTotalPurchases/ 100).toFixed(2)}`;
+}
 
 // Do not change anything below this line.
 module.exports = {
