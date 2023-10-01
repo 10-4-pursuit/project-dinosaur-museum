@@ -136,43 +136,28 @@ function calculateTicketPrice(ticketData, ticketInfo) {
  */
 function purchaseTickets(ticketData, purchases) {
 
-  if (!["general", "membership"].includes(purchases.ticketType)) {
-    return `Ticket type '${purchases.ticketType}' cannot be found.`;
-  }
-
-  // Initializing the purchase total and the receipt string
-  let grandTotalPurchases = 0;
-  const receipt = [];
-
-// Iterating through each purchase
-purchases.forEach((purchase) => {
+  // Calculate the total price of all purchases.
+  const totalPrice = purchases.reduce((accumulator, purchase) => {
+    const ticketPrice = calculateTicketPrice(ticketData, purchase);
   
-// Calculating the ticket price for the current purchase
-const ticketPrice = calculateTicketPrice(ticketData, purchase);
-
-// Checking if the ticketPrice is a string (indicating an error)
-if (typeof ticketPrice === "string") {
-    return ticketPrice;
-  }
-
-// Adding the ticket price to the purchase total
-  grandTotalPurchases += ticketPrice;
-
-// Capitalizing the entrant type and ticket type
-const entrantTypeCapitalized = purchase.entrantType[0].toUpperCase() +   purchase.entrantType.slice(1);
+    if (typeof ticketPrice === 'string') {
+      return ticketPrice;
+    }
   
-const ticketTypeCapitalized = purchase.ticketType[0].toUpperCase() + purchase.ticketType.slice(1);
-
-// Formatting the extras
-const formatExtras = purchase.extras.map((extra) => extra[0].toUpperCase() + extra.slice(1) + " Access").join(", ");
-
-// Generating the receipt line for the current purchase.
-receipt.push(`${entrantTypeCapitalized} ${ticketTypeCapitalized} Admission: $${(ticketPrice / 100).toFixed(2)} ${grandTotalPurchases}`);
-});
-
-// Generating and returning the full receipt.
-return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt.join("\n")}\n-------------------------------------------\nTOTAL: $${(grandTotalPurchases/ 100).toFixed(2)}`;
-}
+    return accumulator + ticketPrice;
+  }, 0);
+  
+  // Generate the receipt string.
+  const receipt = purchases.map((purchase) => {
+    const ticketPrice = calculateTicketPrice(ticketData, purchase);
+    const extras = purchase.extras.map((extra) => ticketData.extras[extra].description);
+  
+    return `${purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)} (${extras.join(', ')})`;
+    }).join('\n');
+  
+  // Return the full receipt.
+  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}\n-------------------------------------------\nTOTAL: $${(totalPrice / 100).toFixed(2)}`;
+  }
 
 // Do not change anything below this line.
 module.exports = {
