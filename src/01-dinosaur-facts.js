@@ -22,7 +22,28 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  let longestDinosaur = 0;
+  let longestDinosaurName = {};
+  if (dinosaurs.length === 0) return {};
+  // Loop through the dinosaurs array.
+  for ( let i = 0; i < dinosaurs.length; i++) {
+    if (dinosaurs[i].lengthInMeters > longestDinosaur) {
+      longestDinosaur = dinosaurs[i].lengthInMeters;
+      dinosaurName = dinosaurs[i].name;
+      lengthInFeet = longestDinosaur * 3.281;
+    }
+  }
+// Return the longest dinosaur and its height in feet.
+  longestDinosaurName[dinosaurName] = lengthInFeet;
+  return longestDinosaurName
+}
+
+
+
+
+
+
 
 /**
  * getDinosaurDescription()
@@ -44,8 +65,18 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  
 
+let description = `A dinosaur with an ID of '${id}' cannot be found.`;
+  for (let dino of dinosaurs) {
+    if (dino.dinosaurId === id) {
+      description = `${dino.name} (${dino.pronunciation})\n${dino.info} It lived in the ${dino.period} period, over ${dino.mya[dino.mya.length -1]} million years ago.`
+ }
+}
+return description;
+
+}
 /**
  * getDinosaursAliveMya()
  * ---------------------
@@ -71,10 +102,28 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  const filteredDinosaurs = dinosaurs.filter(dinosaur => {
+    if (dinosaur.mya.length === 1) {
+      return dinosaur.mya[0] === mya || dinosaur.mya[0] === mya - 1;
+    } else {
+      return dinosaur.mya.includes(mya) || dinosaur.mya.includes(mya - 1);
+    }
+  });
+
+  // If a key is provided, return the values of that key for the filtered dinosaurs
+  if (key) {
+    return filteredDinosaurs.map(dinosaur => dinosaur[key]);
+  }
+
+  // Otherwise, return the IDs of the filtered dinosaurs
+  return filteredDinosaurs.map(dinosaur => dinosaur.dinosaurId);
+  
+     
+}
 
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,
-};
+}
