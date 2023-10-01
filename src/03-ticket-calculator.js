@@ -54,62 +54,152 @@ const exampleTicketData = require("../data/tickets");
     calculateTicketPrice(tickets, ticketInfo);
     //> "Entrant type 'kid' cannot be found."
  */
-function calculateTicketPrice(ticketData, ticketInfo) {}
+function calculateTicketPrice(ticketData, ticketInfo) {
 
-/**
- * purchaseTickets()
- * ---------------------
- * Returns a receipt based off of a number of purchase. Each "purchase" maintains the shape from `ticketInfo` in the previous function.
- *
- * Any errors that would occur as a result of incorrect ticket information should be surfaced in the same way it is in the previous function.
- * 
- * NOTE: Pay close attention to the format in the examples below and tests. You will need to have the same format to get the tests to pass.
- *
- * @param {Object} ticketData - An object containing data about prices to enter the museum. See the `data/tickets.js` file for an example of the input.
- * @param {Object[]} purchases - An array of objects. Each object represents a single ticket being purchased.
- * @param {string} purchases[].ticketType - Represents the type of ticket. Could be any string except the value "extras".
- * @param {string} purchases[].entrantType - Represents the type of entrant. Prices change depending on the entrant.
- * @param {string[]} purchases[].extras - An array of strings where each string represent a different "extra" that can be added to the ticket. All strings should be keys under the `extras` key in `ticketData`.
- * @returns {string} A full receipt, with each individual ticket bought and the total.
- *
- * EXAMPLE:
- *  const purchases = [
-      {
-        ticketType: "general",
-        entrantType: "adult",
-        extras: ["movie", "terrace"],
-      },
-      {
-        ticketType: "general",
-        entrantType: "senior",
-        extras: ["terrace"],
-      },
-      {
-        ticketType: "general",
-        entrantType: "child",
-        extras: ["education", "movie", "terrace"],
-      },
-      {
-        ticketType: "general",
-        entrantType: "child",
-        extras: ["education", "movie", "terrace"],
-      },
-    ];
-    purchaseTickets(tickets, purchases);
-    //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n-------------------------------------------\nTOTAL: $175.00"
+  
+     //Check if ticket type is valid
+  if (!ticketData.hasOwnProperty(ticketInfo.ticketType)) {
+    return `Ticket type '${ticketInfo.ticketType}' cannot be found.`;
+  }
 
- * EXAMPLE:
-    const purchases = [
-      {
-        ticketType: "discount", // Incorrect
-        entrantType: "adult",
-        extras: ["movie", "terrace"],
-      }
-    ]
-    purchaseTickets(tickets, purchases);
-    //> "Ticket type 'discount' cannot be found."
- */
-function purchaseTickets(ticketData, purchases) {}
+  const ticketTypeData = ticketData[ticketInfo.ticketType];
+  
+  // Check if entrant type is valid
+  if (!ticketTypeData.priceInCents.hasOwnProperty(ticketInfo.entrantType)) {
+    return `Entrant type '${ticketInfo.entrantType}' cannot be found.`;
+  }
+
+  let totalCost = ticketTypeData.priceInCents[ticketInfo.entrantType];
+
+  // Check if extras are valid and add their cost
+  for (const extra of ticketInfo.extras) {
+    if (!ticketTypeData.extras.hasOwnProperty(extra)) {
+      return `Extra '${extra}' cannot be found.`;
+    }
+    totalCost += ticketTypeData.extras[extra].priceInCents[ticketInfo.entrantType];
+  
+
+  return totalCost;
+  }
+
+if (ticketInfo.ticketType !== "general" && ticketInfo.ticketType !== "membership")
+ return `Ticket type '${ticketInfo.ticketType}' cannot be found`;
+
+if (ticketInfo.entrantType !== "child" && ticketInfo.entrantType !== "adult" && ticketInfo.entrantType !== "senior" )
+ return `entrant type '${ticketInfo.entrantType}' cannot be found`;
+
+ let ticketPrice = ticketData[ticketInfo.ticketType].priceInCents[ticketInfo.entrantType];
+
+ for (let extra of ticketInfo.extras) {
+  if (ticketData.extras[extra]) {
+    ticketPrice += ticketData.extras[extra].priceInCents[ticketInfo.entrantType]
+  } else {
+    return `Extra type'${ticketInfo.extras}' cannot be found`
+  }
+ }
+return ticketPrice;
+  }
+
+
+
+// /**
+//  * purchaseTickets()
+//  * ---------------------
+//  * Returns a receipt based off of a number of purchase. Each "purchase" maintains the shape from `ticketInfo` in the previous function.
+//  *
+//  * Any errors that would occur as a result of incorrect ticket information should be surfaced in the same way it is in the previous function.
+//  * 
+//  * NOTE: Pay close attention to the format in the examples below and tests. You will need to have the same format to get the tests to pass.
+//  *
+//  * @param {Object} ticketData - An object containing data about prices to enter the museum. See the `data/tickets.js` file for an example of the input.
+//  * @param {Object[]} purchases - An array of objects. Each object represents a single ticket being purchased.
+//  * @param {string} purchases[].ticketType - Represents the type of ticket. Could be any string except the value "extras".
+//  * @param {string} purchases[].entrantType - Represents the type of entrant. Prices change depending on the entrant.
+//  * @param {string[]} purchases[].extras - An array of strings where each string represent a different "extra" that can be added to the ticket. All strings should be keys under the `extras` key in `ticketData`.
+//  * @returns {string} A full receipt, with each individual ticket bought and the total.
+//  *
+//  * EXAMPLE:
+//  *  const purchases = [
+//       {
+//         ticketType: "general",
+//         entrantType: "adult",
+//         extras: ["movie", "terrace"],
+//       },
+//       {
+//         ticketType: "general",
+//         entrantType: "senior",
+//         extras: ["terrace"],
+//       },
+//       {
+//         ticketType: "general",
+//         entrantType: "child",
+//         extras: ["education", "movie", "terrace"],
+//       },
+//       {
+//         ticketType: "general",
+//         entrantType: "child",
+//         extras: ["education", "movie", "terrace"],
+//       },
+//     ];
+//     purchaseTickets(tickets, purchases);
+//     //> "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\nAdult General Admission: $50.00 (Movie Access, Terrace Access)\nSenior General Admission: $35.00 (Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\nChild General Admission: $45.00 (Education Access, Movie Access, Terrace Access)\n-------------------------------------------\nTOTAL: $175.00"
+
+//  * EXAMPLE:
+//     const purchases = [
+//       {
+//         ticketType: "discount", // Incorrect
+//         entrantType: "adult",
+//         extras: ["movie", "terrace"],
+//       }
+//     ]
+//     purchaseTickets(tickets, purchases);
+//     //> "Ticket type 'discount' cannot be found."
+//  */
+function purchaseTickets(ticketData, purchases) {
+
+  const invalidTicket = purchases.find(purchase => purchase.ticketType !== 'general' && purchase.ticketType !== 'membership');
+  const invalidEntrant = purchases.find(purchase => !['child', 'adult', 'senior'].includes(purchase.entrantType));
+  const invalidExtra = purchases.find(purchase => purchase.extras.find(purchaseEx => !['movie', 'education', 'terrace'].includes(purchaseEx)));
+
+  if (invalidTicket) {
+    return `Ticket type '${invalidTicket.ticketType}' cannot be found.`;
+  }
+  if (invalidEntrant) {
+    return `Entrant type '${invalidEntrant.entrantType}' cannot be found.`;
+  }
+  if (invalidExtra) {
+    return `Extra type '${invalidExtra.extras}' cannot be found.`;
+  }
+
+  let sum = 0;
+  const validTicket = purchases.map(purchase => {
+    let addon = "";
+    let price = (ticketData[purchase.ticketType].priceInCents[purchase.entrantType] / 100);
+    
+    if (purchase.extras.length) {
+      addon = `(${purchase.extras.map(purchaseEx => {
+        price += ticketData.extras[purchaseEx].priceInCents[purchase.entrantType] / 100;
+        let capAddon = purchaseEx[0].toUpperCase() + purchaseEx.slice(1);
+        return `${capAddon} Access`;
+      }).join(", ")})`;
+    }
+    
+    sum += price;
+    let entType = purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1);
+    let tickType = purchase.ticketType[0].toUpperCase() + purchase.ticketType.slice(1);
+    return `${entType} ${tickType} Admission: $${price.toFixed(2)}${addon}`;
+  }).join("\n");
+
+  return `Thank you for visiting the Dinosaur Museum!
+  \n-------------------------------------------\n${validTicket}
+  \n-------------------------------------------\nTOTAL: $${sum.toFixed(2)}`;
+}
+
+
+
+
+
+
 
 // Do not change anything below this line.
 module.exports = {
