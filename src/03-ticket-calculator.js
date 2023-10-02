@@ -136,6 +136,8 @@ function calculateTicketPrice(ticketData, ticketInfo) {
  */
 function purchaseTickets(ticketData, purchases) {
 
+ 
+  
   // Calculate the total price of all purchases.
   const totalPrice = purchases.reduce((accumulator, purchase) => {
     const ticketPrice = calculateTicketPrice(ticketData, purchase);
@@ -151,8 +153,9 @@ function purchaseTickets(ticketData, purchases) {
   const receipt = purchases.map((purchase) => {
     const ticketPrice = calculateTicketPrice(ticketData, purchase);
     const extras = purchase.extras.map((extra) => ticketData.extras[extra].description);
-  
-    return `${purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)} (${extras.join(', ')})`;
+    const extrasString = extras.filter(extra => extra !== '').join(', ');
+
+    return `${purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)} ${(extrasString === '' ? '' : `(${extrasString})`)}`.trim();
     }).join('\n');
   
   // Return the full receipt.
