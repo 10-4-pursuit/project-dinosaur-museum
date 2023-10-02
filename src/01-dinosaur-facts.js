@@ -37,20 +37,20 @@ function getLongestDinosaur(dinosaurs) {
   //This loops through the array of dinosaurs 
   for (let dinosaur of dinosaurs) {
     //Converts the length from meters to foot
-          let dinosaurInFt = dinosaur.lengthInMeters * 3.281;
+    let dinosaurInFt = dinosaur.lengthInMeters * 3.281;
     //While looping, this update the name and height variable to represent the the longest dinosaur in the array
-          if (dinosaurInFt > longestDinosaurLength){
-            longestDinosaurName = dinosaur.name;
-            longestDinosaurLength = dinosaurInFt
+    if (dinosaurInFt > longestDinosaurLength){
+      longestDinosaurName = dinosaur.name;
+      longestDinosaurLength = dinosaurInFt;
           }  
         }
     
       //this updates the longestDinosaur object to include the name as the key and the length as the value.
-      longestDinosaur = {[longestDinosaurName]:longestDinosaurLength}
-    
+    longestDinosaur = {[longestDinosaurName]:longestDinosaurLength}
      
-       return longestDinosaur;
-    }  
+    return longestDinosaur;
+
+  }  
   
   
 
@@ -92,7 +92,7 @@ function getDinosaurDescription(dinosaurs, id) {
     return `A dinosaur with an ID of '${id}' cannot be found.`;
   }
 
- // This lets us that there is a match with the the ID perimeter and returns extra info. 
+ // This lets us know that there is a match with the the ID perimeter and returns extra info. 
   return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${Math.min(...dinosaur.mya)} million years ago.`;
   
 }
