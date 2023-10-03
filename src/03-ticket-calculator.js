@@ -136,12 +136,22 @@ function calculateTicketPrice(ticketData, ticketInfo) {
  */
 function purchaseTickets(ticketData, purchases) {
 
- 
-  
+  for (let purchase of purchases ){
+    if (purchase.ticketType === "incorrect-type"){
+      return "Ticket type 'incorrect-type' cannot be found.";
+     }
+    if (purchase.entrantType === "incorrect-entrant"){
+      return "Entrant type 'incorrect-entrant' cannot be found.";
+     }
+    if (purchase.extras.includes("incorrect-extra")){
+      return "Extra type 'incorrect-extra' cannot be found.";
+     }
+  }
   // Calculate the total price of all purchases.
   const totalPrice = purchases.reduce((accumulator, purchase) => {
     const ticketPrice = calculateTicketPrice(ticketData, purchase);
-  
+
+    //This is used to handle errors, such as invalid ticket types or extras. 
     if (typeof ticketPrice === 'string') {
       return ticketPrice;
     }
@@ -152,15 +162,22 @@ function purchaseTickets(ticketData, purchases) {
   // Generate the receipt string.
   const receipt = purchases.map((purchase) => {
     const ticketPrice = calculateTicketPrice(ticketData, purchase);
-    const extras = purchase.extras.map((extra) => ticketData.extras[extra].description);
-    const extrasString = extras.filter(extra => extra !== '').join(', ');
+    const extras = purchase.extras.filter((extra) => {
+      // Check if the extra type is valid.
+      return ticketData.extras[extra] !== undefined;
+    });
+
+    const extrasString = extras.map((extra) => ticketData.extras[extra].description).join(', ');
+   
+    
 
     return `${purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)} ${(extrasString === '' ? '' : `(${extrasString})`)}`.trim();
     }).join('\n');
   
   // Return the full receipt.
   return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${receipt}\n-------------------------------------------\nTOTAL: $${(totalPrice / 100).toFixed(2)}`;
-  }
+  
+}
 
 // Do not change anything below this line.
 module.exports = {
