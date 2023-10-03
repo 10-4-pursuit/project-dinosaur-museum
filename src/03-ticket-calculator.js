@@ -135,7 +135,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     //> "Ticket type 'discount' cannot be found."
  */
 function purchaseTickets(ticketData, purchases) {
-
+  // this handles any type and extra errors
   for (let purchase of purchases ){
     if (purchase.ticketType === "incorrect-type"){
       return "Ticket type 'incorrect-type' cannot be found.";
@@ -150,11 +150,6 @@ function purchaseTickets(ticketData, purchases) {
   // Calculate the total price of all purchases.
   const totalPrice = purchases.reduce((accumulator, purchase) => {
     const ticketPrice = calculateTicketPrice(ticketData, purchase);
-
-    //This is used to handle errors, such as invalid ticket types or extras. 
-    if (typeof ticketPrice === 'string') {
-      return ticketPrice;
-    }
   
     return accumulator + ticketPrice;
   }, 0);
@@ -163,14 +158,12 @@ function purchaseTickets(ticketData, purchases) {
   const receipt = purchases.map((purchase) => {
     const ticketPrice = calculateTicketPrice(ticketData, purchase);
     const extras = purchase.extras.filter((extra) => {
-      // Check if the extra type is valid.
       return ticketData.extras[extra] !== undefined;
     });
-
+    //this is more for formatting making sure there isn't any extra spaces and such
     const extrasString = extras.map((extra) => ticketData.extras[extra].description).join(', ');
    
-    
-
+  
     return `${purchase.entrantType[0].toUpperCase() + purchase.entrantType.slice(1)} ${ticketData[purchase.ticketType].description}: $${(ticketPrice / 100).toFixed(2)} ${(extrasString === '' ? '' : `(${extrasString})`)}`.trim();
     }).join('\n');
   
