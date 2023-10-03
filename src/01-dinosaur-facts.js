@@ -8,6 +8,7 @@
 const exampleDinosaurData = require("../data/dinosaurs");
 // Do not change the line above.
 
+console.log (exampleDinosaurData)
 /**
  * getLongestDinosaur()
  * ---------------------
@@ -22,7 +23,37 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+function getLongestDinosaur(dinosaurs) {
+  //If there is no array, return an empty object
+  if (dinosaurs.length === 0) {
+    return {};
+  } 
+  
+//initialize three variables, an object which will store the name and height of the tallest dinosaur, a string which will store the longest dinosaur's name, and a number which will store the the longest dinosaur's height
+  let longestDinosaur = {};
+  let longestDinosaurName = null;
+  let longestDinosaurLength = 0;
+
+  //This loops through the array of dinosaurs 
+  for (let dinosaur of dinosaurs) {
+    //Converts the length from meters to foot
+    let dinosaurInFt = dinosaur.lengthInMeters * 3.281;
+    //While looping, this update the name and height variable to represent the the longest dinosaur in the array
+    if (dinosaurInFt > longestDinosaurLength){
+      longestDinosaurName = dinosaur.name;
+      longestDinosaurLength = dinosaurInFt;
+          }  
+        }
+    
+      //this updates the longestDinosaur object to include the name as the key and the length as the value.
+    longestDinosaur = {[longestDinosaurName]:longestDinosaurLength}
+     
+    return longestDinosaur;
+
+  }  
+  
+  
+
 
 /**
  * getDinosaurDescription()
@@ -44,7 +75,27 @@ function getLongestDinosaur(dinosaurs) {}
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+function getDinosaurDescription(dinosaurs, id) {
+  // STRETCH GOAL#1 Adding a Guard clause to check if the dinosaurs array is empty or null.
+  if (!dinosaurs || !dinosaurs.length) {
+    return `A dinosaur with an ID of '${id}' cannot be found.`;
+  }
+  
+  //this makes a copy using the map() method and ...spread operator of the dinosaurs array so we don't mutate the original
+  const dinosaursCopy = dinosaurs.map(dinosaur => ({ ...dinosaur }));
+
+  //This makes a variable which looks through the dinosaursCopy array for the first element which matches the "id" arguement
+  const dinosaur = dinosaursCopy.find(dinosaur => dinosaur.dinosaurId === id);
+
+  // This lets us know that there is no dinosaur in the array that matches the ID
+  if (!dinosaur) {
+    return `A dinosaur with an ID of '${id}' cannot be found.`;
+  }
+
+ // This lets us know that there is a match with the the ID perimeter and returns extra info. 
+  return `${dinosaur.name} (${dinosaur.pronunciation})\n${dinosaur.info} It lived in the ${dinosaur.period} period, over ${Math.min(...dinosaur.mya)} million years ago.`;
+  
+}
 
 /**
  * getDinosaursAliveMya()
@@ -71,7 +122,26 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+  //If there is no array, return an empty object
+  if (!dinosaurs.length || !dinosaurs) {
+    return {};
+  } 
+  // Filter the dinosaurs to only include those that were alive at the given mya value.
+  const dinosaursAlive = dinosaurs.filter(dinosaur => {
+    const dinosaurAliveMya = dinosaur.mya;
+      
+    return (mya === dinosaurAliveMya[0] || mya === dinosaurAliveMya[0] - 1 || (mya <= dinosaurAliveMya[0] && mya >= dinosaurAliveMya[1]));
+  });
+  
+  // Map the dinosaurs to the requested key value.
+  const dinosaurKeys = dinosaursAlive.map(dinosaur => dinosaur[key] || dinosaur.dinosaurId);
+  
+  // Return the dinosaur keys.
+  return dinosaurKeys;
+
+}
 
 module.exports = {
   getLongestDinosaur,

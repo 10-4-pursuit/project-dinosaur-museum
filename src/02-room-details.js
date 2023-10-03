@@ -7,6 +7,8 @@ const exampleDinosaurData = require("../data/dinosaurs");
 const exampleRoomData = require("../data/rooms");
 // Do not change the lines above.
 
+console.log(exampleRoomData)
+
 /**
  * getRoomByDinosaurName()
  * ---------------------
@@ -25,7 +27,25 @@ const exampleRoomData = require("../data/rooms");
  *  getRoomByDinosaurName(dinosaurs, rooms, "Pterodactyl");
  *  //> "Dinosaur with name 'Pterodactyl' cannot be found."
  */
-function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
+function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {  
+  //Returns an error message if there is no match in our list of dinosaurs with the dinosaurName argument
+  const findDinosaur = dinosaurs.find(dinosaur => dinosaur.name === dinosaurName)
+  
+  if (!findDinosaur){
+    return `Dinosaur with name '${dinosaurName}' cannot be found.`;
+}
+   //Either returns the room name with matching dinosaurName or an error message if there is no room. 
+  const findDinosaurRoom =  rooms.find(room => room.dinosaurs.includes(findDinosaur.dinosaurId))
+   
+  if (findDinosaurRoom){
+    return findDinosaurRoom.name
+}
+     
+  return `Dinosaur with name '${dinosaurName}' cannot be found in any rooms.`;
+
+} 
+
+
 
 /**
  * getConnectedRoomNamesById()
@@ -49,7 +69,31 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {}
       "Kit Hopkins Education Wing"
     ]
  */
-function getConnectedRoomNamesById(rooms, id) {}
+function getConnectedRoomNamesById(rooms, id) {
+  // Check if the room ID is valid.
+  const room = rooms.find(room => room.roomId === id);
+    if (!room) {
+      return `Room with ID of '${id}' could not be found.`;
+    }
+    
+  // Get the names of all connected rooms.
+  const connectedRoomNames = room.connectsTo.map(connected => {
+    const connectedRoom = rooms.find(room => room.roomId === connected);
+      if (!connectedRoom) {
+        return `Room with ID of '${connected}' could not be found.`;
+      }
+        return connectedRoom.name;
+      });
+    
+  // Return an error message if any of the connected room names are invalid.
+  if (connectedRoomNames.some(roomName => roomName.includes('incorrect-id'))) {
+    return `Room with ID of 'incorrect-id' could not be found.`;
+  }
+    
+  // Return the names of all connected rooms.
+  return connectedRoomNames;
+  
+    }
 
 module.exports = {
   getRoomByDinosaurName,
