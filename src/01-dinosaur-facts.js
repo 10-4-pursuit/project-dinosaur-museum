@@ -128,17 +128,18 @@ function getDinosaursAliveMya(dinosaurs, mya, key) {
   if (!dinosaurs.length || !dinosaurs) {
     return {};
   } 
-    // Filter the dinosaurs to only include those that were alive at the given mya value.
-    const dinosaursAlive = dinosaurs.filter(dinosaur => {
-      const dinosaurAliveMya = dinosaur.mya;
-      return (mya === dinosaurAliveMya[0] || mya === dinosaurAliveMya[0] - 1 || (mya <= dinosaurAliveMya[0] && mya >= dinosaurAliveMya[1]));
-    });
+  // Filter the dinosaurs to only include those that were alive at the given mya value.
+  const dinosaursAlive = dinosaurs.filter(dinosaur => {
+    const dinosaurAliveMya = dinosaur.mya;
+      
+    return (mya === dinosaurAliveMya[0] || mya === dinosaurAliveMya[0] - 1 || (mya <= dinosaurAliveMya[0] && mya >= dinosaurAliveMya[1]));
+  });
   
-    // Map the dinosaurs to the requested key value.
-    const dinosaurKeys = dinosaursAlive.map(dinosaur => dinosaur[key] || dinosaur.dinosaurId);
+  // Map the dinosaurs to the requested key value.
+  const dinosaurKeys = dinosaursAlive.map(dinosaur => dinosaur[key] || dinosaur.dinosaurId);
   
-    // Return the dinosaur keys.
-    return dinosaurKeys;
+  // Return the dinosaur keys.
+  return dinosaurKeys;
 
 }
 
